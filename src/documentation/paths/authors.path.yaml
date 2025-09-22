@@ -1,0 +1,9 @@
+get:
+  summary: Obtener todos los autores
+  responses:
+    "200":
+      description: Lista de autores
+      content:
+        application/json:
+          schema:
+            $ref: "../components/author.component.yaml#/Author"

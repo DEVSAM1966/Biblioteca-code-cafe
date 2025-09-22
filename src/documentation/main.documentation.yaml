@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info:
+  title: Mi API
+  version: 1.0.0
+paths:
+  /authors:
+    $ref: "./paths/authors.path.yaml"
+components:
+  schemas:
+    $ref: "./components/author.component.yaml"

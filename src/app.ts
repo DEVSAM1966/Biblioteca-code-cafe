@@ -1,10 +1,16 @@
 import express, { json as jsonMiddleware } from "express";
 import { PORT } from "./configuration/env.configuration";
+import swaggerUi from "swagger-ui-express";
+import SwaggerParser from "@apidevtools/swagger-parser";
 
+const documentationPath = "./src/documentation/main.documentation.yaml";
 const app = express();
 
-app.use(jsonMiddleware());
+SwaggerParser.dereference(documentationPath).then((api) => {
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(api));
+  app.use(jsonMiddleware());
 
-app.listen(PORT, () => {
-  console.log(`Server running in http://localhost:${PORT}`);
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
 });
