@@ -29,7 +29,7 @@ use biblio-code-cafe;
 
 ### 4. Estructura de la BD y juego de datos.
 
-El fichero init.sql recrea las tablas y juego de datos:
+El fichero schema.prisma recrea las tablas y juego de datos:
 
     authors: autores principales.
 

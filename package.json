@@ -2,9 +2,16 @@
   "name": "biblioteca-code-cafe",
   "version": "1.0.0",
   "description": "Proyecto biblioteca online",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "tsc --noEmit"
+  },
+  "prisma": {
+    "seed": "ts-node src/prisma/seed.ts",
+    "schema": "src/prisma/schema.prisma"
   },
   "author": "Code-Cafe",
   "license": "MIT",
@@ -14,8 +21,18 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.5.2",
+    "@types/swagger-ui-express": "^4.1.8",
     "mysql2": "^3.15.0",
+    "prisma": "^6.16.2",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^12.0.0",
+    "@prisma/client": "^6.16.2",
+    "express": "^5.1.0",
+    "joi": "^18.0.1",
+    "swagger-ui-express": "^5.0.1"
   }
 }
