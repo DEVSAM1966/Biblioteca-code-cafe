@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Mi API
-  version: 1.0.0
+  title: Biblioteca Code Cafe API
+  version: 0.0.0
 paths:
   /authors:
     $ref: "./paths/authors.path.yaml"
