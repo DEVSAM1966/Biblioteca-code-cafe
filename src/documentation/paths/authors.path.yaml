@@ -1,8 +1,8 @@
 get:
-  summary: Obtener todos los autores
+  summary: Get all authors
   responses:
     "200":
-      description: Lista de autores
+      description: List of authors
       content:
         application/json:
           schema:
