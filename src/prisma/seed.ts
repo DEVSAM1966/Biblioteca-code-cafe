@@ -1,10 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { Prisma } from "../configuration/prisma.configuration";
 
 async function main() {
   // Publishers
-  await prisma.publisher.createMany({
+  await Prisma.publisher.createMany({
     data: [
       {
         publisher_id: 1001,
@@ -43,7 +41,7 @@ async function main() {
   });
 
   // Categories
-  await prisma.category.createMany({
+  await Prisma.category.createMany({
     data: [
       {
         name_category: "Ciencia Ficción",
@@ -60,7 +58,7 @@ async function main() {
   });
 
   // Users
-  await prisma.user.createMany({
+  await Prisma.user.createMany({
     data: [
       {
         user_name: "Laura",
@@ -101,7 +99,7 @@ async function main() {
   });
 
   // Authors
-  await prisma.author.createMany({
+  await Prisma.author.createMany({
     data: [
       { name_author: "Isaac Asimov" },
       { name_author: "Ursula K. Le Guin" },
@@ -117,7 +115,7 @@ async function main() {
   });
 
   // Books
-  await prisma.book.createMany({
+  await Prisma.book.createMany({
     data: [
       {
         isbn: "9780000000001",
@@ -150,7 +148,7 @@ async function main() {
   });
 
   // Loans
-  await prisma.loan.createMany({
+  await Prisma.loan.createMany({
     data: [
       {
         loan_date: new Date("2025-06-01"),
@@ -178,5 +176,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    await Prisma.$disconnect();
   });
