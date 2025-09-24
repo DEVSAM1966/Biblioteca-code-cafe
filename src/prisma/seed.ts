@@ -1,6 +1,13 @@
 import { Prisma } from "../configuration/prisma.configuration";
 
 async function main() {
+  await Prisma.loan.deleteMany();
+  await Prisma.book.deleteMany();
+  await Prisma.author.deleteMany();
+  await Prisma.user.deleteMany();
+  await Prisma.category.deleteMany();
+  await Prisma.publisher.deleteMany();
+
   // Publishers
   await Prisma.publisher.createMany({
     data: [
@@ -44,13 +51,27 @@ async function main() {
   await Prisma.category.createMany({
     data: [
       {
+        category_id: 1,
         name_category: "Ciencia Ficción",
         subtopic_category: "Viajes Espaciales",
       },
-      { name_category: "Historia", subtopic_category: "Edad Media" },
-      { name_category: "Tecnología", subtopic_category: "Programación" },
-      { name_category: "Filosofía", subtopic_category: "Ética" },
       {
+        category_id: 2,
+        name_category: "Historia",
+        subtopic_category: "Edad Media",
+      },
+      {
+        category_id: 3,
+        name_category: "Tecnología",
+        subtopic_category: "Programación",
+      },
+      {
+        category_id: 4,
+        name_category: "Filosofía",
+        subtopic_category: "Ética",
+      },
+      {
+        category_id: 5,
         name_category: "Literatura",
         subtopic_category: "Narrativa Contemporánea",
       },
@@ -61,6 +82,7 @@ async function main() {
   await Prisma.user.createMany({
     data: [
       {
+        user_id: 1,
         user_name: "Laura",
         user_surname: "Gómez",
         dni: "12345678A",
@@ -78,6 +100,7 @@ async function main() {
         rol: "user",
       },
       {
+        user_id: 2,
         user_name: "Carlos",
         user_surname: "Martínez",
         dni: "87654321B",
@@ -94,23 +117,22 @@ async function main() {
         days_disciplinary: 2,
         rol: "user",
       },
-      // ... resto de usuarios
     ],
   });
 
   // Authors
   await Prisma.author.createMany({
     data: [
-      { name_author: "Isaac Asimov" },
-      { name_author: "Ursula K. Le Guin" },
-      { name_author: "Yuval Noah Harari" },
-      { name_author: "Richard Stallman" },
-      { name_author: "Immanuel Kant" },
-      { name_author: "Margaret Atwood" },
-      { name_author: "George Orwell" },
-      { name_author: "Carl Sagan" },
-      { name_author: "Jane Austen" },
-      { name_author: "Arthur C. Clarke" },
+      { author_id: 1, name_author: "Isaac Asimov" },
+      { author_id: 2, name_author: "Ursula K. Le Guin" },
+      { author_id: 3, name_author: "Yuval Noah Harari" },
+      { author_id: 4, name_author: "Richard Stallman" },
+      { author_id: 5, name_author: "Immanuel Kant" },
+      { author_id: 6, name_author: "Margaret Atwood" },
+      { author_id: 7, name_author: "George Orwell" },
+      { author_id: 8, name_author: "Carl Sagan" },
+      { author_id: 9, name_author: "Jane Austen" },
+      { author_id: 10, name_author: "Arthur C. Clarke" },
     ],
   });
 
@@ -122,7 +144,7 @@ async function main() {
         title: "Fundación",
         pages: 320,
         summary: "Saga galáctica sobre el conocimiento y el poder.",
-        edition_date: "01/01/2020",
+        edition_date: "2020-01-01",
         book_cover: "covers/fundacion.jpg",
         book_file: "files/fundacion.pdf",
         language: "Español",
@@ -135,7 +157,7 @@ async function main() {
         title: "Los desposeídos",
         pages: 280,
         summary: "Utopía anarquista en mundos gemelos.",
-        edition_date: "15/03/2019",
+        edition_date: "2019-03-15",
         book_cover: "covers/desposeidos.jpg",
         book_file: "files/desposeidos.pdf",
         language: "Español",
@@ -143,7 +165,6 @@ async function main() {
         publisher_id: 1002,
         category_id: 1,
       },
-      // ... resto de libros
     ],
   });
 
@@ -162,7 +183,6 @@ async function main() {
         user_id: 2,
         isbn: "9780000000002",
       },
-      // ... resto de préstamos
     ],
   });
 }
