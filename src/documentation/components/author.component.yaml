@@ -13,6 +13,9 @@ AuthorResponse:
   properties:
     data:
       $ref: "#/Author"
+    timestamp:
+      type: string
+      example: "25/09/2025, 17:41:33"
 
 ErrorResponse:
   type: object
@@ -20,3 +23,6 @@ ErrorResponse:
     error:
       type: string
       example: Author with id 123 not found
+    timestamp:
+      type: string
+      example: "25/09/2025, 17:41:33"
