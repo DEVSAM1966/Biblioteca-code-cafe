@@ -12,8 +12,8 @@ export class AuthorsController {
       throw new BadRequestError("Invalid ID");
     }
 
-    const author = await AuthorsService.getById(authorId);
+    const authorOutDTO = await AuthorsService.getById(authorId);
 
-    response.status(200).json(success(author));
+    response.status(200).json(success(authorOutDTO));
   }
 }

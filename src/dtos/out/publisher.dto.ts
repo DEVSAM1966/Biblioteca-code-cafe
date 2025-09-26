@@ -1,4 +1,4 @@
-export interface PublishersOutDTO {
+export interface PublisherOutDTO {
   publisher_id: number;
   name_publisher: string;
   address?: string;

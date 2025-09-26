@@ -5,6 +5,11 @@ info:
 paths:
   /authors/{id}:
     $ref: "./paths/get-author-by-id.path.yaml"
+  /publishers/{id}:
+    $ref: "./paths/get-publisher-by-id.path.yaml"
 components:
   schemas:
-    $ref: "./components/author.component.yaml"
+    Author:
+      $ref: "./components/author.component.yaml"
+    Publisher:
+      $ref: "./components/publisher.component.yaml"
