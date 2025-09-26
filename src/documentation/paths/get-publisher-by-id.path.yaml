@@ -1,0 +1,23 @@
+get:
+  tags:
+    - Publishers
+  summary: Get publisher by id
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Publisher found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/publisher.component.yaml#/PublisherResponse"
+    "404":
+      description: Publisher not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/publisher.component.yaml#/ErrorResponse"
