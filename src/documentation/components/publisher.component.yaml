@@ -1,0 +1,49 @@
+Publisher:
+  type: object
+  properties:
+    publisher_id:
+      type: integer
+      example: 1001
+    name_publisher:
+      type: string
+      example: "Nova Editorial"
+    address:
+      type: string
+      example: "Calle Luna 12"
+    city:
+      type: string
+      example: "Madrid"
+    province:
+      type: string
+      example: "Madrid"
+    postal_code:
+      type: string
+      example: "28001"
+    country:
+      type: string
+      example: "España"
+    phone:
+      type: string
+      example: "912345678"
+    notes:
+      type: string
+      example: "Activo"
+
+PublisherResponse:
+  type: object
+  properties:
+    data:
+      $ref: "#/Publisher"
+    timestamp:
+      type: string
+      example: "26/09/2025, 19:45:00"
+
+ErrorResponse:
+  type: object
+  properties:
+    error:
+      type: string
+      example: Publisher with id 1002 not found
+    timestamp:
+      type: string
+      example: "26/09/2025, 19:45:00"
