@@ -1,9 +1,28 @@
 Author:
   type: object
   properties:
-    id:
+    author_id:
       type: integer
-    name:
+      example: 1
+    name_author:
       type: string
-    email:
+      example: "Isaac Asimov"
+
+AuthorResponse:
+  type: object
+  properties:
+    data:
+      $ref: "#/Author"
+    timestamp:
       type: string
+      example: "25/09/2025, 17:41:33"
+
+ErrorResponse:
+  type: object
+  properties:
+    error:
+      type: string
+      example: Author with id 123 not found
+    timestamp:
+      type: string
+      example: "25/09/2025, 17:41:33"

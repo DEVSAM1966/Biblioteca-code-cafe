@@ -1,0 +1,23 @@
+get:
+  tags:
+    - Authors
+  summary: Get author by id
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Author
+      content:
+        application/json:
+          schema:
+            $ref: "../components/author.component.yaml#/AuthorResponse"
+    "404":
+      description: Author not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/author.component.yaml#/ErrorResponse"

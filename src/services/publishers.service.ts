@@ -1,15 +1,16 @@
-import { Publisher } from "@prisma/client";
+import { PublisherOutDTO } from "../dtos/out/publisher.dto";
+import { NotFoundError } from "../models/errors/not-found.error";
 import { PublishersRepository } from "../repositories/publishers.repository";
-import { PublishersOutDTO } from "../dtos/out/publishers.dto";
-
 
 export class PublishersService {
-  static async getById(id: number): Promise<PublishersOutDTO | null> {
+  static async getById(id: number): Promise<PublisherOutDTO> {
     const publisher = await PublishersRepository.getById(id);
 
-    if (!publisher) return null;
+    if (!publisher) {
+      throw new NotFoundError(`Publisher with id ${id} not found`);
+    }
 
-    const dto: PublishersOutDTO = {
+    const dto: PublisherOutDTO = {
       publisher_id: publisher.publisher_id,
       name_publisher: publisher.name_publisher,
       address: publisher.address ?? undefined,
