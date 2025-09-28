@@ -14,4 +14,17 @@ export class AuthorsService {
 
     return dto;
   }
+
+  static async getByName(name: string): Promise<AuthorOutDTO | null> {
+    const author = await AuthorsRepository.getByName(name);
+
+    if (!author) return null
+
+    const dto: AuthorOutDTO = {
+      author_id: author.author_id,
+      name_author: author.name_author,
+    };
+
+    return dto;
+  }
 }

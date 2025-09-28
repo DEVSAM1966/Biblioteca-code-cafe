@@ -3,4 +3,6 @@ import { AuthorsController } from "../controllers/authors.controller";
 
 export const AuthorsRoutes = Router();
 
-AuthorsRoutes.get("/:id", AuthorsController.getById);
+AuthorsRoutes.get("/id/:id", AuthorsController.getById);
+
+AuthorsRoutes.get("/name/:name", AuthorsController.getByName);

@@ -9,7 +9,7 @@ datasource db {
 
 model Author {
   author_id   Int    @id @default(autoincrement())
-  name_author String @db.VarChar(100)
+  name_author String @unique @db.VarChar(100)
   books       Book[]
 
   @@map("authors")

@@ -1,13 +1,13 @@
 get:
   tags:
     - Authors
-  summary: Get author by id
+  summary: Get author by name
   parameters:
-    - name: id
+    - name: name
       in: path
       required: true
       schema:
-        type: integer
+        type: string
   responses:
     "200":
       description: Author
@@ -16,14 +16,22 @@ get:
           schema:
             $ref: "../components/author.component.yaml#/AuthorResponse"
     "400":
-      description: Invalid ID
+      description: Bad Request - Invalid name parameter
       content:
         application/json:
           schema:
             $ref: "../components/error.component.yaml#/Error"
-          example:
-            error: Invalid ID
-            timestamp: "25/09/2025, 17:41:33"
+          examples:
+            missingName:
+              summary: Name is missing
+              value:
+                error: Name is missing
+                timestamp: "25/09/2025, 17:41:33"
+            invalidName:
+              summary: Name can only contain characters and spaces
+              value:
+                error: Name can only contain characters and spaces
+                timestamp: "25/09/2025, 17:41:33"
     "404":
       description: Author not found
       content:
@@ -31,5 +39,5 @@ get:
           schema:
             $ref: "../components/error.component.yaml#/Error"
           example:
-            error: Author with id 123 not found
+            error: Author with name Marcos not found
             timestamp: "25/09/2025, 17:41:33"

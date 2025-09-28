@@ -21,4 +21,24 @@ export class AuthorsController {
 
     response.status(200).json(success(authorOutDTO));
   }
+
+  static async getByName(request: Request, response: Response): Promise<void> {
+    const { name } = request.params;
+
+    if (!name || name.trim().length === 0) {
+      throw new BadRequestError("Name is missing");
+    }
+
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+      throw new BadRequestError("Name can only contain characters and spaces");
+    }
+
+    const authorOutDTO = await AuthorsService.getByName(name);
+
+    if (!authorOutDTO) {
+      throw new NotFoundError(`Author with name ${name} not found`);
+    }
+
+    response.status(200).json(success(authorOutDTO));
+  }
 }
