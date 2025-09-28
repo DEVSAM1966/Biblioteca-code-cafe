@@ -4,6 +4,10 @@ import swaggerUi from "swagger-ui-express";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import { errorHandlerMiddleware } from "./middlewares/error-handler.middleware";
 import categoryRouter from './routes/category';
+import { PrismaClient } from '@prisma/client';
+import userRouter from './routes/user';
+
+const prisma = new PrismaClient();
 
 const documentationPath = "./src/documentation/main.documentation.yaml";
 const app = express();
@@ -13,6 +17,7 @@ SwaggerParser.dereference(documentationPath).then((api) => {
   app.use(jsonMiddleware());
   app.use(errorHandlerMiddleware());
   app.use('/categories', categoryRouter);
+  app.use('/users', userRouter);
 
   const port = process.env.PORT || 3000;
 app.listen(port, () => {
