@@ -20,4 +20,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/publisher.component.yaml#/ErrorResponse"
+            $ref: "../components/error.component.yaml#/Error"
+          example:
+            error: Publisher with id 123 not found
+            timestamp: "25/09/2025, 17:41:33"

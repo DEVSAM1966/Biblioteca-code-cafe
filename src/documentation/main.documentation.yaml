@@ -3,8 +3,10 @@ info:
   title: Biblioteca Code Cafe API
   version: 0.0.0
 paths:
-  /authors/{id}:
+  /authors/id/{id}:
     $ref: "./paths/get-author-by-id.path.yaml"
+  /authors/name/{name}:
+    $ref: "./paths/get-author-by-name.path.yaml"
   /publishers/{id}:
     $ref: "./paths/get-publisher-by-id.path.yaml"
 components:

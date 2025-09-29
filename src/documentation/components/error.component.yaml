@@ -1,0 +1,7 @@
+Error:
+  type: object
+  properties:
+    error:
+      type: string
+    timestamp:
+      type: string

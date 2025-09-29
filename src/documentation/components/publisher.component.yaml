@@ -37,13 +37,3 @@ PublisherResponse:
     timestamp:
       type: string
       example: "26/09/2025, 19:45:00"
-
-ErrorResponse:
-  type: object
-  properties:
-    error:
-      type: string
-      example: Publisher with id 1002 not found
-    timestamp:
-      type: string
-      example: "26/09/2025, 19:45:00"
