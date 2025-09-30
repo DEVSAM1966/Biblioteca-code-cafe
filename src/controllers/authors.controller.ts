@@ -32,4 +32,10 @@ export class AuthorsController {
 
     response.status(200).json(success(authorOutDTO));
   }
+
+  static async getAll(_request: Request, response: Response): Promise<void> {
+    const authorsOutDTO = await AuthorsService.getAll();
+
+    response.status(200).json(success(authorsOutDTO));
+  }
 }

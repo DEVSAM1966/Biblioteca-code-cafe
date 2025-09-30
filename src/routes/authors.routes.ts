@@ -6,3 +6,5 @@ export const AuthorsRoutes = Router();
 AuthorsRoutes.get("/id/:id", AuthorsController.getById);
 
 AuthorsRoutes.get("/name/:name", AuthorsController.getByName);
+
+AuthorsRoutes.get("/", AuthorsController.getAll);
