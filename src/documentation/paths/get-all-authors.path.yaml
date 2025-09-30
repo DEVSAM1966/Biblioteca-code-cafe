@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Authors
+  summary: Get all authors
+  responses:
+    "200":
+      description: List of authors
+      content:
+        application/json:
+          schema:
+            $ref: "../components/author.component.yaml#/AuthorsResponse"
+    "404":
+      description: No authors found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error.component.yaml#/Error"
+          example:
+            error: There are no records in Authors
+            timestamp: "25/09/2025, 17:41:33"

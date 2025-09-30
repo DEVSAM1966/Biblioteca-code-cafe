@@ -32,4 +32,19 @@ export class AuthorsService {
 
     return dto;
   }
+
+  static async getAll(): Promise<AuthorOutDTO[]> {
+    const authors = await AuthorsRepository.getAll();
+
+    if (authors.length === 0) {
+      throw new NotFoundError("There are no records in Authors");
+    }
+
+    const authorsOutDTO: AuthorOutDTO[] = authors.map((author) => ({
+      author_id: author.author_id,
+      name_author: author.name_author,
+    }));
+
+    return authorsOutDTO;
+  }
 }

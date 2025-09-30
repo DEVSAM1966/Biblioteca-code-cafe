@@ -9,4 +9,8 @@ export class AuthorsRepository {
   static async getByName(name: string): Promise<Author | null> {
     return await Prisma.author.findUnique({ where: { name_author: name } });
   }
+
+  static async getAll(): Promise<Author[]> {
+    return await Prisma.author.findMany();
+  }
 }
