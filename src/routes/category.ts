@@ -10,7 +10,7 @@ router.get('/:id', async (req, res) => {
   const category = await getCategoryById(id);
   if (!category) return res.status(404).json({ error: 'Categoría no encontrada' });
 
-  res.json(category);
+  return res.status(200).json(category);
 });
 
 export default router;
