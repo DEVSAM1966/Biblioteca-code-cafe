@@ -16,4 +16,24 @@ export class PublishersController {
 
     response.status(200).json(success(publisherOutDTO));
   }
+
+  static async getByName(request: Request, response: Response): Promise<void> {
+    const name = request.params.name || request.query.name;
+
+    if (Array.isArray(name)) {
+      throw new BadRequestError("Multiple names not allowed");
+    }
+    
+    if (typeof name !== "string" || name.trim().length === 0) {
+      throw new BadRequestError("Name is missing");
+    }
+
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+      throw new BadRequestError("Name can only contain characters and spaces");
+    }
+
+    const publishersOutDTO = await PublishersService.getByName(name);
+
+    response.status(200).json(success(publishersOutDTO));
+  }
 }
