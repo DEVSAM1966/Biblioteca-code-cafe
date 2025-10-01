@@ -1,0 +1,52 @@
+get:
+  tags:
+    - Publishers
+  summary: Get publisher by name
+  parameters:
+    - name: name
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Publisher found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/publisher.component.yaml#/PublisherResponse"
+    "400":
+      description: Bad Request - Invalid name parameter
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error.component.yaml#/Error"
+          examples:
+            missingName:
+              summary: Name is missing
+              value:
+                error: Name is missing
+                timestamp: "30/09/2025, 20:46:04"
+            invalidName:
+              summary: Name can only contain characters and spaces
+              value:
+                error: Name can only contain characters and spaces
+                timestamp: "30/09/2025, 20:46:04"
+            multipleNames:
+              summary: Multiple names not allowed
+              value:
+                error: Multiple names not allowed
+                timestamp: "30/09/2025, 20:46:04"
+    "404":
+      description: Publisher not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error.component.yaml#/Error"
+          examples:
+            notFound:
+              summary: Publisher not found
+              value:
+                error: No publisher found with name
+
+

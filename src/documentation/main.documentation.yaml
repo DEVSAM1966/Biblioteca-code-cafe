@@ -11,6 +11,8 @@ paths:
     $ref: "./paths/get-all-authors.path.yaml"
   /publishers/{id}:
     $ref: "./paths/get-publisher-by-id.path.yaml"
+  /publishers/name/{name}:
+    $ref: "./paths/get-publisher-by-name.path.yaml"
 components:
   schemas:
     Author:

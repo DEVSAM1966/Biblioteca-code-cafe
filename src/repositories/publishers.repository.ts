@@ -5,4 +5,14 @@ export class PublishersRepository {
     static async getById(id: number): Promise<Publisher | null> {
         return await Prisma.publisher.findUnique({ where: { publisher_id: id}});
     }
+
+    static async getByName(name: string): Promise<Publisher[]> {
+        return await Prisma.publisher.findMany({
+            where: {
+                name_publisher: {
+                    contains: name,
+                },
+            },
+        });
+    }
 }

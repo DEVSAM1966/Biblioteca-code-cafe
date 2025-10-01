@@ -24,4 +24,24 @@ export class PublishersService {
 
     return dto;
   }
+
+  static async getByName(name: string): Promise<PublisherOutDTO[]> {
+    const publishers = await PublishersRepository.getByName(name);
+
+    if (!publishers || publishers.length === 0) {
+      throw new NotFoundError(`No publisher found with name: ${name}`);
+    }
+
+    return publishers.map(publisher => ({
+      publisher_id: publisher.publisher_id,
+      name_publisher: publisher.name_publisher,
+      address: publisher.address ?? undefined,
+      city: publisher.city ?? undefined,
+      province: publisher.province ?? undefined,
+      postal_code: publisher.postal_code ?? undefined,
+      country: publisher.country ?? undefined,
+      phone: publisher.phone ?? undefined,
+      notes: publisher.notes ?? undefined,
+    }));
+  }
 }
