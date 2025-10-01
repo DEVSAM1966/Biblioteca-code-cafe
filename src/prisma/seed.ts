@@ -188,9 +188,6 @@ async function main() {
 }
 
 main()
-  .then(() => {
-    console.log("🌱 Seed ejecutado correctamente");
-  })
   .catch((e) => {
     console.error(e);
     process.exit(1);
