@@ -44,4 +44,26 @@ export class PublishersService {
       notes: publisher.notes ?? undefined,
     }));
   }
+
+  static async getAll(): Promise<PublisherOutDTO[]> {
+    const publishers = await PublishersRepository.getAll();
+
+    if (publishers.length === 0) {
+      throw new NotFoundError(`There are no records in Publishers`);
+    }
+
+    const dto: PublisherOutDTO[] = publishers.map((publisher) => ({
+      publisher_id: publisher.publisher_id,
+      name_publisher: publisher.name_publisher,
+      address: publisher.address ?? undefined,
+      city: publisher.city ?? undefined,
+      province: publisher.province ?? undefined,
+      postal_code: publisher.postal_code ?? undefined,
+      country: publisher.country ?? undefined,
+      phone: publisher.phone ?? undefined,
+      notes: publisher.notes ?? undefined,
+    }));
+
+    return dto;
+  }
 }
