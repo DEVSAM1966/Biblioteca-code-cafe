@@ -16,6 +16,6 @@ paths:
 components:
   schemas:
     Author:
-      $ref: "./components/author.component.yaml"
+      $ref: "./components/author.component.yaml#/Author"
     Publisher:
-      $ref: "./components/publisher.component.yaml"
+      $ref: "./components/publisher.component.yaml#/Publisher"
