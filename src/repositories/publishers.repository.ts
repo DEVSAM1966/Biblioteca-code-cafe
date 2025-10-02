@@ -15,4 +15,8 @@ export class PublishersRepository {
             },
         });
     }
+
+    static async getAll(): Promise<Publisher[]> {
+        return await Prisma.publisher.findMany();
+    }
 }
