@@ -24,7 +24,6 @@ AuthorsResponse:
       type: array
       items:
         $ref: "#/Author"
-        $ref: "#/Author"
     timestamp:
       type: string
       example: "25/09/2025, 17:41:33"

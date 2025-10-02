@@ -37,3 +37,14 @@ PublisherResponse:
     timestamp:
       type: string
       example: "26/09/2025, 19:45:00"
+PublishersResponse:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: "#/Publisher"
+    timestamp:
+      type: string
+      example: "02/10/2025, 21:52:56"
+
