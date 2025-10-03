@@ -18,6 +18,10 @@ paths:
 components:
   schemas:
     Author:
-      $ref: "./components/author.component.yaml"
+      $ref: "./components/author.component.yaml#/Author"
+    AuthorOutDTO:
+      $ref: "./components/author-out-dto.component.yaml#/AuthorOutDTO"
     Publisher:
-      $ref: "./components/publisher.component.yaml"
+      $ref: "./components/publisher.component.yaml#/Publisher"
+    PublisherOutDTO:
+      $ref: "./components/publisher-out-dto.component.yaml#/PublisherOutDTO"

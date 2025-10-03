@@ -9,8 +9,8 @@ import { AuthorsRoutes } from "./routes/authors.routes";
 const documentationPath = "./src/documentation/main.documentation.yaml";
 const app = express();
 
-SwaggerParser.dereference(documentationPath).then((api) => {
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(api));
+SwaggerParser.dereference(documentationPath).then((document) => {
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(document));
   app.use(jsonMiddleware());
   app.use("/authors", AuthorsRoutes);
   app.use("/publishers", PublishersRoutes);

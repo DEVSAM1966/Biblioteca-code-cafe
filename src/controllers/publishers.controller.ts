@@ -37,7 +37,7 @@ export class PublishersController {
     response.status(200).json(success(publishersOutDTO));
   }
 
-  static async getAll(request: Request, response: Response): Promise<void> {
+  static async getAll(_request: Request, response: Response): Promise<void> {
     const publisherOutDto = await PublishersService.getAll();
 
     response.status(200).json(success(publisherOutDto));

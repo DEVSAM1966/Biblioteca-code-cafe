@@ -1,0 +1,9 @@
+AuthorOutDTO:
+  type: object
+  properties:
+    author_id:
+      type: integer
+      example: 1
+    name_author:
+      type: string
+      example: "Isaac Asimov"
