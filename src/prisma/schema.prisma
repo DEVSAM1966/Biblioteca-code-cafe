@@ -16,23 +16,22 @@ model Author {
 }
 
 model Book {
-  isbn         String  @id @db.VarChar(13)
-  title        String  @db.VarChar(55)
+  isbn         String     @id @db.VarChar(13)
+  title        String     @db.VarChar(55)
   pages        Int?
-  summary      String? @db.VarChar(255)
-  edition_date String? @db.VarChar(10)
-  book_cover   String? @db.VarChar(255)
-  book_file    String? @db.VarChar(255)
-  language     String? @db.VarChar(20)
-  authors      String? @db.VarChar(100)
+  summary      String?    @db.VarChar(255)
+  edition_date String?    @db.VarChar(10)
+  book_cover   String?    @db.VarChar(255)
+  book_file    String?    @db.VarChar(255)
+  language     String?    @db.VarChar(20)
+  authors      String?    @db.VarChar(100)
   author_id    Int?
   publisher_id Int?
   category_id  Int?
-
-  author    Author?    @relation(fields: [author_id], references: [author_id], onDelete: Restrict, map: "books_ibfk_1")
-  publisher Publisher? @relation(fields: [publisher_id], references: [publisher_id], onDelete: Restrict, map: "books_ibfk_2")
-  category  Category?  @relation(fields: [category_id], references: [category_id], onDelete: Restrict, map: "books_ibfk_3")
-  loans     Loan[]
+  author       Author?    @relation(fields: [author_id], references: [author_id], onDelete: Restrict, map: "books_ibfk_1")
+  publisher    Publisher? @relation(fields: [publisher_id], references: [publisher_id], onDelete: Restrict, map: "books_ibfk_2")
+  category     Category?  @relation(fields: [category_id], references: [category_id], onDelete: Restrict, map: "books_ibfk_3")
+  loans        Loan[]
 
   @@index([author_id], map: "author_id")
   @@index([category_id], map: "category_id")
@@ -66,10 +65,9 @@ model Loan {
   return_date DateTime? @db.Date
   user_id     Int?
   isbn        String?   @db.VarChar(13)
-
-  histories History[]
-  user      User?     @relation(fields: [user_id], references: [user_id], onDelete: Restrict, map: "loans_ibfk_1")
-  book      Book?     @relation(fields: [isbn], references: [isbn], onDelete: Restrict, map: "loans_ibfk_2")
+  histories   History[]
+  user        User?     @relation(fields: [user_id], references: [user_id], onDelete: Restrict, map: "loans_ibfk_1")
+  book        Book?     @relation(fields: [isbn], references: [isbn], onDelete: Restrict, map: "loans_ibfk_2")
 
   @@index([isbn], map: "isbn")
   @@index([user_id], map: "user_id")
@@ -86,16 +84,13 @@ model Publisher {
   country        String? @db.VarChar(30)
   phone          String? @db.VarChar(16)
   notes          String? @db.VarChar(255)
-
-  books Book[]
+  books          Book[]
 
   @@map("publishers")
 }
 
 model User {
   user_id           Int       @id @default(autoincrement())
-  user_name         String    @db.VarChar(30)
-  user_surname      String?   @db.VarChar(60)
   dni               String?   @unique(map: "dni") @db.VarChar(20)
   address           String?   @db.VarChar(100)
   city              String?   @db.VarChar(40)
@@ -109,8 +104,8 @@ model User {
   user_drop         Boolean?  @default(true)
   days_disciplinary Int?      @default(0)
   rol               String?   @db.VarChar(20)
-
-  loans Loan[]
+  fullname          String?   @db.VarChar(100)
+  loans             Loan[]
 
   @@map("users")
 }

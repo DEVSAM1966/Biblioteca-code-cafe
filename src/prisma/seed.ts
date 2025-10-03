@@ -83,8 +83,7 @@ async function main() {
     data: [
       {
         user_id: 1,
-        user_name: "Laura",
-        user_surname: "Gómez",
+        fullname: "Laura Gómez",
         dni: "12345678A",
         address: "Calle Sol 5",
         city: "Madrid",
@@ -101,8 +100,7 @@ async function main() {
       },
       {
         user_id: 2,
-        user_name: "Carlos",
-        user_surname: "Martínez",
+        fullname: "Carlos Martínez",
         dni: "87654321B",
         address: "Av. Mar 8",
         city: "Valencia",
