@@ -25,7 +25,9 @@ export function dtoValidationMiddleware(dto: { new (): any }) {
 
       next();
     } catch (error) {
-      return next(new BadRequestError(getErrorMessage(error)));
+      const errorMessage = getErrorMessage(error);
+
+      return next(new BadRequestError(errorMessage));
     }
   };
 }

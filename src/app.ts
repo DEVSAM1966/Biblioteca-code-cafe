@@ -4,15 +4,12 @@ import swaggerUi from "swagger-ui-express";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import { errorHandlerMiddleware } from "./middlewares/error-handler.middleware";
 import { PublishersRoutes } from "./routes/publishers.routes";
-import { loadDTOs } from "./documentation/load-dtos.documentation";
 import { AuthorsRoutes } from "./routes/authors.routes";
 
 const documentationPath = "./src/documentation/main.documentation.yaml";
 const app = express();
 
 SwaggerParser.dereference(documentationPath).then((document) => {
-  loadDTOs(document);
-
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(document));
   app.use(jsonMiddleware());
   app.use("/authors", AuthorsRoutes);

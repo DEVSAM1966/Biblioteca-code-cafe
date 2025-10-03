@@ -17,12 +17,14 @@ export function errorHandlerMiddleware() {
 
     if (error instanceof CustomError) {
       const errorResponse = getErrorResponse(error.message);
+
       response.status(error.statusCode).json(errorResponse);
       return;
     }
 
     const errorMessage = getErrorMessage(error);
     const errorResponse = getErrorResponse(errorMessage);
+
     response.status(500).json(errorResponse);
   };
 }
