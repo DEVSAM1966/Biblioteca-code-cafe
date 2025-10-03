@@ -1,5 +1,4 @@
 import {
-  IsBtcAddress,
   IsNumber,
   IsPhoneNumber,
   IsPostalCode,
@@ -13,7 +12,7 @@ export class PublisherOutDTO {
   @IsString()
   name_publisher: string;
 
-  @IsBtcAddress()
+  @IsString()
   address?: string;
 
   @IsString()
