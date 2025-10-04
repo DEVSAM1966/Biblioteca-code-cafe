@@ -75,7 +75,7 @@ model Loan {
 }
 
 model Publisher {
-  publisher_id   Int     @id
+  publisher_id   Int     @id 
   name_publisher String  @db.VarChar(100)
   address        String? @db.VarChar(100)
   city           String? @db.VarChar(40)
