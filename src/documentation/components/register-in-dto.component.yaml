@@ -16,7 +16,7 @@ RegisterInDTO:
       type: string
       nullable: true
       example: "Buenos Aires"
-    postal_code:
+    postalCode:
       type: string
       nullable: true
       example: "1000"

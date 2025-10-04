@@ -3,13 +3,13 @@ import { prisma } from "../configuration/prisma.configuration";
 
 export class PublishersRepository {
     static async getById(id: number): Promise<Publisher | null> {
-        return await prisma.publisher.findUnique({ where: { publisher_id: id}});
+        return await prisma.publisher.findUnique({ where: { publisherId: id}});
     }
 
     static async getByName(name: string): Promise<Publisher[]> {
         return await prisma.publisher.findMany({
             where: {
-                name_publisher: {
+                namePublisher: {
                     contains: name,
                 },
             },

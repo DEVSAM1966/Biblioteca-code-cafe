@@ -13,7 +13,7 @@ export class UsersRepository {
   static async exists(data: Prisma.UserWhereUniqueInput) {
     const user = await prisma.user.findUnique({
       where: { email: data.email },
-      select: { user_id: true },
+      select: { userId: true },
     });
 
     return Boolean(user);

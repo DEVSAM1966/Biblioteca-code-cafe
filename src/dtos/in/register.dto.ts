@@ -24,7 +24,7 @@ export class RegisterInDto {
 
   @IsPostalCode()
   @IsOptional()
-  postal_code: string | null;
+  postalCode: string | null;
 
   @IsString()
   @IsOptional()

@@ -1,4 +1,4 @@
-SanitizedUser:
+UserOutDTO:
   type: object
   properties:
     userId:

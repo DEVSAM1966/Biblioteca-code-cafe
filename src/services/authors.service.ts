@@ -11,8 +11,8 @@ export class AuthorsService {
     }
 
     const dto: AuthorOutDTO = {
-      author_id: author.author_id,
-      name_author: author.name_author,
+      authorId: author.authorId,
+      nameAuthor: author.nameAuthor,
     };
 
     return dto;
@@ -26,8 +26,8 @@ export class AuthorsService {
     }
 
     const dto: AuthorOutDTO = {
-      author_id: author.author_id,
-      name_author: author.name_author,
+      authorId: author.authorId,
+      nameAuthor: author.nameAuthor,
     };
 
     return dto;
@@ -41,8 +41,8 @@ export class AuthorsService {
     }
 
     const authorsOutDTO: AuthorOutDTO[] = authors.map((author) => ({
-      author_id: author.author_id,
-      name_author: author.name_author,
+      authorId: author.authorId,
+      nameAuthor: author.nameAuthor,
     }));
 
     return authorsOutDTO;

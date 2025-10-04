@@ -8,10 +8,10 @@ import {
 
 export class PublisherOutDTO {
   @IsNumber()
-  publisher_id: number;
+  publisherId: number;
 
   @IsString()
-  name_publisher: string;
+  namePublisher: string;
 
   @IsString()
   @IsOptional()
@@ -27,7 +27,7 @@ export class PublisherOutDTO {
 
   @IsPostalCode()
   @IsOptional()
-  postal_code: string | null;
+  postalCode: string | null;
 
   @IsString()
   @IsOptional()
