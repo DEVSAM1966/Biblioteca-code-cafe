@@ -90,22 +90,27 @@ model Publisher {
 }
 
 model User {
-  user_id           Int       @id @default(autoincrement())
-  dni               String?   @unique(map: "dni") @db.VarChar(20)
-  address           String?   @db.VarChar(100)
-  city              String?   @db.VarChar(40)
-  province          String?   @db.VarChar(30)
-  postal_code       String?   @db.VarChar(20)
-  country           String?   @db.VarChar(30)
-  phone             String?   @db.VarChar(16)
-  email             String?   @db.VarChar(120)
-  password          String?   @db.VarChar(25)
-  registration_date DateTime? @db.Date
-  user_drop         Boolean?  @default(true)
-  days_disciplinary Int?      @default(0)
-  rol               String?   @db.VarChar(20)
-  fullname          String?   @db.VarChar(100)
-  loans             Loan[]
+  user_id           Int      @id @default(autoincrement())
+  dni               String   @unique(map: "dni") @db.VarChar(20)
+  address           String?  @db.VarChar(100)
+  city              String?  @db.VarChar(40)
+  province          String?  @db.VarChar(30)
+  postal_code       String?  @db.VarChar(20)
+  country           String?  @db.VarChar(30)
+  phone             String   @unique() @db.VarChar(50)
+  email             String   @unique() @db.VarChar(120)
+  password          String   @db.VarChar(255)
+  registration_date DateTime @default(now())
+  user_drop         Boolean? @default(true)
+  days_disciplinary Int?     @default(0)
+  role              UserRole @default(USER)
+  fullname          String   @db.VarChar(100)
+
+  loans Loan[]
 
   @@map("users")
+}
+
+enum UserRole {
+  USER
 }

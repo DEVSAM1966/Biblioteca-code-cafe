@@ -1,17 +1,14 @@
 import {
-  IsNumber,
+  IsEmail,
   IsOptional,
   IsPhoneNumber,
   IsPostalCode,
   IsString,
 } from "class-validator";
 
-export class PublisherOutDTO {
-  @IsNumber()
-  publisher_id: number;
-
+export class RegisterInDto {
   @IsString()
-  name_publisher: string;
+  dni: string;
 
   @IsString()
   @IsOptional()
@@ -34,10 +31,14 @@ export class PublisherOutDTO {
   country: string | null;
 
   @IsPhoneNumber()
-  @IsOptional()
-  phone: string | null;
+  phone: string;
+
+  @IsEmail()
+  email: string;
 
   @IsString()
-  @IsOptional()
-  notes: string | null;
+  password: string;
+
+  @IsString()
+  fullname: string;
 }

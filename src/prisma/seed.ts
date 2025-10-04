@@ -1,15 +1,15 @@
-import { Prisma } from "../configuration/prisma.configuration";
+import { prisma } from "../configuration/prisma.configuration";
 
 async function main() {
-  await Prisma.loan.deleteMany();
-  await Prisma.book.deleteMany();
-  await Prisma.author.deleteMany();
-  await Prisma.user.deleteMany();
-  await Prisma.category.deleteMany();
-  await Prisma.publisher.deleteMany();
+  await prisma.loan.deleteMany();
+  await prisma.book.deleteMany();
+  await prisma.author.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.category.deleteMany();
+  await prisma.publisher.deleteMany();
 
   // Publishers
-  await Prisma.publisher.createMany({
+  await prisma.publisher.createMany({
     data: [
       {
         publisher_id: 1001,
@@ -48,7 +48,7 @@ async function main() {
   });
 
   // Categories
-  await Prisma.category.createMany({
+  await prisma.category.createMany({
     data: [
       {
         category_id: 1,
@@ -79,7 +79,7 @@ async function main() {
   });
 
   // Users
-  await Prisma.user.createMany({
+  await prisma.user.createMany({
     data: [
       {
         user_id: 1,
@@ -96,7 +96,7 @@ async function main() {
         registration_date: new Date("2025-01-10"),
         user_drop: true,
         days_disciplinary: 0,
-        rol: "user",
+        role: "USER",
       },
       {
         user_id: 2,
@@ -113,13 +113,13 @@ async function main() {
         registration_date: new Date("2025-02-15"),
         user_drop: true,
         days_disciplinary: 2,
-        rol: "user",
+        role: "USER",
       },
     ],
   });
 
   // Authors
-  await Prisma.author.createMany({
+  await prisma.author.createMany({
     data: [
       { author_id: 1, name_author: "Isaac Asimov" },
       { author_id: 2, name_author: "Ursula K. Le Guin" },
@@ -135,7 +135,7 @@ async function main() {
   });
 
   // Books
-  await Prisma.book.createMany({
+  await prisma.book.createMany({
     data: [
       {
         isbn: "9780000000001",
@@ -167,7 +167,7 @@ async function main() {
   });
 
   // Loans
-  await Prisma.loan.createMany({
+  await prisma.loan.createMany({
     data: [
       {
         loan_date: new Date("2025-06-01"),
@@ -191,5 +191,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await Prisma.$disconnect();
+    await prisma.$disconnect();
   });
