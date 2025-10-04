@@ -8,13 +8,20 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/author.component.yaml#/AuthorsResponse"
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "../components/author.component.yaml#/Author"
     "404":
       description: No authors found
       content:
         application/json:
           schema:
-            $ref: "../components/error.component.yaml#/Error"
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
           example:
             error: There are no records in Authors
             timestamp: "25/09/2025, 17:41:33"

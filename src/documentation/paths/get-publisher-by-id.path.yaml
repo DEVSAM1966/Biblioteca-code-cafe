@@ -10,17 +10,31 @@ get:
         type: integer
   responses:
     "200":
-      description: Publisher found
+      description: Publisher
       content:
         application/json:
           schema:
-            $ref: "../components/publisher.component.yaml#/PublisherResponse"
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/publisher.component.yaml#/Publisher"
+    "400":
+      description: Invalid ID
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error: Invalid ID
+            timestamp: "2025-09-25T17:41:33Z"
     "404":
       description: Publisher not found
       content:
         application/json:
           schema:
-            $ref: "../components/error.component.yaml#/Error"
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
           example:
             error: Publisher with id 123 not found
-            timestamp: "25/09/2025, 17:41:33"
+            timestamp: "2025-09-25T17:41:33Z"

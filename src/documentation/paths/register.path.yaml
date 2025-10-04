@@ -1,0 +1,49 @@
+post:
+  tags:
+    - Auth
+  summary: Register a new user
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/register-in-dto.component.yaml#/RegisterInDTO"
+  responses:
+    "201":
+      description: Sanitized new user and authorization token
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: "../components/sanitized-user.component.yaml#/SanitizedUser"
+                      authorization:
+                        $ref: "../components/authorization.component.yaml#/Authorization"
+    "409":
+      description: Conflict - User with some field already exists
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            emailAlreadyRegistered:
+              summary: Email is already registered
+              value:
+                error: Email jhon-doe@email.com is already registered
+                timestamp: "25/09/2025, 17:41:33"
+            dniAlreadyRegistered:
+              summary: DNI is already registered
+              value:
+                error: DNI 12345678 is already registered
+                timestamp: "25/09/2025, 17:41:33"
+            phoneAlreadyRegistered:
+              summary: Phone is already registered
+              value:
+                error: Phone +54 9 11 1234-5678 is already registered
+                timestamp: "25/09/2025, 17:41:33"

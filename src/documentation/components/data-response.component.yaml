@@ -1,0 +1,10 @@
+DataResponse:
+  type: object
+  properties:
+    data:
+      description: Content of the response
+    timestamp:
+      type: string
+      format: date-time
+      description: ISO Date string of the time the response was returned
+      example: "2025-10-03T21:55:00.000Z"

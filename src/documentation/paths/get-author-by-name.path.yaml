@@ -14,13 +14,18 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/author.component.yaml#/AuthorResponse"
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/author.component.yaml#/Author"
     "400":
       description: Bad Request - Invalid name parameter
       content:
         application/json:
           schema:
-            $ref: "../components/error.component.yaml#/Error"
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
           examples:
             missingName:
               summary: Name is missing
@@ -37,7 +42,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/error.component.yaml#/Error"
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
           example:
             error: Author with name Marcos not found
             timestamp: "25/09/2025, 17:41:33"

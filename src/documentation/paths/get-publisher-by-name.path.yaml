@@ -14,13 +14,18 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/publisher.component.yaml#/PublisherResponse"
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/publisher.component.yaml#/Publisher"
     "400":
       description: Bad Request - Invalid name parameter
       content:
         application/json:
           schema:
-            $ref: "../components/error.component.yaml#/Error"
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
           examples:
             missingName:
               summary: Name is missing
@@ -42,7 +47,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/error.component.yaml#/Error"
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
           examples:
             notFound:
               summary: Publisher not found
