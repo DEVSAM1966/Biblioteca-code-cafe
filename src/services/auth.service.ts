@@ -7,11 +7,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export class AuthService {
-  static getAuthorization(userId: number) {
+  static getAuthorization(userId: number): string {
     return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "1h" });
   }
 
-  static async hash(value: string) {
+  static async hash(value: string): Promise<string> {
     return await bcrypt.hash(value, SALT_ROUNDS);
   }
 
