@@ -1,5 +1,8 @@
+import { Publisher } from "@prisma/client";
+import { CreatePublisherDto } from "../dtos/in/publisher.dto";
 import { PublisherOutDTO } from "../dtos/out/publisher.dto";
 import { NotFoundError } from "../models/errors/not-found.error";
+import { InternalServerError } from "../models/errors/internal-server.error";
 import { PublishersRepository } from "../repositories/publishers.repository";
 
 export class PublishersService {
@@ -65,5 +68,13 @@ export class PublishersService {
     }));
 
     return dto;
+  }
+
+  static async create(data: CreatePublisherDto): Promise<Publisher> {
+    try {
+        return await PublishersRepository.create(data);
+    } catch (error) {
+        throw new InternalServerError("Failed to create publisher");
+    }
   }
 }

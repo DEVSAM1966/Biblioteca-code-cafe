@@ -23,6 +23,8 @@ export function dtoValidationMiddleware(dto: { new (): any }) {
         return next(new BadRequestError(formattedErrors));
       }
 
+      request.body = dtoObject;
+      
       next();
     } catch (error) {
       const errorMessage = getErrorMessage(error);
