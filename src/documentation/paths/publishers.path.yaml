@@ -1,0 +1,5 @@
+get:
+  $ref: "./get-all-publishers.path.yaml"
+
+post:
+  $ref: "./create-publisher.path.yaml"

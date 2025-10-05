@@ -14,7 +14,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/publisher.component.yaml#/PublisherResponse"
+            $ref: "../components/publisher.component.yaml#/components/schemas/PublisherResponse"
     "404":
       description: Publisher not found
       content:

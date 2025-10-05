@@ -8,7 +8,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/publisher.component.yaml#/PublishersResponse"
+            $ref: "../components/publisher.component.yaml#/components/schemas/PublishersResponse"
           example:
             data:
               - publisher_id: 1001

@@ -14,7 +14,7 @@ paths:
   /publishers/name/{name}:
     $ref: "./paths/get-publisher-by-name.path.yaml"
   /publishers:
-    $ref: "./paths/get-all-publishers.path.yaml"
+    $ref: "./paths/publishers.path.yaml"
 components:
   schemas:
     Author:
@@ -22,6 +22,12 @@ components:
     AuthorOutDTO:
       $ref: "./components/author-out-dto.component.yaml#/AuthorOutDTO"
     Publisher:
-      $ref: "./components/publisher.component.yaml#/Publisher"
+      $ref: "./components/publisher.component.yaml#/components/schemas/Publisher"
     PublisherOutDTO:
       $ref: "./components/publisher-out-dto.component.yaml#/PublisherOutDTO"
+    PublisherInput:
+      $ref: "./components/publisher.component.yaml#/components/schemas/PublisherInput"
+    PublisherResponse:
+      $ref: "./components/publisher.component.yaml#/components/schemas/PublisherResponse"
+    PublishersResponse:
+      $ref: "./components/publisher.component.yaml#/components/schemas/PublishersResponse"

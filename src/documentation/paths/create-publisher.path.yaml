@@ -1,0 +1,44 @@
+post:
+  tags:
+    - Publishers
+  summary: Crear un nuevo publisher
+  description: Crea un nuevo registro en la tabla Publishers. El campo `publisher_id` debe ser proporcionado por el cliente.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/publisher.component.yaml#/components/schemas/PublisherInput"
+        examples:
+          ejemploValido:
+            summary: Ejemplo de creación válida
+            value:
+              publisher_id: 1015
+              name_publisher: "Editorial didáctica 2"
+              address: "Carretera, km 13"
+              city: "Barcelona"
+              province: "Barcelona"
+              postal_code: "86841"
+              country: "España"
+              phone: "222222222"
+              notes: "Especializada en libros de programación para la universidad"
+  responses:
+    "201":
+      description: Publisher creado exitosamente
+      content:
+        application/json:
+          schema:
+            $ref: "../components/publisher.component.yaml#/components/schemas/PublisherResponse"
+          examples:
+            ejemploCreacionExitosa:
+              summary: Publisher creado correctamente
+              value:
+                data:
+                  publisher_id: 1015
+                  name_publisher: "Editorial didáctica 2"
+                  address: "Carrer Genove, 13"
+                  city: "Barcelona"
+                  province: "Barcelona"
+                  postal_code: "08041"
+                  country: "España"
+                  phone: ""
