@@ -19,5 +19,5 @@ if (error) {
 
 export const PORT: number = envVars.PORT;
 export const JWT_SECRET: string = envVars.JWT_SECRET;
-export const SALT_ROUNDS: string = envVars.SALT_ROUNDS;
+export const SALT_ROUNDS: number = envVars.SALT_ROUNDS;
 export const DATABASE_URL: string = envVars.DATABASE_URL;

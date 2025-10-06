@@ -10,9 +10,16 @@ export class UsersRepository {
     }
   }
 
-  static async exists(data: Prisma.UserWhereUniqueInput) {
+  static async existsBy(field: "email" | "dni" | "phone", value: string) {
+    const where: Prisma.UserWhereUniqueInput =
+      field === "email"
+        ? { email: value }
+        : field === "dni"
+        ? { dni: value }
+        : { phone: value };
+
     const user = await prisma.user.findUnique({
-      where: { email: data.email },
+      where,
       select: { userId: true },
     });
 

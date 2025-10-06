@@ -16,27 +16,17 @@ export class AuthService {
   }
 
   static async register(data: RegisterInDto) {
-    const isEmailRegistered = await UsersRepository.exists({
-      email: data.email,
-    });
+    const emailExists = await UsersRepository.existsBy("email", data.email);
 
-    if (isEmailRegistered) {
-      throw new ConflictError(`Email ${data.email} is already registered`);
-    }
+    if (emailExists) throw new ConflictError(`Email ${data.email} is already registered`);
+    
+    const dniExists = await UsersRepository.existsBy("dni", data.dni);
 
-    const isDniRegistered = await UsersRepository.exists({ dni: data.dni });
+    if (dniExists) throw new ConflictError(`DNI ${data.dni} is already registered`);
 
-    if (isDniRegistered) {
-      throw new ConflictError(`DNI ${data.dni} is already registered`);
-    }
+    const phoneExists = await UsersRepository.existsBy("phone", data.phone);
 
-    const isPhoneRegistered = await UsersRepository.exists({
-      phone: data.phone,
-    });
-
-    if (isPhoneRegistered) {
-      throw new ConflictError(`Phone ${data.phone} is already registered`);
-    }
+    if (phoneExists) throw new ConflictError(`Phone ${data.phone} is already registered`);
 
     const hashedPassword = await this.hash(data.password);
     const newUser = await UsersRepository.create({
@@ -51,7 +41,7 @@ export class AuthService {
       postalCode: data.postalCode,
       province: data.province,
     });
-    
+
     const userOutDto: UserOutDTO = {
       fullname: newUser.fullname,
       registrationDate: newUser.registrationDate.toISOString(),

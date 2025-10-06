@@ -9,7 +9,7 @@ export class UserOutDTO {
   registrationDate: string;
 
   @IsEnum(UserRole)
-  role: string;
+  role: UserRole;
 
   @IsString()
   fullname: string;
