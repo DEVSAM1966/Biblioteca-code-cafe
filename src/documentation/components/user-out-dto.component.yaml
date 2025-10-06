@@ -1,0 +1,15 @@
+UserOutDTO:
+  type: object
+  properties:
+    userId:
+      type: integer
+      example: 123
+    registrationDate:
+      type: string
+      example: "2025-10-03T21:45:00.000Z"
+    role:
+      type: string
+      example: "USER"
+    fullname:
+      type: string
+      example: "Jhon Doe"

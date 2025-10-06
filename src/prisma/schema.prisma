@@ -8,104 +8,110 @@ datasource db {
 }
 
 model Author {
-  author_id   Int    @id @default(autoincrement())
-  name_author String @unique @db.VarChar(100)
-  books       Book[]
+  authorId   Int    @id @default(autoincrement()) @map("author_id")
+  nameAuthor String @unique @map("name_author") @db.VarChar(100)
+  books      Book[]
 
   @@map("authors")
 }
 
 model Book {
-  isbn         String     @id @db.VarChar(13)
-  title        String     @db.VarChar(55)
-  pages        Int?
-  summary      String?    @db.VarChar(255)
-  edition_date String?    @db.VarChar(10)
-  book_cover   String?    @db.VarChar(255)
-  book_file    String?    @db.VarChar(255)
-  language     String?    @db.VarChar(20)
-  authors      String?    @db.VarChar(100)
-  author_id    Int?
-  publisher_id Int?
-  category_id  Int?
-  author       Author?    @relation(fields: [author_id], references: [author_id], onDelete: Restrict, map: "books_ibfk_1")
-  publisher    Publisher? @relation(fields: [publisher_id], references: [publisher_id], onDelete: Restrict, map: "books_ibfk_2")
-  category     Category?  @relation(fields: [category_id], references: [category_id], onDelete: Restrict, map: "books_ibfk_3")
-  loans        Loan[]
+  isbn        String  @id @db.VarChar(13)
+  title       String  @db.VarChar(55)
+  pages       Int?
+  summary     String? @db.VarChar(255)
+  editionDate String? @map("edition_date") @db.VarChar(10)
+  bookCover   String? @map("book_cover") @db.VarChar(255)
+  bookFile    String? @map("book_file") @db.VarChar(255)
+  language    String? @db.VarChar(20)
+  authors     String? @db.VarChar(100)
+  authorId    Int?    @map("author_id")
+  publisherId Int?    @map("publisher_id")
+  categoryId  Int?    @map("category_id")
 
-  @@index([author_id], map: "author_id")
-  @@index([category_id], map: "category_id")
-  @@index([publisher_id], map: "publisher_id")
+  author    Author?    @relation(fields: [authorId], references: [authorId], onDelete: Restrict, map: "books_ibfk_1")
+  publisher Publisher? @relation(fields: [publisherId], references: [publisherId], onDelete: Restrict, map: "books_ibfk_2")
+  category  Category?  @relation(fields: [categoryId], references: [categoryId], onDelete: Restrict, map: "books_ibfk_3")
+  loans     Loan[]
+
+  @@index([authorId], map: "author_id")
+  @@index([categoryId], map: "category_id")
+  @@index([publisherId], map: "publisher_id")
   @@map("books")
 }
 
 model Category {
-  category_id       Int     @id @default(autoincrement())
-  name_category     String  @db.VarChar(30)
-  subtopic_category String? @db.VarChar(30)
-  books             Book[]
+  categoryId       Int     @id @default(autoincrement()) @map("category_id")
+  nameCategory     String  @map("name_category") @db.VarChar(30)
+  subtopicCategory String? @map("subtopic_category") @db.VarChar(30)
+  books            Book[]
 
   @@map("categories")
 }
 
 model History {
-  history_id    Int       @id @default(autoincrement())
-  loan_id       Int?
-  date_feedback DateTime? @db.Date
-  feedback      String?   @db.VarChar(255)
-  loan          Loan?     @relation(fields: [loan_id], references: [loan_id], onDelete: Cascade, map: "histories_ibfk_1")
+  historyId    Int       @id @default(autoincrement()) @map("history_id")
+  loanId       Int?      @map("loan_id")
+  dateFeedback DateTime? @map("date_feedback") @db.Date
+  feedback     String?   @db.VarChar(255)
+  loan         Loan?     @relation(fields: [loanId], references: [loanId], onDelete: Cascade, map: "histories_ibfk_1")
 
-  @@index([loan_id], map: "loan_id")
+  @@index([loanId], map: "loan_id")
   @@map("histories")
 }
 
 model Loan {
-  loan_id     Int       @id @default(autoincrement())
-  loan_date   DateTime? @db.Date
-  return_date DateTime? @db.Date
-  user_id     Int?
-  isbn        String?   @db.VarChar(13)
-  histories   History[]
-  user        User?     @relation(fields: [user_id], references: [user_id], onDelete: Restrict, map: "loans_ibfk_1")
-  book        Book?     @relation(fields: [isbn], references: [isbn], onDelete: Restrict, map: "loans_ibfk_2")
+  loanId     Int       @id @default(autoincrement()) @map("loan_id")
+  loanDate   DateTime? @map("loan_date") @db.Date
+  returnDate DateTime? @map("return_date") @db.Date
+  userId     Int?      @map("user_id")
+  isbn       String?   @db.VarChar(13)
+  histories  History[]
+  user       User?     @relation(fields: [userId], references: [userId], onDelete: Restrict, map: "loans_ibfk_1")
+  book       Book?     @relation(fields: [isbn], references: [isbn], onDelete: Restrict, map: "loans_ibfk_2")
 
   @@index([isbn], map: "isbn")
-  @@index([user_id], map: "user_id")
+  @@index([userId], map: "user_id")
   @@map("loans")
 }
 
 model Publisher {
-  publisher_id   Int     @id 
-  name_publisher String  @db.VarChar(100)
-  address        String? @db.VarChar(100)
-  city           String? @db.VarChar(40)
-  province       String? @db.VarChar(30)
-  postal_code    String? @db.VarChar(20)
-  country        String? @db.VarChar(30)
-  phone          String? @db.VarChar(16)
-  notes          String? @db.VarChar(255)
-  books          Book[]
+  publisherId   Int     @id @map("publisher_id")
+  namePublisher String  @map("name_publisher") @db.VarChar(100)
+  address       String? @db.VarChar(100)
+  city          String? @db.VarChar(40)
+  province      String? @db.VarChar(30)
+  postalCode    String? @map("postal_code") @db.VarChar(20)
+  country       String? @db.VarChar(30)
+  phone         String? @db.VarChar(16)
+  notes         String? @db.VarChar(255)
+  books         Book[]
 
   @@map("publishers")
 }
 
 model User {
-  user_id           Int       @id @default(autoincrement())
-  dni               String?   @unique(map: "dni") @db.VarChar(20)
-  address           String?   @db.VarChar(100)
-  city              String?   @db.VarChar(40)
-  province          String?   @db.VarChar(30)
-  postal_code       String?   @db.VarChar(20)
-  country           String?   @db.VarChar(30)
-  phone             String?   @db.VarChar(16)
-  email             String?   @db.VarChar(120)
-  password          String?   @db.VarChar(25)
-  registration_date DateTime? @db.Date
-  user_drop         Boolean?  @default(true)
-  days_disciplinary Int?      @default(0)
-  rol               String?   @db.VarChar(20)
-  fullname          String?   @db.VarChar(100)
-  loans             Loan[]
+  userId           Int      @id @default(autoincrement()) @map("user_id")
+  dni              String   @unique() @db.VarChar(20)
+  address          String?  @db.VarChar(100)
+  city             String?  @db.VarChar(40)
+  province         String?  @db.VarChar(30)
+  postalCode       String?  @map("postal_code") @db.VarChar(20)
+  country          String?  @db.VarChar(30)
+  phone            String   @unique() @db.VarChar(50)
+  email            String   @unique() @db.VarChar(120)
+  password         String   @db.VarChar(255)
+  registrationDate DateTime @default(now()) @map("registration_date")
+  userDrop         Boolean  @default(true) @map("user_drop")
+  daysDisciplinary Int      @default(0) @map("days_disciplinary")
+  role             UserRole @default(USER)
+  fullname         String   @db.VarChar(100)
+
+  loans Loan[]
 
   @@map("users")
+}
+
+enum UserRole {
+  USER
 }

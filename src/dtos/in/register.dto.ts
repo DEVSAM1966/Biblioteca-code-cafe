@@ -1,43 +1,55 @@
 import {
-  IsNumber,
+  IsEmail,
   IsOptional,
   IsPhoneNumber,
   IsPostalCode,
   IsString,
+  MaxLength,
 } from "class-validator";
 
-export class PublisherOutDTO {
-  @IsNumber()
-  publisherId: number;
-
+export class RegisterInDto {
   @IsString()
-  namePublisher: string;
+  @MaxLength(20)
+  dni: string;
 
   @IsString()
   @IsOptional()
+  @MaxLength(100)
   address: string | null;
 
   @IsString()
   @IsOptional()
+  @MaxLength(40)
   city: string | null;
 
   @IsString()
   @IsOptional()
+  @MaxLength(30)
   province: string | null;
 
-  @IsPostalCode()
+  @IsPostalCode("any")
   @IsOptional()
+  @MaxLength(20)
   postalCode: string | null;
 
   @IsString()
   @IsOptional()
+  @MaxLength(30)
   country: string | null;
 
   @IsPhoneNumber()
-  @IsOptional()
-  phone: string | null;
+  @MaxLength(50)
+  phone: string;
+
+  @IsEmail()
+  @MaxLength(120)
+  email: string;
 
   @IsString()
-  @IsOptional()
-  notes: string | null;
+  @MaxLength(25)
+  password: string;
+
+  @IsString()
+  @MaxLength(100)
+  fullname: string;
 }

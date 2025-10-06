@@ -1,10 +1,10 @@
 PublisherOutDTO:
   type: object
   properties:
-    publisher_id:
+    publisherId:
       type: integer
       example: 1001
-    name_publisher:
+    namePublisher:
       type: string
       example: "Nova Editorial"
     address:
@@ -16,7 +16,7 @@ PublisherOutDTO:
     province:
       type: string
       example: "Madrid"
-    postal_code:
+    postalCode:
       type: string
       example: "28001"
     country:

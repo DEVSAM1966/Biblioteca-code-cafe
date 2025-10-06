@@ -4,6 +4,8 @@ process.loadEnvFile();
 const envValidation = Joi.object({
   PORT: Joi.number().default(9800),
   DATABASE_URL: Joi.string().uri().required(),
+  JWT_SECRET: Joi.string().required(),
+  SALT_ROUNDS: Joi.number().default(10),
 });
 
 const { error, value: envVars } = envValidation.validate(process.env, {
@@ -17,4 +19,5 @@ if (error) {
 
 export const PORT: number = envVars.PORT;
 export const JWT_SECRET: string = envVars.JWT_SECRET;
+export const SALT_ROUNDS: number = envVars.SALT_ROUNDS;
 export const DATABASE_URL: string = envVars.DATABASE_URL;

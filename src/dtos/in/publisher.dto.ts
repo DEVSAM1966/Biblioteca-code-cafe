@@ -2,11 +2,11 @@ import { IsInt, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreatePublisherDto {
   @IsInt()
-  publisher_id: number;
+  publisherId: number;
 
   @IsString()
   @MaxLength(100)
-  name_publisher: string;
+  namePublisher: string;
 
   @IsOptional()
   @IsString()
@@ -26,7 +26,7 @@ export class CreatePublisherDto {
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  postal_code?: string;
+  postalCode?: string;
 
   @IsOptional()
   @IsString()

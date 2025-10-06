@@ -1,16 +1,16 @@
 import { Author } from "@prisma/client";
-import { Prisma } from "../configuration/prisma.configuration";
+import { prisma } from "../configuration/prisma.configuration";
 
 export class AuthorsRepository {
   static async getById(id: number): Promise<Author | null> {
-    return await Prisma.author.findUnique({ where: { author_id: id } });
+    return await prisma.author.findUnique({ where: { authorId: id } });
   }
 
   static async getByName(name: string): Promise<Author | null> {
-    return await Prisma.author.findUnique({ where: { name_author: name } });
+    return await prisma.author.findUnique({ where: { nameAuthor: name } });
   }
 
   static async getAll(): Promise<Author[]> {
-    return await Prisma.author.findMany();
+    return await prisma.author.findMany();
   }
 }

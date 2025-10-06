@@ -8,43 +8,20 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/publisher.component.yaml#/PublishersResponse"
-          example:
-            data:
-              - publisher_id: 1001
-                name_publisher: Nova Editorial
-                address: Calle Luna 12
-                city: Madrid
-                province: Madrid
-                postal_code: "28001"
-                country: España
-                phone: "912345678"
-                notes: Activo
-              - publisher_id: 1002
-                name_publisher: Ediciones Solaris
-                address: Av. Estelar 45
-                city: Barcelona
-                province: Cataluña
-                postal_code: "08002"
-                country: España
-                phone: "934567890"
-                notes: Empresa cerrada en 2023
-              - publisher_id: 1003
-                name_publisher: Tinta Libre
-                address: Plaza del Saber 3
-                city: Valencia
-                province: Valencia
-                postal_code: "46001"
-                country: España
-                phone: "963258741"
-                notes: Activo
-            timestamp: "02/10/2025, 21:52:56"
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "../components/publisher.component.yaml#/Publisher"
     "404":
       description: No publishers found
       content:
         application/json:
           schema:
-            $ref: "../components/error.component.yaml#/Error"
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
           example:
             error: There are no records in Publishers
-            timestamp: "02/10/2025, 21:52:56"
+            timestamp: "2025-10-02T21:52:56Z"
