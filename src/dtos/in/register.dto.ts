@@ -1,11 +1,11 @@
 import {
   IsEmail,
   IsOptional,
+  IsPhoneNumber,
   IsPostalCode,
   IsString,
   MaxLength,
 } from "class-validator";
-import { IsAnyPhoneNumber } from "../../models/validators/is-any-phone-number.validator";
 
 export class RegisterInDto {
   @IsString()
@@ -37,7 +37,7 @@ export class RegisterInDto {
   @MaxLength(30)
   country: string | null;
 
-  @IsAnyPhoneNumber()
+  @IsPhoneNumber()
   @MaxLength(50)
   phone: string;
 
