@@ -19,6 +19,10 @@ paths:
     $ref: "./paths/register.path.yaml"
   /auth/login:
     $ref: "./paths/login.path.yaml"
+  /categories:
+    $ref: "./paths/get-all-categories.path.yaml"
+  /categories/id/{id}:
+    $ref: "./paths/get-category-by-id.path.yaml"
 components:
   schemas:
     ErrorResponse:
@@ -41,3 +45,6 @@ components:
       $ref: "./components/login-in-dto.component.yaml#/LoginInDTO"
     UserOutDTO:
       $ref: "./components/user-out-dto.component.yaml#/UserOutDTO"
+    Category:
+      $ref: "./components/category.component.yaml#/Category"
+

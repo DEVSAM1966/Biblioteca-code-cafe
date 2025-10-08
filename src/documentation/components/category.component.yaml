@@ -1,0 +1,12 @@
+Category:
+  type: object
+  properties:
+    categoryId:
+      type: integer
+      example: 1
+    nameCategory:
+      type: string
+      example: Ciencia Ficción
+    subtopicCategory:
+      type: string
+      example: Viajes Espaciales
