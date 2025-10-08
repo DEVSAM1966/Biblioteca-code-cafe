@@ -17,12 +17,12 @@ paths:
     $ref: "./paths/get-all-publishers.path.yaml"
   /auth/register:
     $ref: "./paths/register.path.yaml"
+  /auth/login:
+    $ref: "./paths/login.path.yaml"
   /categories:
     $ref: "./paths/get-all-categories.path.yaml"
   /categories/id/{id}:
     $ref: "./paths/get-category-by-id.path.yaml"
-
-
 components:
   schemas:
     ErrorResponse:
@@ -41,6 +41,8 @@ components:
       $ref: "./components/publisher-out-dto.component.yaml#/PublisherOutDTO"
     RegisterInDTO:
       $ref: "./components/register-in-dto.component.yaml#/RegisterInDTO"
+    LoginInDTO:
+      $ref: "./components/login-in-dto.component.yaml#/LoginInDTO"
     UserOutDTO:
       $ref: "./components/user-out-dto.component.yaml#/UserOutDTO"
     Category:

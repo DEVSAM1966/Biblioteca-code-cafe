@@ -1,0 +1,13 @@
+LoginInDTO:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+      example: "jhon-doe@email.com"
+    password:
+      type: string
+      example: "securePassword123"
+  required:
+    - email
+    - password

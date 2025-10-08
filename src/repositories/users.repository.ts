@@ -25,4 +25,8 @@ export class UsersRepository {
 
     return Boolean(user);
   }
+
+  static async getByEmail(email: string) {
+    return await prisma.user.findUnique({ where: { email } });
+  }
 }

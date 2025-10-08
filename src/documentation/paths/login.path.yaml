@@ -1,0 +1,46 @@
+post:
+  tags:
+    - Auth
+  summary: Login 
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/login-in-dto.component.yaml#/LoginInDTO"
+  responses:
+    "200":
+      description: Sanitized logged user and authorization token
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: "../components/user-out-dto.component.yaml#/UserOutDTO"
+                      authorization:
+                        $ref: "../components/authorization.component.yaml#/Authorization"
+    "404":
+      description: User not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error: User not found
+            timestamp: 2025-10-03T21:45:00.000Z
+    "400":
+      description: Invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error: Invalid credentials
+            timestamp: 2025-10-03T21:45:00.000Z
+              
