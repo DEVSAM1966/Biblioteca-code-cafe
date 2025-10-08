@@ -6,6 +6,7 @@ import { errorHandlerMiddleware } from "./middlewares/error-handler.middleware";
 import { PublishersRoutes } from "./routes/publishers.routes";
 import { AuthorsRoutes } from "./routes/authors.routes";
 import { AuthRoutes } from "./routes/auth.routes";
+import { CategoriesRoutes } from "./routes/categories.routes";
 
 const documentationPath = "./src/documentation/main.documentation.yaml";
 const app = express();
@@ -16,6 +17,7 @@ SwaggerParser.dereference(documentationPath).then((document) => {
   app.use("/auth", AuthRoutes);
   app.use("/authors", AuthorsRoutes);
   app.use("/publishers", PublishersRoutes);
+  app.use("/categories", CategoriesRoutes);
   app.use(errorHandlerMiddleware());
 
   app.listen(PORT, () => {

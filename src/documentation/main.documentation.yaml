@@ -17,6 +17,12 @@ paths:
     $ref: "./paths/get-all-publishers.path.yaml"
   /auth/register:
     $ref: "./paths/register.path.yaml"
+  /categories:
+    $ref: "./paths/get-all-categories.path.yaml"
+  /categories/id/{id}:
+    $ref: "./paths/get-category-by-id.path.yaml"
+
+
 components:
   schemas:
     ErrorResponse:
@@ -37,3 +43,6 @@ components:
       $ref: "./components/register-in-dto.component.yaml#/RegisterInDTO"
     UserOutDTO:
       $ref: "./components/user-out-dto.component.yaml#/UserOutDTO"
+    Category:
+      $ref: "./components/category.component.yaml#/Category"
+
