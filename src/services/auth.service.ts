@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import { JWT_SECRET, SALT_ROUNDS } from "../configuration/env.configuration";
 import { LoginInDto } from "../dtos/in/login.dto";
 import { RegisterInDto } from "../dtos/in/register.dto";
@@ -10,8 +11,10 @@ import bcrypt, { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export class AuthService {
-  static getAuthorization(userId: number): string {
-    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "1h" });
+  static getAuthorization(user: User): string {
+    return jwt.sign({ id: user.userId, role: user.role }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
   }
 
   static async hash(value: string): Promise<string> {
@@ -55,7 +58,7 @@ export class AuthService {
       userId: newUser.userId,
     };
 
-    const authorization = this.getAuthorization(newUser.userId);
+    const authorization = this.getAuthorization(newUser);
 
     return { user: userOutDto, authorization };
   }
@@ -69,7 +72,7 @@ export class AuthService {
 
     if (!passwordsMatches) throw new BadRequestError("Invalid credentials");
 
-    const token = this.getAuthorization(user.userId);
+    const token = this.getAuthorization(user);
     const userOutDto: UserOutDTO = {
       fullname: user.fullname,
       registrationDate: user.registrationDate.toISOString(),

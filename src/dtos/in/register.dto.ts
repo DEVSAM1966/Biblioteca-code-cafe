@@ -4,6 +4,7 @@ import {
   IsPhoneNumber,
   IsPostalCode,
   IsString,
+  IsStrongPassword,
   MaxLength,
 } from "class-validator";
 
@@ -45,7 +46,12 @@ export class RegisterInDto {
   @MaxLength(120)
   email: string;
 
-  @IsString()
+  @IsStrongPassword({
+    minLength: 8,
+    minLowercase: 2,
+    minUppercase: 2,
+    minNumbers: 1,
+  })
   @MaxLength(25)
   password: string;
 

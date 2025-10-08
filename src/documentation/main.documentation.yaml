@@ -24,6 +24,11 @@ paths:
   /categories/id/{id}:
     $ref: "./paths/get-category-by-id.path.yaml"
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     ErrorResponse:
       $ref: "./components/error-response.component.yaml#/ErrorResponse"
@@ -47,4 +52,3 @@ components:
       $ref: "./components/user-out-dto.component.yaml#/UserOutDTO"
     Category:
       $ref: "./components/category.component.yaml#/Category"
-
