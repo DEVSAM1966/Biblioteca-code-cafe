@@ -1,0 +1,53 @@
+put:
+  tags:
+    - Categories
+  summary: Update an existing category by ID
+  description: Updates the name and/or subtopic of a category. Requires a valid numeric ID.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Numeric ID of the category to update
+      schema:
+        type: integer
+        minimum: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/create-category-dto.component.yaml#/CreateCategoryDto"
+        example:
+          nameCategory: "Updated Category Name"
+          subtopicCategory: "Updated Subtopic"
+  responses:
+    '200':
+      description: Category successfully updated
+      content:
+        application/json:
+          schema:
+            $ref: "../components/data-response.component.yaml#/DataResponse"
+          example:
+            success: true
+            data:
+              id: 1
+              nameCategory: "Updated Category Name"
+              subtopicCategory: "Updated Subtopic"
+    '400':
+      description: Invalid ID or malformed input
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+    '404':
+      description: Category not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
