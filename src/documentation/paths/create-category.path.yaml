@@ -1,0 +1,57 @@
+post:
+  tags:
+    - Categories
+  summary: Create a new category
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/create-category-dto.component.yaml#/CreateCategoryDto"
+        examples:
+          validCategory:
+            summary: Valid category creation
+            value:
+              nameCategory: Ciencia Ficción
+              subtopicCategory: Viajes Espaciales
+  responses:
+    "201":
+      description: Category successfully created
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/category.component.yaml#/Category"
+    "400":
+      description: Bad Request - Invalid input data
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            missingName:
+              summary: Name is required
+              value:
+                error: nameCategory must be a string
+                timestamp: "30/09/2025, 20:46:04"
+            invalidSubtopic:
+              summary: Subtopic must be a string
+              value:
+                error: subtopicCategory must be a string
+                timestamp: "30/09/2025, 20:46:04"
+    "500":
+      description: Internal Server Error - Failed to create category
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            creationFailed:
+              summary: Category creation failed
+              value:
+                error: Failed to create category
+                timestamp: "30/09/2025, 20:46:04"

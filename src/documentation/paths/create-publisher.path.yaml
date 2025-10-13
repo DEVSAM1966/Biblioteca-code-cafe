@@ -1,0 +1,64 @@
+post:
+  tags:
+    - Publishers
+  summary: Create a new publisher
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/create-publisher-dto.component.yaml#/CreatePublisherDto"
+        examples:
+          validPublisher:
+            summary: Valid publisher creation
+            value:
+              publisherId: 101
+              namePublisher: Editorial Warp Drive
+              address: Calle Estelar 42
+              city: Vinaròs
+              province: Castellón
+              postalCode: "12500"
+              country: España
+              phone: "+34 964 123 456"
+              notes: Distribuye libros técnicos y de ciencia ficción
+  responses:
+    "201":
+      description: Publisher successfully created
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/publisher.component.yaml#/Publisher"
+    "400":
+      description: Bad Request - Invalid input data
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            missingName:
+              summary: Name is required
+              value:
+                error: namePublisher must be a string
+                timestamp: "12/10/2025, 00:30:00"
+            invalidPhone:
+              summary: Phone must be a string
+              value:
+                error: phone must be a string
+                timestamp: "12/10/2025, 00:30:00"
+    "500":
+      description: Internal Server Error - Failed to create publisher
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            creationFailed:
+              summary: Publisher creation failed
+              value:
+                error: Failed to create publisher
+                timestamp: "12/10/2025, 00:30:00"

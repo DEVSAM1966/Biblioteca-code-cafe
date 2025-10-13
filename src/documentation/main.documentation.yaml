@@ -2,6 +2,7 @@ openapi: 3.0.3
 info:
   title: Biblioteca Code Cafe API
   version: 0.0.0
+
 paths:
   /authors:
     $ref: "./paths/get-all-authors.path.yaml"
@@ -9,20 +10,34 @@ paths:
     $ref: "./paths/get-author-by-id.path.yaml"
   /authors/name/{name}:
     $ref: "./paths/get-author-by-name.path.yaml"
+
+  /publishers:
+    $ref: "./paths/get-all-publishers.path.yaml"
   /publishers/{id}:
     $ref: "./paths/get-publisher-by-id.path.yaml"
   /publishers/name/{name}:
     $ref: "./paths/get-publisher-by-name.path.yaml"
-  /publishers:
-    $ref: "./paths/get-all-publishers.path.yaml"
+  /publishers/create:
+    $ref: "./paths/create-publisher.path.yaml"
+
+
   /auth/register:
     $ref: "./paths/register.path.yaml"
   /auth/login:
     $ref: "./paths/login.path.yaml"
+
   /categories:
     $ref: "./paths/get-all-categories.path.yaml"
   /categories/id/{id}:
     $ref: "./paths/get-category-by-id.path.yaml"
+  /categories/name/{name}:
+    $ref: "./paths/get-category-by-name.path.yaml"
+  /categories/create:
+    $ref: "./paths/create-category.path.yaml"
+  /categories/update/id/{id}:
+    $ref: "./paths/update-category.path.yaml"
+
+
 components:
   securitySchemes:
     BearerAuth:
@@ -36,19 +51,31 @@ components:
       $ref: "./components/data-response.component.yaml#/DataResponse"
     Authorization:
       $ref: "./components/authorization.component.yaml#/Authorization"
+
     Author:
       $ref: "./components/author.component.yaml#/Author"
     AuthorOutDTO:
       $ref: "./components/author-out-dto.component.yaml#/AuthorOutDTO"
+
     Publisher:
       $ref: "./components/publisher.component.yaml#/Publisher"
     PublisherOutDTO:
       $ref: "./components/publisher-out-dto.component.yaml#/PublisherOutDTO"
+    CreatePublisherDto:
+      $ref: "./components/create-publisher-dto.component.yaml#/CreatePublisherDto"
+
+
     RegisterInDTO:
       $ref: "./components/register-in-dto.component.yaml#/RegisterInDTO"
     LoginInDTO:
       $ref: "./components/login-in-dto.component.yaml#/LoginInDTO"
     UserOutDTO:
       $ref: "./components/user-out-dto.component.yaml#/UserOutDTO"
+
     Category:
       $ref: "./components/category.component.yaml#/Category"
+    CategoryOutDTO:
+      $ref: "./components/category-out-dto.component.yaml#/CategoryOutDTO"
+    CreateCategoryDto:
+      $ref: "./components/create-category-dto.component.yaml#/CreateCategoryDto"
+
