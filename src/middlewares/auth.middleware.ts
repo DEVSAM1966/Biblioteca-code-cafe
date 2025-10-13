@@ -6,12 +6,20 @@ import { AuthService } from "../services/auth.service";
 
 export function authMiddleware() {
   return async (request: Request, _response: Response, next: NextFunction) => {
-    const token = getTokenFrom(request);
+    const authorizationHeader = request.headers.authorization;
 
-    if (!token) throw new UnauthorizedError("No token provided");
+    if (!authorizationHeader) throw new UnauthorizedError("No token provided");
+
+    const token = getTokenFrom(authorizationHeader);
+
+    if (!token) throw new UnauthorizedError("Malformed token");
 
     try {
       const payload = AuthService.getPayloadOf(token);
+
+      if (!payload.sub || !payload.role) {
+        throw new UnauthorizedError("Invalid token payload");
+      }
 
       request.user = { id: payload.sub, role: payload.role };
 

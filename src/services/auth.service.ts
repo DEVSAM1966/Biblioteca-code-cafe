@@ -23,10 +23,6 @@ export class AuthService {
   static getPayloadOf(token: string): AuthorizationTokenPayload {
     const payload = jwt.verify(token, JWT_SECRET) as AuthorizationTokenPayload;
 
-    if (!payload.sub || !payload.role) {
-      throw new UnauthorizedError("Invalid token payload");
-    }
-
     return payload;
   }
 

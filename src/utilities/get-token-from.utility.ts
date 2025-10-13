@@ -1,7 +1,5 @@
-import { Request } from "express";
-
-export function getTokenFrom(request: Request): string | undefined {
-  const [type, token] = request.headers.authorization?.split(" ") ?? [];
+export function getTokenFrom(header: string): string | undefined {
+  const [type, token] = header?.split(" ") ?? [];
   const isBearerToken = type === "Bearer";
 
   return isBearerToken ? token : undefined;
