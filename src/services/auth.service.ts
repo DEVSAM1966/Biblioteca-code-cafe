@@ -9,12 +9,25 @@ import { NotFoundError } from "../models/errors/not-found.error";
 import { UsersRepository } from "../repositories/users.repository";
 import bcrypt, { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AuthorizationTokenPayload } from "../models/authorization-token-payload.model";
+import { UnauthorizedError } from "../models/errors/unauthorized.error";
 
 export class AuthService {
   static getAuthorization(user: User): string {
-    return jwt.sign({ id: user.userId, role: user.role }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const expiresIn = "1h";
+    const payload = { sub: user.userId, role: user.role };
+
+    return jwt.sign(payload, JWT_SECRET, { expiresIn });
+  }
+
+  static getPayloadOf(token: string): AuthorizationTokenPayload {
+    const payload = jwt.verify(token, JWT_SECRET) as AuthorizationTokenPayload;
+
+    if (!payload.sub || !payload.role) {
+      throw new UnauthorizedError("Invalid token payload");
+    }
+
+    return payload;
   }
 
   static async hash(value: string): Promise<string> {
@@ -67,6 +80,8 @@ export class AuthService {
     const user = await UsersRepository.getByEmail(data.email);
 
     if (!user) throw new NotFoundError("User not found");
+
+    if (user.userDrop) throw new UnauthorizedError("User is inactive");
 
     const passwordsMatches = await compare(data.password, user.password);
 

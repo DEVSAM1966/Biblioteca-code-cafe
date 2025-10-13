@@ -1,26 +1,28 @@
-import { Response, Request, NextFunction } from "express";
-import jwt, { TokenExpiredError } from "jsonwebtoken";
-import { JWT_SECRET } from "../configuration/env.configuration";
 import { UnauthorizedError } from "../models/errors/unauthorized.error";
-import { JWTUser } from "../models/jwt-user.model";
+import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import { getTokenFrom } from "../utilities/get-token-from.utility";
+import { Response, Request, NextFunction } from "express";
+import { AuthService } from "../services/auth.service";
 
 export function authMiddleware() {
   return async (request: Request, _response: Response, next: NextFunction) => {
-    const authorizationHeader = request.headers.authorization;
+    const token = getTokenFrom(request);
 
-    if (!authorizationHeader) throw new UnauthorizedError("No token provided");
-
-    const token = authorizationHeader.split(" ")[1];
+    if (!token) throw new UnauthorizedError("No token provided");
 
     try {
-      const decodedToken = jwt.verify(token, JWT_SECRET) as JWTUser;
+      const payload = AuthService.getPayloadOf(token);
 
-      request.user = { id: decodedToken.id, role: decodedToken.role };
+      request.user = { id: payload.sub, role: payload.role };
 
       next();
     } catch (error) {
       if (error instanceof TokenExpiredError) {
         throw new UnauthorizedError("Token expired");
+      }
+
+      if (error instanceof JsonWebTokenError) {
+        throw new UnauthorizedError("Malformed token");
       }
 
       throw new UnauthorizedError("Invalid token");

@@ -33,7 +33,7 @@ RegisterInDTO:
       example: "jhon-doe@email.com"
     password:
       type: string
-      example: "securePassword123"
+      example: "SECUREpassword123!"
     fullname:
       type: string
       example: "Jhon Doe"

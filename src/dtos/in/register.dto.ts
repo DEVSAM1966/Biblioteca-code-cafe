@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
   IsPostalCode,
@@ -16,27 +17,27 @@ export class RegisterInDto {
   @IsString()
   @IsOptional()
   @MaxLength(100)
-  address: string | null;
+  address?: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(40)
-  city: string | null;
+  city?: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(30)
-  province: string | null;
+  province?: string;
 
   @IsPostalCode("any")
   @IsOptional()
   @MaxLength(20)
-  postalCode: string | null;
+  postalCode?: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(30)
-  country: string | null;
+  country?: string;
 
   @IsPhoneNumber()
   @MaxLength(50)
@@ -56,6 +57,7 @@ export class RegisterInDto {
   password: string;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(100)
   fullname: string;
 }

@@ -1,7 +1,7 @@
 post:
   tags:
     - Auth
-  summary: Login 
+  summary: Login
   requestBody:
     required: true
     content:
@@ -34,6 +34,15 @@ post:
           example:
             error: User not found
             timestamp: 2025-10-03T21:45:00.000Z
+    "401":
+      description: User is inactive
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error: User is inactive
+            timestamp: 2025-10-03T21:45:00.000Z
     "400":
       description: Invalid credentials
       content:
@@ -43,4 +52,3 @@ post:
           example:
             error: Invalid credentials
             timestamp: 2025-10-03T21:45:00.000Z
-              

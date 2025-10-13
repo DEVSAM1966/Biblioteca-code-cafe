@@ -7,7 +7,7 @@ LoginInDTO:
       example: "jhon-doe@email.com"
     password:
       type: string
-      example: "securePassword123"
+      example: "SECUREpassword123!"
   required:
     - email
     - password
