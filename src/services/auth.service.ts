@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import { JWT_SECRET, SALT_ROUNDS } from "../configuration/env.configuration";
 import { LoginInDto } from "../dtos/in/login.dto";
 import { RegisterInDto } from "../dtos/in/register.dto";
@@ -8,10 +9,21 @@ import { NotFoundError } from "../models/errors/not-found.error";
 import { UsersRepository } from "../repositories/users.repository";
 import bcrypt, { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AuthorizationTokenPayload } from "../models/authorization-token-payload.model";
+import { UnauthorizedError } from "../models/errors/unauthorized.error";
 
 export class AuthService {
-  static getAuthorization(userId: number): string {
-    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "1h" });
+  static getAuthorization(user: User): string {
+    const expiresIn = "1h";
+    const payload = { sub: user.userId, role: user.role };
+
+    return jwt.sign(payload, JWT_SECRET, { expiresIn });
+  }
+
+  static getPayloadOf(token: string): AuthorizationTokenPayload {
+    const payload = jwt.verify(token, JWT_SECRET) as AuthorizationTokenPayload;
+
+    return payload;
   }
 
   static async hash(value: string): Promise<string> {
@@ -55,7 +67,7 @@ export class AuthService {
       userId: newUser.userId,
     };
 
-    const authorization = this.getAuthorization(newUser.userId);
+    const authorization = this.getAuthorization(newUser);
 
     return { user: userOutDto, authorization };
   }
@@ -65,11 +77,13 @@ export class AuthService {
 
     if (!user) throw new NotFoundError("User not found");
 
+    if (user.userDrop) throw new UnauthorizedError("User is inactive");
+
     const passwordsMatches = await compare(data.password, user.password);
 
     if (!passwordsMatches) throw new BadRequestError("Invalid credentials");
 
-    const token = this.getAuthorization(user.userId);
+    const token = this.getAuthorization(user);
     const userOutDto: UserOutDTO = {
       fullname: user.fullname,
       registrationDate: user.registrationDate.toISOString(),

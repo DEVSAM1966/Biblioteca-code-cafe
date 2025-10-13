@@ -39,6 +39,11 @@ paths:
 
 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     ErrorResponse:
       $ref: "./components/error-response.component.yaml#/ErrorResponse"

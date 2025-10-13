@@ -102,7 +102,7 @@ model User {
   email            String   @unique() @db.VarChar(120)
   password         String   @db.VarChar(255)
   registrationDate DateTime @default(now()) @map("registration_date")
-  userDrop         Boolean  @default(true) @map("user_drop")
+  userDrop         Boolean  @default(false) @map("user_drop")
   daysDisciplinary Int      @default(0) @map("days_disciplinary")
   role             UserRole @default(USER)
   fullname         String   @db.VarChar(100)
