@@ -36,4 +36,20 @@ export class PublishersRepository {
       },
     });
   }
+
+  static async update(id: number, data: CreatePublisherDto): Promise<Publisher> {
+    return await prisma.publisher.update({
+      where: { publisherId: id},
+      data: {
+        namePublisher: data.namePublisher,
+        address: data.address,
+        city: data.city,
+        province: data.province,
+        postalCode: data.postalCode,
+        country: data.country,
+        phone: data.phone,
+        notes: data.notes,
+      },
+    });
+  }
 }

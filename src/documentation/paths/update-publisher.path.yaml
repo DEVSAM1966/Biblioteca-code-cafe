@@ -1,0 +1,53 @@
+put:
+  tags:
+    - Publishers
+  summary: Update an existing publisher by ID
+  description: Updates the name and/or country of a publisher. Requires a valid numeric ID.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Numeric ID of the publisher to update
+      schema:
+        type: integer
+        minimum: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/create-publisher-dto.component.yaml#/CreatePublisherDto"
+        example:
+          namePublisher: "Updated Publisher Name"
+          countryPublisher: "Updated Country"
+  responses:
+    '200':
+      description: Publisher successfully updated
+      content:
+        application/json:
+          schema:
+            $ref: "../components/data-response.component.yaml#/DataResponse"
+          example:
+            success: true
+            data:
+              id: 1
+              namePublisher: "Updated Publisher Name"
+              countryPublisher: "Updated Country"
+    '400':
+      description: Invalid ID or malformed input
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+    '404':
+      description: Publisher not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"

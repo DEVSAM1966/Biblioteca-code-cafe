@@ -51,4 +51,20 @@ export class PublishersController {
 
     response.status(201).json(success(createdPublisher));
   }
+
+  static async update(request: Request, response: Response): Promise<void> {
+    const { id } =request.params;
+    const publisherId = parseInt(id, 10);
+
+    if (isNaN(publisherId) || publisherId <= 0) {
+      throw new BadRequestError("Invalid ID for Publisher");
+    }
+
+    const dto = request.body as CreatePublisherDto;
+
+    const updatedPublisher = await PublishersService.update(publisherId, dto);
+
+    response.status(200).json(success(updatedPublisher));
+  }
+  
 }

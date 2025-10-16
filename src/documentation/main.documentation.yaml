@@ -19,7 +19,8 @@ paths:
     $ref: "./paths/get-publisher-by-name.path.yaml"
   /publishers/create:
     $ref: "./paths/create-publisher.path.yaml"
-
+  /publishers/update/id/{id}:
+    $ref: "./paths/update-publisher.path.yaml"
 
   /auth/register:
     $ref: "./paths/register.path.yaml"
