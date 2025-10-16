@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { PublishersController } from "../controllers/publishers.controller";
 import { dtoValidationMiddleware } from "../middlewares/dto-validation.middleware";
-import { CreatePublisherDto } from "../dtos/in/publisher.dto";
+import { CreatePublisherDto, UpdatePublisherDto } from "../dtos/in/publisher.dto";
 
 export const PublishersRoutes = Router();
 
@@ -12,3 +12,5 @@ PublishersRoutes.get("/name/:name", PublishersController.getByName);
 PublishersRoutes.get("/", PublishersController.getAll);
 
 PublishersRoutes.post("/", dtoValidationMiddleware(CreatePublisherDto), PublishersController.create);
+
+PublishersRoutes.put("/id/:id", dtoValidationMiddleware(UpdatePublisherDto), PublishersController.update);

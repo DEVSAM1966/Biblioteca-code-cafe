@@ -77,4 +77,31 @@ export class PublishersService {
         throw new InternalServerError("Failed to create publisher");
     }
   }
+
+  static async update(id: number, data: CreatePublisherDto): Promise<PublisherOutDTO> {
+    const existing = await PublishersRepository.getById(id);
+
+    if (!existing) {
+      throw new NotFoundError(`Publisher with id ${id} not found`);
+    }
+
+    try {
+      const updated = await PublishersRepository.update(id, data);
+
+      return {
+        publisherId: updated.publisherId,
+        namePublisher: updated.namePublisher,
+        address: updated.address,
+        city: updated.city,
+        province: updated.province,
+        postalCode: updated.postalCode,
+        country: updated.country,
+        phone: updated.phone,
+        notes: updated.notes,
+      };
+    } catch (error) {
+      throw new InternalServerError("Failed to update publisher");
+    }
+  }
+
 }
