@@ -21,6 +21,9 @@ paths:
     $ref: "./paths/create-publisher.path.yaml"
   /publishers/update/id/{id}:
     $ref: "./paths/update-publisher.path.yaml"
+  /publishers/delete/id/{id}:
+    $ref: "./paths/delete-publisher.path.yaml"
+
 
   /auth/register:
     $ref: "./paths/register.path.yaml"
@@ -37,6 +40,8 @@ paths:
     $ref: "./paths/create-category.path.yaml"
   /categories/update/id/{id}:
     $ref: "./paths/update-category.path.yaml"
+  /categories/delete/id/{id}:
+    $ref: "./paths/delete-category.path.yaml"
 
 
 components:

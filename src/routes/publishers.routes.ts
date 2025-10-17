@@ -14,3 +14,5 @@ PublishersRoutes.get("/", PublishersController.getAll);
 PublishersRoutes.post("/", dtoValidationMiddleware(CreatePublisherDto), PublishersController.create);
 
 PublishersRoutes.put("/id/:id", dtoValidationMiddleware(UpdatePublisherDto), PublishersController.update);
+
+PublishersRoutes.delete("/id/:id", PublishersController.delete);

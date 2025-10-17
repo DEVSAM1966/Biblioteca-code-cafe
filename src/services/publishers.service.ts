@@ -104,4 +104,21 @@ export class PublishersService {
     }
   }
 
+  static async delete(id: number): Promise<boolean> {
+    try {
+      const result = await PublishersRepository.delete(id);
+
+      if (result.count === 0) {
+        throw new NotFoundError(`Publisher with ID ${id} not found`);
+      }
+
+      return true;
+    } catch (error: any){
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      throw new InternalServerError("Failed to delete publisher, {cause: error}");
+    } 
+  }
+
 }

@@ -52,4 +52,9 @@ export class PublishersRepository {
       },
     });
   }
+
+  static async delete(id: number): Promise<{ count: number }> {
+    return await prisma.publisher.deleteMany({ where: { publisherId: id } });
+  }
+
 }
