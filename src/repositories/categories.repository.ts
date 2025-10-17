@@ -41,4 +41,8 @@ export class CategoryRepository {
             },
         });
     }
+
+    static async delete(id: number): Promise<{ count: number }> {
+        return await prisma.category.deleteMany({ where: { categoryId: id } });
+    }
 }

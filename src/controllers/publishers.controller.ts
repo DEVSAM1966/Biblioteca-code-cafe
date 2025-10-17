@@ -66,5 +66,18 @@ export class PublishersController {
 
     response.status(200).json(success(updatedPublisher));
   }
+
+  static async delete(request: Request, response: Response): Promise<void> {
+    const { id } = request.params;
+    const publisherId = parseInt(id, 10);
+
+    if (isNaN(publisherId) || publisherId <= 0) {
+      throw new BadRequestError("Invalid ID for publisher");
+    }
+
+    const existing = await PublishersService.delete(publisherId);
+
+    response.status(200).json(success(existing));
+  }
   
 }

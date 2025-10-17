@@ -57,23 +57,39 @@ export class CategoriesService {
     }
 
     static async update(id: number, data: CreateCategoryDto): Promise<CategoryOutDto> {
-    const existing = await CategoryRepository.getById(id);
+        const existing = await CategoryRepository.getById(id);
 
-    if (!existing) {
-        throw new NotFoundError(`Category with id ${id} not found`);
+        if (!existing) {
+            throw new NotFoundError(`Category with id ${id} not found`);
+        }
+
+        try {
+            const updated = await CategoryRepository.update(id, data);
+
+            return {
+                categoryId: updated.categoryId,
+                nameCategory: updated.nameCategory,
+                subtopicCategory: updated.subtopicCategory,
+            };
+        } catch (error) {
+            throw new InternalServerError("Failed to update category");
+        }
     }
 
-    try {
-        const updated = await CategoryRepository.update(id, data);
+    static async delete(id: number): Promise<boolean> {
+        try {
+            const result = await CategoryRepository.delete(id);
 
-        return {
-            categoryId: updated.categoryId,
-            nameCategory: updated.nameCategory,
-            subtopicCategory: updated.subtopicCategory,
-        };
-    } catch (error) {
-        throw new InternalServerError("Failed to update category");
+            if (result.count === 0) {
+                throw new NotFoundError(`Category with ID ${id} not found`);
+            }
+
+            return true;
+        } catch (error: any){
+            if (error instanceof NotFoundError) {
+                throw error;
+            }
+            throw new InternalServerError("Failed to delete category, {cause: error}");
+        } 
     }
-}
-
 }

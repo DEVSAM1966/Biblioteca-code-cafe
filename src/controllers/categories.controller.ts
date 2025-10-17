@@ -63,4 +63,17 @@ export class CategoriesController {
         response.status(200).json(success(updatedCategory));
     }
 
+    static async delete(request: Request, response: Response): Promise<void> {
+        const { id } = request.params;
+        const categoryId = parseInt(id, 10);
+
+        if (isNaN(categoryId) || categoryId <= 0) {
+            throw new BadRequestError("Invalid ID for category");
+        }
+
+        const existing = await CategoriesService.delete(categoryId);
+
+        response.status(200).json(success(existing));
+  }
+
 }
