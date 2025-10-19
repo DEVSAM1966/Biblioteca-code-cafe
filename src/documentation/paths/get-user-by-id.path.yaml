@@ -1,0 +1,40 @@
+get:
+  tags:
+    - Users
+  summary: Get user by id
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: User
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/user-out-dto.component.yaml#/UserOutDTO"
+    "400":
+      description: Invalid ID
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error: Invalid Id for user
+            timestamp: "2025-10-08T20:26:00Z"
+    "404":
+      description: User not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error: User with id 123 not found
+            timestamp: "2025-10-08T20:26:00Z"
