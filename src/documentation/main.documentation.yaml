@@ -50,8 +50,13 @@ paths:
   /books/isbn/{id}:
     $ref: "./paths/get-book-by-isbn.path.yaml"
 
-
-
+  /users/name/{name}:
+    $ref: "./paths/get-user-by-name.path.yaml"
+  /users/id/{id}:
+    $ref: "./paths/get-user-by-id.path.yaml"
+  /users:
+    $ref: "./paths/get-all-users.path.yaml"
+    
 components:
   securitySchemes:
     BearerAuth:

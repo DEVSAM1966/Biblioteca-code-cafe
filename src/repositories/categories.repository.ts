@@ -25,7 +25,6 @@ export class CategoryRepository {
     static async create(data: CreateCategoryDto): Promise<Category> {
         return await prisma.category.create({
             data: {
-                categoryId: data.categoryId,
                 nameCategory: data.nameCategory,
                 subtopicCategory: data.subtopicCategory,
             },
