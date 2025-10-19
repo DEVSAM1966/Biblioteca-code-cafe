@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { prisma } from "../configuration/prisma.configuration";
 
 export class UsersRepository {
@@ -28,5 +28,17 @@ export class UsersRepository {
 
   static async getByEmail(email: string) {
     return await prisma.user.findUnique({ where: { email } });
+  }
+
+  static async getById(id: number): Promise<User | null> {
+    return await prisma.user.findUnique({ where: { userId: id } });
+  }
+
+  static async getAll(): Promise<User[]> {
+    return await prisma.user.findMany();
+  }
+
+  static async getByName(name: string): Promise<User[]> {
+    return await prisma.user.findMany({ where: { fullname: name } });
   }
 }
