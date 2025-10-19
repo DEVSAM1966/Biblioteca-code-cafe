@@ -20,23 +20,24 @@ model Book {
   title       String  @db.VarChar(55)
   pages       Int?
   summary     String? @db.VarChar(255)
-  editionDate String? @map("edition_date") @db.VarChar(10)
+  editionDate DateTime? @map("edition_date")
   bookCover   String? @map("book_cover") @db.VarChar(255)
   bookFile    String? @map("book_file") @db.VarChar(255)
   language    String? @db.VarChar(20)
   authors     String? @db.VarChar(100)
-  authorId    Int?    @map("author_id")
-  publisherId Int?    @map("publisher_id")
-  categoryId  Int?    @map("category_id")
+  authorId    Int     @map("author_id")
+  publisherId Int     @map("publisher_id")
+  categoryId  Int     @map("category_id")
 
-  author    Author?    @relation(fields: [authorId], references: [authorId], onDelete: Restrict, map: "books_ibfk_1")
-  publisher Publisher? @relation(fields: [publisherId], references: [publisherId], onDelete: Restrict, map: "books_ibfk_2")
-  category  Category?  @relation(fields: [categoryId], references: [categoryId], onDelete: Restrict, map: "books_ibfk_3")
+  author    Author     @relation(fields: [authorId], references: [authorId], onDelete: Restrict, map: "books_ibfk_1")
+  publisher Publisher  @relation(fields: [publisherId], references: [publisherId], onDelete: Restrict, map: "books_ibfk_2")
+  category  Category   @relation(fields: [categoryId], references: [categoryId], onDelete: Restrict, map: "books_ibfk_3")
   loans     Loan[]
 
   @@index([authorId], map: "author_id")
   @@index([categoryId], map: "category_id")
   @@index([publisherId], map: "publisher_id")
+  @@index([title])
   @@map("books")
 }
 

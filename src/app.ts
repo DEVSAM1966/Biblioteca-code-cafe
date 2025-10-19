@@ -7,6 +7,7 @@ import { PublishersRoutes } from "./routes/publishers.routes";
 import { AuthorsRoutes } from "./routes/authors.routes";
 import { AuthRoutes } from "./routes/auth.routes";
 import { CategoriesRoutes } from "./routes/categories.routes";
+import { BooksRoutes } from "./routes/books.routes";
 
 const documentationPath = "./src/documentation/main.documentation.yaml";
 const app = express();
@@ -18,6 +19,7 @@ SwaggerParser.dereference(documentationPath).then((document) => {
   app.use("/authors", AuthorsRoutes);
   app.use("/publishers", PublishersRoutes);
   app.use("/categories", CategoriesRoutes);
+  app.use("/books", BooksRoutes);
   app.use(errorHandlerMiddleware());
 
   app.listen(PORT, () => {

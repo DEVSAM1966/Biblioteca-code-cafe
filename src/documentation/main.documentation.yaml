@@ -43,6 +43,14 @@ paths:
   /categories/delete/id/{id}:
     $ref: "./paths/delete-category.path.yaml"
 
+  /books:
+    $ref: "./paths/get-all-books.path.yaml"
+  /books/title/{name}:
+    $ref: "./paths/get-books-by-title.path.yaml"
+  /books/isbn/{id}:
+    $ref: "./paths/get-book-by-isbn.path.yaml"
+
+
 
 components:
   securitySchemes:
@@ -85,3 +93,5 @@ components:
     CreateCategoryDto:
       $ref: "./components/create-category-dto.component.yaml#/CreateCategoryDto"
 
+    BookOutDTO:
+      $ref: "./components/book-out-dto.component.yaml#/BookOutDTO"
