@@ -1,4 +1,5 @@
 import { prisma } from "../configuration/prisma.configuration";
+import { UserRole } from "@prisma/client";
 
 async function main() {
   await prisma.loan.deleteMany();
@@ -96,7 +97,7 @@ async function main() {
         registrationDate: new Date("2025-01-10"),
         userDrop: true,
         daysDisciplinary: 0,
-        role: "USER",
+        role: UserRole.USER,
       },
       {
         userId: 2,
@@ -113,7 +114,7 @@ async function main() {
         registrationDate: new Date("2025-02-15"),
         userDrop: true,
         daysDisciplinary: 2,
-        role: "USER",
+        role: UserRole.USER,
       },
     ],
   });
@@ -142,7 +143,7 @@ async function main() {
         title: "Fundación",
         pages: 320,
         summary: "Saga galáctica sobre el conocimiento y el poder.",
-        editionDate: "2020-01-01",
+        editionDate: new Date("2020-01-01").toISOString(),
         bookCover: "covers/fundacion.jpg",
         bookFile: "files/fundacion.pdf",
         language: "Español",
@@ -155,7 +156,7 @@ async function main() {
         title: "Los desposeídos",
         pages: 280,
         summary: "Utopía anarquista en mundos gemelos.",
-        editionDate: "2019-03-15",
+        editionDate: new Date("2019-03-15").toISOString(),
         bookCover: "covers/desposeidos.jpg",
         bookFile: "files/desposeidos.pdf",
         language: "Español",
