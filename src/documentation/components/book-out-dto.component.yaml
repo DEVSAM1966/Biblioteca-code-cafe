@@ -23,11 +23,11 @@ BookOutDTO:
     bookCover:
       type: string
       nullable: true
-      example: "covers/fundacion.jpg"
+      example: "null"
     bookFile:
       type: string
       nullable: true
-      example: "files/fundacion.pdf"
+      example: "null"
     language:
       type: string
       nullable: true

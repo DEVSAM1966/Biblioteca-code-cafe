@@ -49,6 +49,13 @@ paths:
     $ref: "./paths/get-books-by-title.path.yaml"
   /books/isbn/{id}:
     $ref: "./paths/get-book-by-isbn.path.yaml"
+  /books/create:
+    $ref: "./paths/create-book.path.yaml"
+  /books/update/isbn/{id}:
+    $ref: "./paths/update-book.path.yaml"
+  /books/{isbn}/files:
+    $ref: "./paths/update-book-files.path.yaml"
+
 
   /users/name/{name}:
     $ref: "./paths/get-user-by-name.path.yaml"

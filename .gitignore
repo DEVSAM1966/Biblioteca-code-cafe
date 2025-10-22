@@ -141,3 +141,6 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 /src/generated/prisma
+
+# Book uploads (covers and files)
+uploads/
