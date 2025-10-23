@@ -1,0 +1,93 @@
+put:
+  tags:
+    - Books
+  summary: >
+    Updates the cover and/or file of a book by ISBN. Requires multipart/form-data with valid files.
+    If the same files are uploaded again for the same ISBN, the system will overwrite the existing files
+    with the new ones. No error is thrown, and the book record is updated with the new file paths.
+  description: Updates the cover and/or file of a book by ISBN. Requires multipart/form-data with valid files.
+  parameters:
+    - name: isbn
+      in: path
+      required: true
+      description: Numeric ISBN of the book
+      schema:
+        type: string
+        pattern: "^[0-9]+$"
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            bookCover:
+              type: string
+              format: binary
+              description: Image file for the book cover
+            bookFile:
+              type: string
+              format: binary
+              description: Document file for the book content
+        encoding:
+          bookCover:
+            contentType: image/jpeg, image/png
+          bookFile:
+            contentType: application/pdf, application/epub+zip
+  responses:
+    "200":
+      description: Book files successfully updated
+      content:
+        application/json:
+          schema:
+            $ref: "../components/data-response.component.yaml#/DataResponse"
+          example:
+            success: true
+            data:
+              isbn: "9786420651361"
+              title: "La metamorfosis"
+              bookCover: "uploads/cover/9786420651361_La-metamorfosis.jpg"
+              bookFile: "uploads/file/9786420651361_La-metamorfosis.pdf"
+              coverAvailable: true
+              fileAvailable: true
+    "400":
+      description: Invalid ISBN or missing files
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            invalidIsbn:
+              summary: ISBN format is invalid
+              value:
+                error: Invalid ISBN
+                timestamp: "22/10/2025, 20:15:00"
+            missingFiles:
+              summary: No files were uploaded
+              value:
+                error: No files provided in request. Expected 'bookCover' and/or 'bookFile'.
+                timestamp: "22/10/2025, 20:15:00"
+    "404":
+      description: Book not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            isbnNotFound:
+              summary: ISBN not found
+              value:
+                error: Book with isbn 9786420659999 not found
+                timestamp: "22/10/2025, 20:10:00
+    "500":
+      description: Internal Server Error - Failed to update files
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            updateFailed:
+              summary: Unexpected error during file update
+              value:
+                error: Failed to update book files. Cannot write to uploads directory
+                timestamp: "22/10/2025, 20:25:00"
