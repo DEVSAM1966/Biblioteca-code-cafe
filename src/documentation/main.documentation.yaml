@@ -10,6 +10,8 @@ paths:
     $ref: "./paths/get-author-by-id.path.yaml"
   /authors/name/{name}:
     $ref: "./paths/get-author-by-name.path.yaml"
+  /authors/create:
+    $ref: "./paths/create-author.path.yaml"
 
   /publishers:
     $ref: "./paths/get-all-publishers.path.yaml"
@@ -80,8 +82,8 @@ components:
 
     Author:
       $ref: "./components/author.component.yaml#/Author"
-    AuthorOutDTO:
-      $ref: "./components/author-out-dto.component.yaml#/AuthorOutDTO"
+    AuthorOutDto:
+      $ref: "./components/author-out-dto.component.yaml#/AuthorOutDto"
 
     Publisher:
       $ref: "./components/publisher.component.yaml#/Publisher"
