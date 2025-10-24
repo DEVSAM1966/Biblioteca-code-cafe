@@ -30,7 +30,7 @@ export class UsersController {
       throw new BadRequestError("Name is missing");
     }
 
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
+    if (!/^[\p{L}\s]+$/u.test(name)) {
       throw new BadRequestError("Name can only contain characters and spaces");
     }
 

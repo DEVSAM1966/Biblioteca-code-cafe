@@ -4,6 +4,10 @@ import { BooksService } from "../services/books.service";
 import { success } from "../utilities/success.utility";
 import { BookOutDTO } from "../dtos/out/book.dto";
 import { CreateBookDto, UpdateBookDto } from "../dtos/in/book.dto";
+import { generateSafeFilename } from "../utilities/filename.utility";
+import { deleteUploadedFiles } from "../utilities/file.utility";
+import path from "path";
+
 
 export class BooksController {
     static async getById(request: Request, response: Response): Promise<void> {
@@ -81,20 +85,29 @@ export class BooksController {
             bookFile?: Express.Multer.File[];
         };
 
+        // Validate ISBN format
         if (!isbn || !/^\d+$/.test(isbn)) {
-            throw new BadRequestError("Invalid ISBN");
+            throw new BadRequestError("Invalid ISBN format");
         }
 
-        const bookCoverPath = files.bookCover?.[0]?.path;
-        const bookFilePath = files.bookFile?.[0]?.path;
-
-        if (!bookCoverPath && !bookFilePath) {
-            throw new BadRequestError("No files provided in request. Expected 'bookCover' and/or 'bookFile'.");
+        // Validate exist the files book
+        const bookCover = files.bookCover?.[0];
+        const bookFile = files.bookFile?.[0];
+        if (!bookCover || !bookFile) {
+            throw new BadRequestError("Both 'bookCover' and 'bookFile' must be provided");
         }
 
+        // prepare destination routes
+        const bookCoverPath = `uploads/cover/${generateSafeFilename(bookCover.originalname, isbn)}`;
+        const bookFilePath = `uploads/file/${generateSafeFilename(bookFile.originalname, isbn)}`;
+
+
+        // Delegate to the service layer
         const bookOutDto = await BooksService.updateFiles(isbn, {
             bookCover: bookCoverPath,
             bookFile: bookFilePath,
+            bookCoverBuffer: bookCover.buffer,
+            bookFileBuffer: bookFile.buffer,
         });
 
         response.status(200).json(success(bookOutDto));
