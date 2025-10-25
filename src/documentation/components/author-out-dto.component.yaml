@@ -1,4 +1,4 @@
-AuthorOutDTO:
+AuthorOutDto:
   type: object
   properties:
     authorId:

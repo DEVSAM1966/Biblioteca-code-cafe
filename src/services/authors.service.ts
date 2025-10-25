@@ -1,6 +1,9 @@
 import { AuthorsRepository } from "../repositories/authors.repository";
 import { AuthorOutDTO } from "../dtos/out/author.dto";
 import { NotFoundError } from "../models/errors/not-found.error";
+import { CreateAuthorDto } from "../dtos/in/create-author.dto";
+import { Author } from "@prisma/client";
+import { InternalServerError } from "../models/errors/internal-server.error";
 
 export class AuthorsService {
   static async getById(id: number): Promise<AuthorOutDTO> {
@@ -46,5 +49,20 @@ export class AuthorsService {
     }));
 
     return authorsOutDTO;
+  }
+
+  static async create(data: CreateAuthorDto): Promise<AuthorOutDTO> {
+    try {
+      const newAuthor: Author = await AuthorsRepository.create(data);
+
+      const authorOutDto: AuthorOutDTO = {
+        authorId: newAuthor.authorId,
+        nameAuthor: newAuthor.nameAuthor,
+      }
+
+      return authorOutDto;
+    } catch (error) {
+      throw new InternalServerError(`Failed to create author: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 }

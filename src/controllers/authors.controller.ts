@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { BadRequestError } from "../models/errors/bad-request.error";
 import { AuthorsService } from "../services/authors.service";
 import { success } from "../utilities/success.utility";
+import { CreateAuthorDto } from "../dtos/in/create-author.dto";
+import { AuthorOutDTO } from "../dtos/out/author.dto";
 
 export class AuthorsController {
   static async getById(request: Request, response: Response): Promise<void> {
@@ -37,5 +39,13 @@ export class AuthorsController {
     const authorsOutDTO = await AuthorsService.getAll();
 
     response.status(200).json(success(authorsOutDTO));
+  }
+
+  static async create(request: Request, response: Response): Promise<void> {
+    const createAuthorDto: CreateAuthorDto = request.body;
+
+    const authorOutDto: AuthorOutDTO = await AuthorsService.create(createAuthorDto);
+
+    response.status(201).json(success(authorOutDto));
   }
 }
