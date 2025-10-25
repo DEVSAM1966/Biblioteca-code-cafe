@@ -4,6 +4,9 @@ import { CreateBookDto, UpdateBookDto, UpdateBookFilesDto } from "../dtos/in/boo
 import { NotFoundError } from "../models/errors/not-found.error";
 import { InternalServerError } from "../models/errors/internal-server.error";
 import { BooksRepository } from "../repositories/books.repository";
+import { deleteIfExists } from "../utilities/file.utility";
+import fs from "fs/promises";
+import { ConflictError } from "../models/errors/conflict.error";
 
 export class BooksService {
     static async getById(id: string): Promise<BookOutDTO> {
@@ -80,6 +83,12 @@ export class BooksService {
     }
     
     static async create(bookData: CreateBookDto): Promise<BookOutDTO> {
+        const existing = await BooksRepository.getById(bookData.isbn);
+        
+        if (existing) {
+            throw new ConflictError(`Book with ISBN ${bookData.isbn} already exists`);
+        }
+        
         try {
             const newBook: Book = await BooksRepository.create(bookData);
 
@@ -105,6 +114,12 @@ export class BooksService {
     }
 
     static async update(isbn: string, bookData: UpdateBookDto): Promise<BookOutDTO> {
+        const existing = await BooksRepository.getById(isbn);
+        
+        if (!existing) {
+            throw new NotFoundError(`Book with isbn ${isbn} not found`);
+        }
+
         try {
             const updatedBook: Book =  await BooksRepository.update(isbn, bookData);
 
@@ -129,32 +144,57 @@ export class BooksService {
         }
     }
 
-    static async updateFiles(isbn: string, files: Partial<UpdateBookDto>): Promise<BookOutDTO> {
+    static async updateFiles(isbn: string, files: Partial<UpdateBookDto> & {
+        bookCoverBuffer?: Buffer;
+        bookFileBuffer?: Buffer;
+        }): Promise<BookOutDTO> {
+
         const book = await BooksRepository.getById(isbn);
         if (!book) {
-            throw new NotFoundError(`Book with isbn ${isbn} not found`);
+            throw new NotFoundError(`Book with ISBN ${isbn} not found`);
         }
 
+        // Eliminar archivos antiguos si existen
+        await deleteIfExists(book.bookCover);
+        await deleteIfExists(book.bookFile);
+
+        // Actualizar BD
+        let updatedBook;
         try {
-            const updatedBook = await BooksRepository.update(isbn, files);
-            return {
-                isbn: updatedBook.isbn,
-                title: updatedBook.title,
-                summary: updatedBook.summary ?? null,
-                pages: updatedBook.pages ?? null,
-                editionDate: updatedBook.editionDate?.toISOString() ?? null,
-                bookCover: updatedBook.bookCover ?? null,
-                bookFile: updatedBook.bookFile ?? null,
-                language: updatedBook.language ?? null,
-                authorId: updatedBook.authorId ?? null,
-                authors: updatedBook.authors ?? null,
-                publisherId: updatedBook.publisherId ?? null,
-                categoryId: updatedBook.categoryId ?? null,
-            };
+            updatedBook = await BooksRepository.update(isbn, {
+                bookCover: files.bookCover,
+                bookFile: files.bookFile,
+            });
         } catch (error) {
             throw new InternalServerError(`Failed to update book files: ${error instanceof Error ? error.message : String(error)}`);
         }
-    }
 
-    
+        // Escribir nuevos archivos en disco
+        try {
+            if (files.bookCover && files.bookCoverBuffer) {
+                await fs.writeFile(files.bookCover, files.bookCoverBuffer);
+            }
+            if (files.bookFile && files.bookFileBuffer) {
+                await fs.writeFile(files.bookFile, files.bookFileBuffer);
+            }
+        } catch (error) {
+            console.warn(`Warning: Failed to write one or more files to disk: ${error instanceof Error ? error.message : String(error)}`);
+        }
+
+        // Retornar DTO
+        return {
+            isbn: updatedBook.isbn,
+            title: updatedBook.title,
+            summary: updatedBook.summary ?? null,
+            pages: updatedBook.pages ?? null,
+            editionDate: updatedBook.editionDate?.toISOString() ?? null,
+            bookCover: updatedBook.bookCover ?? null,
+            bookFile: updatedBook.bookFile ?? null,
+            language: updatedBook.language ?? null,
+            authorId: updatedBook.authorId ?? null,
+            authors: updatedBook.authors ?? null,
+            publisherId: updatedBook.publisherId ?? null,
+            categoryId: updatedBook.categoryId ?? null,
+        };
+    }
 }

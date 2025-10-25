@@ -19,7 +19,4 @@ BooksRoutes.post("/", dtoValidationMiddleware(CreateBookDto), BooksController.cr
 
 BooksRoutes.put("/isbn/:id", dtoValidationMiddleware(UpdateBookDto), BooksController.update);
 
-BooksRoutes.put("/:isbn/files", uploadBookFiles.fields([
-  { name: "bookCover", maxCount: 1 },
-  { name: "bookFile", maxCount: 1 }
-]), BooksController.updateFiles);
+BooksRoutes.put("/:isbn/files", uploadBookFiles, BooksController.updateFiles);

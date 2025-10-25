@@ -39,6 +39,12 @@ export class UsersRepository {
   }
 
   static async getByName(name: string): Promise<User[]> {
-    return await prisma.user.findMany({ where: { fullname: name } });
+    return await prisma.user.findMany({ 
+      where: { 
+        fullname: {
+          contains: name,
+        }, 
+      } 
+    });
   }
 }
