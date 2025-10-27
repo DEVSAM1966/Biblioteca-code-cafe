@@ -1,0 +1,58 @@
+delete:
+  tags:
+    - Books
+  summary: Delete a book by ISBN
+  description: >
+    Deletes a book by its ISBN. If the book has associated files (book_cover, book_file),
+    they will be deleted from the file system if present. If the files were already removed externally,
+    the service logs a warning but continues gracefully.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: ISBN of the book to delete
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Book successfully deleted
+      content:
+        application/json:
+          schema:
+            $ref: "../components/data-response.component.yaml#/DataResponse"
+          example:
+            data: true
+            timestamp: "27/10/2025, 21:54:00"
+    '400':
+      description: Invalid ISBN format
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error:
+              message: "Invalid ISBN format"
+              code: 400
+            timestamp: "27/10/2025, 21:54:00"
+    '404':
+      description: Book not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error:
+              message: "Book with ISBN 9781234567890 not found"
+              code: 404
+            timestamp: "27/10/2025, 21:54:00"
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error:
+              message: "Failed to delete book"
+              code: 500
+            timestamp: "27/10/2025, 21:54:00"

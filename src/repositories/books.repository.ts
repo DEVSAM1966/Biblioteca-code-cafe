@@ -32,4 +32,9 @@ export class BooksRepository {
             data: bookData,
         });
     }
+
+    static async delete(id: string): Promise<{ count: number }> {
+        return await prisma.book.deleteMany({ where: { isbn: id } });
+    }
+    
 }
