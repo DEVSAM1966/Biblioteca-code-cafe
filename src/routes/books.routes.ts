@@ -20,3 +20,5 @@ BooksRoutes.post("/", dtoValidationMiddleware(CreateBookDto), BooksController.cr
 BooksRoutes.put("/isbn/:id", dtoValidationMiddleware(UpdateBookDto), BooksController.update);
 
 BooksRoutes.put("/:isbn/files", uploadBookFiles, BooksController.updateFiles);
+
+BooksRoutes.delete("/isbn/:id", BooksController.delete);

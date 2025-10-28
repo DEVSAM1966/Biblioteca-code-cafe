@@ -85,24 +85,19 @@ export class BooksController {
             bookFile?: Express.Multer.File[];
         };
 
-        // Validate ISBN format
         if (!isbn || !/^\d+$/.test(isbn)) {
             throw new BadRequestError("Invalid ISBN format");
         }
 
-        // Validate exist the files book
         const bookCover = files.bookCover?.[0];
         const bookFile = files.bookFile?.[0];
         if (!bookCover || !bookFile) {
             throw new BadRequestError("Both 'bookCover' and 'bookFile' must be provided");
         }
 
-        // prepare destination routes
         const bookCoverPath = `uploads/cover/${generateSafeFilename(bookCover.originalname, isbn)}`;
         const bookFilePath = `uploads/file/${generateSafeFilename(bookFile.originalname, isbn)}`;
 
-
-        // Delegate to the service layer
         const bookOutDto = await BooksService.updateFiles(isbn, {
             bookCover: bookCoverPath,
             bookFile: bookFilePath,
@@ -111,6 +106,22 @@ export class BooksController {
         });
 
         response.status(200).json(success(bookOutDto));
+    }
+
+    static async delete(request: Request, response: Response): Promise<void> {
+        const { id } = request.params;
+        
+        if (typeof id !== "string" || id.trim().length === 0) {
+            throw new BadRequestError("Isbn is missing");
+        }
+
+        if (!/^\d+$/.test(id)) {
+            throw new BadRequestError("Isbn can only contain number");
+        }
+        
+        const existing = await BooksService.delete(id);
+
+        response.status(200).json(success(existing));
     }
 
 }

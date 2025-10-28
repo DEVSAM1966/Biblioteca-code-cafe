@@ -197,4 +197,31 @@ export class BooksService {
             categoryId: updatedBook.categoryId ?? null,
         };
     }
+
+    static async delete(isbn: string): Promise<Boolean> {
+        try {
+            const book: Book | null = await BooksRepository.getById(isbn);
+
+            if (!book) {
+                throw new NotFoundError(`Book with isbn ${isbn} not found`);
+            }
+
+            const result = await BooksRepository.delete(isbn);
+
+            if (result.count === 0) {
+                throw new NotFoundError(`Book with isbn ${isbn} not found`);
+            }
+
+            await deleteIfExists(book.bookCover);
+            await deleteIfExists(book.bookFile);
+
+            return true;
+        } catch (error: any) {
+            if (error instanceof NotFoundError) {
+                throw error;
+            }
+            throw new InternalServerError("Failed to delete book: ${cause: error}");  
+        }
+    }
+    
 }

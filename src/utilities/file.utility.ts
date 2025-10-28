@@ -1,19 +1,11 @@
 import fs from "fs/promises";
 
-/**
- * Deletes an array of file paths if they exist.
- * Logs a warning if deletion fails.
- */
 export async function deleteUploadedFiles(paths: (string | undefined)[]): Promise<void> {
   for (const path of paths) {
     await deleteIfExists(path);
   }
 }
 
-/**
- * Deletes a single file path if it exists.
- * Logs a warning if deletion fails.
- */
 export async function deleteIfExists(path: string | undefined | null): Promise<void> {
   if (!path) return;
   try {

@@ -57,6 +57,8 @@ paths:
     $ref: "./paths/update-book.path.yaml"
   /books/{isbn}/files:
     $ref: "./paths/update-book-files.path.yaml"
+  /books/delete/isbn/{id}:
+    $ref: "./paths/delete-book.path.yaml"
 
 
   /users/name/{name}:
