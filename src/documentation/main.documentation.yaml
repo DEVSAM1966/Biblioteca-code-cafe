@@ -67,6 +67,8 @@ paths:
     $ref: "./paths/get-user-by-id.path.yaml"
   /users/delete/id/{id}:
     $ref: "./paths/delete-user.path.yaml"
+  /users/create:
+    $ref: "./paths/create-user.path.yaml"
   /users:
     $ref: "./paths/get-all-users.path.yaml"
   

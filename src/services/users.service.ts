@@ -2,6 +2,8 @@ import { NotFoundError } from "../models/errors/not-found.error";
 import { UserOutDTO } from "../dtos/out/user.dto";
 import { UsersRepository } from "../repositories/users.repository";
 import { InternalServerError } from "../models/errors/internal-server.error";
+import { CreateUserDto } from "../dtos/in/create-user.dto";
+import { User } from "@prisma/client";
 
 export class UsersService {
   static async getById(id: number): Promise<UserOutDTO> {
@@ -59,6 +61,23 @@ export class UsersService {
         throw error;
       }
       throw new InternalServerError("Failed to delete user");
+    }
+  }
+
+  static async create(data: CreateUserDto): Promise<UserOutDTO> {
+    try {
+      const newUser: User = await UsersRepository.create(data);
+
+      const dto: UserOutDTO = {
+        fullname: newUser.fullname,
+        registrationDate: newUser.registrationDate.toISOString(),
+        role: newUser.role,
+        userId: newUser.userId,
+      }
+
+      return dto;
+    } catch (error) {
+      throw new InternalServerError("Failed to create user");
     }
   }
 }

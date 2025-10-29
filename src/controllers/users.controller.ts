@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { BadRequestError } from "../models/errors/bad-request.error";
 import { success } from "../utilities/success.utility";
 import { UsersService } from "../services/users.service";
+import { UserOutDTO } from "../dtos/out/user.dto";
+import { CreateUserDto } from "../dtos/in/create-user.dto";
 
 export class UsersController {
   static async getById(request: Request, response: Response): Promise<void> {
@@ -59,6 +61,14 @@ export class UsersController {
     const existing = await UsersService.delete(idAsNumber);
 
     response.status(200).json(success(existing));
+  }
+
+  static async create(request: Request, response: Response): Promise<void> {
+    const createUserDto: CreateUserDto = request.body;
+
+    const userOutDto: UserOutDTO = await UsersService.create(createUserDto);
+
+    response.status(201).json(success(userOutDto));
   }
 
 }
