@@ -8,3 +8,5 @@ UsersRoutes.get("/id/:id", UsersController.getById);
 UsersRoutes.get("/", UsersController.getAll);
 
 UsersRoutes.get("/name/:name", UsersController.getByName);
+
+UsersRoutes.delete("/id/:id", UsersController.delete);
