@@ -1,0 +1,42 @@
+get:
+  tags:
+    - Loans
+  summary: Get loan by ID
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Numeric ID of the loan
+      schema:
+        type: integer
+        minimum: 1
+  responses:
+    "200":
+      description: Loan found
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/loan.component.yaml#/Loan"
+    "400":
+      description: Invalid ID format
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error: Invalid ID for loan
+            timestamp: "2025-10-28T21:54:00Z"
+    "404":
+      description: Loan not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error: Loan with id 123 not found
+            timestamp: "2025-10-28T21:54:00Z"

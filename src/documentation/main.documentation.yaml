@@ -69,7 +69,12 @@ paths:
     $ref: "./paths/delete-user.path.yaml"
   /users:
     $ref: "./paths/get-all-users.path.yaml"
-    
+  
+  /loans:
+    $ref: "./paths/get-all-loans.path.yaml"
+  /loans/id/{id}:
+    $ref: "./paths/get-loan-by-id.path.yaml"
+
 components:
   securitySchemes:
     BearerAuth:
@@ -113,3 +118,6 @@ components:
 
     BookOutDTO:
       $ref: "./components/book-out-dto.component.yaml#/BookOutDTO"
+
+    Loan:
+      $ref: "./components/loan.component.yaml#/Loan"
