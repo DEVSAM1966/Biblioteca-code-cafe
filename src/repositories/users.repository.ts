@@ -15,8 +15,8 @@ export class UsersRepository {
       field === "email"
         ? { email: value }
         : field === "dni"
-        ? { dni: value }
-        : { phone: value };
+          ? { dni: value }
+          : { phone: value };
 
     const user = await prisma.user.findUnique({
       where,
@@ -39,12 +39,16 @@ export class UsersRepository {
   }
 
   static async getByName(name: string): Promise<User[]> {
-    return await prisma.user.findMany({ 
-      where: { 
+    return await prisma.user.findMany({
+      where: {
         fullname: {
           contains: name,
-        }, 
-      } 
+        },
+      }
     });
+  }
+
+  static async delete(id: number): Promise<User> {
+    return await prisma.user.delete({ where: { userId: id } });
   }
 }

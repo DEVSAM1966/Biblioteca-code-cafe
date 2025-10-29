@@ -1,6 +1,7 @@
 import { NotFoundError } from "../models/errors/not-found.error";
 import { UserOutDTO } from "../dtos/out/user.dto";
 import { UsersRepository } from "../repositories/users.repository";
+import { InternalServerError } from "../models/errors/internal-server.error";
 
 export class UsersService {
   static async getById(id: number): Promise<UserOutDTO> {
@@ -46,5 +47,18 @@ export class UsersService {
       role: user.role,
       userId: user.userId,
     }));
+  }
+
+  static async delete(id: number): Promise<boolean> {
+    try {
+      await UsersRepository.delete(id);
+
+      return true;
+    } catch (error: any) {
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      throw new InternalServerError("Failed to delete user");
+    }
   }
 }
