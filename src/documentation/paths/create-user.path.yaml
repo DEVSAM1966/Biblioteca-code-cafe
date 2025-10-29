@@ -1,0 +1,63 @@
+post:
+  tags:
+    - Users
+  summary: Create a new user
+  description: Adds a new user to the library. Requires a valid ISBN and associated metadata.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/create-user-dto.component.yaml#/CreateUserDto"
+        examples:
+          validUser:
+            summary: Valid user creation
+            value:
+              dni: "12345678"
+              phone: "+54 9 11 1234-5678"
+              email: "john.doe@example.com"
+              password: "password123"
+              fullname: "John Doe"
+              role: "USER"
+              daysDisciplinary: 0
+  responses:
+    "201":
+      description: User successfully created
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/user-out-dto.component.yaml#/UserOutDTO"
+    "400":
+      description: Bad Request - Invalid input data
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            missingDni:
+              summary: DNI is required
+              value:
+                error: dni must be a string
+                timestamp: "22/10/2025, 19:47:00"
+            invalidUserId:
+              summary: User ID must be a number
+              value:
+                error: userId must be an integer
+                timestamp: "22/10/2025, 19:47:00"
+    "500":
+      description: Internal Server Error - Failed to create user
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            creationFailed:
+              summary: User creation failed
+              value:
+                error: Failed to create user
+                timestamp: "22/10/2025, 19:47:00"
