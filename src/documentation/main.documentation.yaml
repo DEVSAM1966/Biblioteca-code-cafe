@@ -76,6 +76,13 @@ paths:
     $ref: "./paths/get-all-loans.path.yaml"
   /loans/id/{id}:
     $ref: "./paths/get-loan-by-id.path.yaml"
+  /loans/isbn/{id}:
+    $ref: "./paths/get-loans-by-isbn.path.yaml"
+  /loans/user/{id}:
+    $ref: "./paths/get-loans-by-user.path.yaml"
+  /loans/date/{date}:
+    $ref: "./paths/get-loans-by-date.path.yaml"
+
 
 components:
   securitySchemes:

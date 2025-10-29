@@ -42,4 +42,58 @@ export class LoansService {
         return dtos;
     }
 
+    static async getByIsbn(id: string): Promise<LoanOutDTO[]> {
+        const loans = await LoansRepository.getByIsbn(id);
+
+        if (loans.length === 0) {
+            throw new NotFoundError(`No loans found for ISBN ${id}`);
+        }
+
+        const dtos: LoanOutDTO[] = loans.map((loan: Loan) => ({
+            loanId: loan.loanId,
+            loanDate: loan.loanDate ? loan.loanDate.toISOString().split("T")[0] : null,
+            returnDate: loan.returnDate ? loan.returnDate.toISOString().split("T")[0] : null,
+            isbn: loan.isbn ?? null,
+            userId: loan.userId ?? null,    
+        }));
+
+        return dtos;
+    }
+
+    static async getByUser(id: number): Promise<LoanOutDTO[]> {
+        const loans = await LoansRepository.getByUser(id);
+
+        if (loans.length === 0) {
+            throw new NotFoundError(`No loans found for user with id ${id}`);
+        }
+        
+        const dtos: LoanOutDTO[] = loans.map((loan: Loan) => ({
+            loanId: loan.loanId,
+            loanDate: loan.loanDate ? loan.loanDate.toISOString().split("T")[0] : null,
+            returnDate: loan.returnDate ? loan.returnDate.toISOString().split("T")[0] : null,
+            isbn: loan.isbn ?? null,
+            userId: loan.userId ?? null,    
+        }));
+
+        return dtos;
+    }
+
+    static async getByDate(date: Date): Promise<LoanOutDTO[]> {
+        const loans = await LoansRepository.getByDate(date);
+
+        if (loans.length === 0) {
+            throw new NotFoundError(`No loans found for date ${date.toISOString().split("T")[0]}`);
+        }
+
+        const dtos: LoanOutDTO[] = loans.map((loan: Loan) => ({
+            loanId: loan.loanId,
+            loanDate: loan.loanDate ? loan.loanDate.toISOString().split("T")[0] : null,
+            returnDate: loan.returnDate ? loan.returnDate.toISOString().split("T")[0] : null,
+            isbn: loan.isbn ?? null,
+            userId: loan.userId ?? null,    
+        }));
+
+        return dtos;
+    }
+    
 }
