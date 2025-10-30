@@ -1,0 +1,50 @@
+UserAllOutDTO:
+  type: object
+  properties:
+    fullname:
+      type: string
+      example: "Jhon Doe"
+    dni:
+      type: string
+      example: "12345678A"
+    address:
+      type: string
+      nullable: true
+      example: "Calle Falsa 123"
+    city:
+      type: string
+      nullable: true
+      example: "Madrid"
+    province:
+      type: string
+      nullable: true
+      example: "Madrid"
+    postalCode:
+      type: string
+      nullable: true
+      example: "28080"
+    country:
+      type: string
+      nullable: true
+      example: "España"
+    phone:
+      type: string
+      example: "+34 600 123 456"
+    email:
+      type: string
+      example: "jhon.doe@example.com"
+    registrationDate:
+      type: string
+      example: "2025-10-03T21:45:00.000Z"
+    userDrop:
+      type: boolean
+      example: false
+    daysDisciplinary:
+      type: integer
+      example: 5
+    role:
+      type: string
+      example: "USER"
+    userId:
+      type: integer
+      example: 123

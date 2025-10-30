@@ -21,7 +21,7 @@ get:
                   data:
                     type: array
                     items:
-                      $ref: "../components/user-out-dto.component.yaml#/UserOutDTO"
+                      $ref: "../components/user-all-out-dto.component.yaml#/UserAllOutDTO"
     "400":
       description: Bad Request - Invalid name parameter
       content:

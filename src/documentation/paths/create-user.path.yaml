@@ -31,7 +31,7 @@ post:
               - type: object
                 properties:
                   data:
-                    $ref: "../components/user-out-dto.component.yaml#/UserOutDTO"
+                    $ref: "../components/user-all-out-dto.component.yaml#/UserAllOutDTO"
     "400":
       description: Bad Request - Invalid input data
       content:
