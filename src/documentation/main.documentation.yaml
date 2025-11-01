@@ -82,6 +82,12 @@ paths:
     $ref: "./paths/get-loans-by-user.path.yaml"
   /loans/date/{date}:
     $ref: "./paths/get-loans-by-date.path.yaml"
+  /loans/create:
+    $ref: "./paths/create-loan.path.yaml"
+  /loans/update/id/{id}:
+    $ref: "./paths/update-loan.path.yaml"
+  /loans/delete/id/{id}:
+    $ref: "./paths/delete-loan.path.yaml"
 
 
 components:
