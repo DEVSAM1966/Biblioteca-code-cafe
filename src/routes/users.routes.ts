@@ -12,3 +12,5 @@ UsersRoutes.get("/name/:name", UsersController.getByName);
 UsersRoutes.delete("/id/:id", UsersController.delete);
 
 UsersRoutes.post("/", UsersController.create);
+
+UsersRoutes.put("/id/:id", UsersController.update);

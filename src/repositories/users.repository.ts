@@ -51,4 +51,12 @@ export class UsersRepository {
   static async delete(id: number): Promise<User> {
     return await prisma.user.delete({ where: { userId: id } });
   }
+
+  static async update(id: number, data: Prisma.UserUpdateInput): Promise<User> {
+    return await prisma.user.update({
+      where: { userId: id },
+      data,
+    });
+  }
+
 }

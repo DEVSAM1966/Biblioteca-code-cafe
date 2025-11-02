@@ -6,6 +6,7 @@ import { InternalServerError } from "../models/errors/internal-server.error";
 import { CreateUserDto } from "../dtos/in/create-user.dto";
 import { User } from "@prisma/client";
 import { Prisma } from "@prisma/client";
+import { UpdateUserDto } from "../dtos/in/update-user.dto";
 
 export class UsersService {
   static async getById(id: number): Promise<UserAllOutDTO> {
@@ -116,6 +117,39 @@ export class UsersService {
       return dto;
     } catch (error) {
       throw new InternalServerError("Failed to create user");
+    }
+  }
+
+  static async update(id: number, data: UpdateUserDto): Promise<UserAllOutDTO> {
+    const existing = await UsersRepository.getById(id);
+
+    if (!existing) {
+      throw new NotFoundError(`User with id ${id} not found`);
+    }
+
+    try {
+      const updatedUser: User = await UsersRepository.update(id, data);
+
+      const dto: UserAllOutDTO = {
+        fullname: updatedUser.fullname,
+        dni: updatedUser.dni,
+        address: updatedUser.address,
+        city: updatedUser.city,
+        province: updatedUser.province,
+        postalCode: updatedUser.postalCode,
+        country: updatedUser.country,
+        phone: updatedUser.phone,
+        email: updatedUser.email,
+        registrationDate: updatedUser.registrationDate.toISOString(),
+        userDrop: updatedUser.userDrop,
+        daysDisciplinary: updatedUser.daysDisciplinary,
+        role: updatedUser.role,
+        userId: updatedUser.userId,
+      }
+
+      return dto;
+    } catch (error) {
+      throw new InternalServerError('Failed to update user');
     }
   }
 }
