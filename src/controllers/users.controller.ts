@@ -4,6 +4,7 @@ import { success } from "../utilities/success.utility";
 import { UsersService } from "../services/users.service";
 import { UserOutDTO } from "../dtos/out/user.dto";
 import { CreateUserDto } from "../dtos/in/create-user.dto";
+import { UpdateUserDto } from "../dtos/in/update-user.dto";
 
 export class UsersController {
   static async getById(request: Request, response: Response): Promise<void> {
@@ -69,6 +70,30 @@ export class UsersController {
     const userOutDto: UserOutDTO = await UsersService.create(createUserDto);
 
     response.status(201).json(success(userOutDto));
+  }
+
+  static async update(request: Request, response: Response): Promise<void> {
+    const { id } = request.params;
+
+    if (typeof id !== "string" || id.trim().length === 0) {
+      throw new BadRequestError("User Id is missing");
+    }
+
+    if (!/^\d+$/.test(id)) {
+      throw new BadRequestError("User Id can only contain number");
+    }
+
+    const idAsNumber = parseInt(id, 10)
+
+    if (isNaN(idAsNumber) || idAsNumber <= 0) {
+      throw new BadRequestError("Invalid ID for User");
+    }
+
+    const updateUserDto: UpdateUserDto = request.body;
+
+    const userOutDto: UserOutDTO = await UsersService.update(idAsNumber, updateUserDto);
+
+    response.status(200).json(success(userOutDto));
   }
 
 }

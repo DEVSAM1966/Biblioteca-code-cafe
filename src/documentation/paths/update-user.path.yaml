@@ -1,0 +1,51 @@
+put:
+  tags:
+    - Users
+  summary: Update an existing user by its id
+  description: Updates the data of a User
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Numeric user id
+      schema:
+        type: string
+        pattern: "^[0-9]+$"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/update-user-dto.component.yaml#/UpdateUserDto"
+        example:
+          fullname: "John Doe"
+  responses:
+    "200":
+      description: User successfully updated
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/user-all-out-dto.component.yaml#/UserAllOutDTO"
+    "400":
+      description: Invalid Id or malformed input
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+    "404":
+      description: User not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+    "500":
+      description: Failed to update user
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
