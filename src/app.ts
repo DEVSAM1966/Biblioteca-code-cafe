@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express, { json as jsonMiddleware } from "express";
 import { PORT } from "./configuration/env.configuration";
 import swaggerUi from "swagger-ui-express";

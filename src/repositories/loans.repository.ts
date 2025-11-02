@@ -1,5 +1,6 @@
 import { Loan } from "@prisma/client";
 import { prisma } from "../configuration/prisma.configuration";
+import { CreateLoanDTO, UpdateLoanDTO } from "../dtos/in/loan.dto";
 
 export class LoansRepository {
     static async getById(id: number): Promise<Loan | null> {
@@ -34,4 +35,34 @@ export class LoansRepository {
         });
     }
 
+    static async create(data: CreateLoanDTO): Promise<Loan> {
+        const fechaDevolucion = data.returnDate
+        ? new Date(data.returnDate)
+        : new Date(new Date().setDate(new Date().getDate() + 7));
+        
+        return await prisma.loan.create({ 
+            data: {
+                userId: data.userId,
+                isbn: data.isbn,
+                loanDate: new Date(),
+                returnDate: fechaDevolucion,
+            }, 
+        });
+    }
+
+    static async update(id: number, data: UpdateLoanDTO): Promise<Loan> {
+        return await prisma.loan.update({
+            where: { loanId: id },
+            data: {
+                returnDate: data.returnDate ? new Date(data.returnDate) : undefined,
+                userId: data.userId,
+                isbn: data.isbn,
+            },
+        });
+    }
+
+    static async delete(id: number): Promise<{ count: number }> {
+        return await prisma.loan.deleteMany({ where: { loanId: id } });
+    }
+    
 }

@@ -1,0 +1,58 @@
+post:
+  tags:
+    - Loans
+  summary: Create a new loan
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/create-loan-dto.component.yaml#/CreateLoanDTO"
+        examples:
+          validLoan:
+            summary: Valid loan creation
+            value:
+              userId: 2
+              isbn: "9780000000002"
+              returnDate: "2025-06-15"
+  responses:
+    "201":
+      description: Loan successfully created
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../components/data-response.component.yaml#/DataResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "../components/loan.component.yaml#/Loan"
+    "400":
+      description: Bad Request - Invalid input data
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            missingUserId:
+              summary: User ID is required
+              value:
+                error: userId must be a number
+                timestamp: "01/11/2025, 21:20:00"
+            invalidDate:
+              summary: Return date must be a valid future date
+              value:
+                error: returnDate must be a valid date
+                timestamp: "01/11/2025, 21:20:00"
+    "500":
+      description: Internal Server Error - Failed to create loan
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          examples:
+            creationFailed:
+              summary: Loan creation failed
+              value:
+                error: Failed to create loan
+                timestamp: "01/11/2025, 21:20:00"
