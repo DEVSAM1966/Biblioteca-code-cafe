@@ -14,3 +14,5 @@ UsersRoutes.delete("/id/:id", UsersController.delete);
 UsersRoutes.post("/", UsersController.create);
 
 UsersRoutes.put("/id/:id", UsersController.update);
+
+UsersRoutes.delete("/drop/id/:id", UsersController.deleteLogic);

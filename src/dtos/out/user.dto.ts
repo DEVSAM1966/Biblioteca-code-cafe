@@ -61,3 +61,15 @@ export class UserAllOutDTO {
   @IsString()
   fullname: string;
 }
+
+export class UserDropOutDTO {
+  @IsString()
+  message: string;
+
+  @IsNumber()
+  userId: number;
+
+  @IsBoolean()
+  userDrop: boolean;
+}
+

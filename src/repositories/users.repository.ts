@@ -59,4 +59,11 @@ export class UsersRepository {
     });
   }
 
+  static async deleteLogic(id: number): Promise<User> {
+    return await prisma.user.update({
+      where: { userId: id },
+      data: { userDrop: true },
+    });
+  }
+
 }
