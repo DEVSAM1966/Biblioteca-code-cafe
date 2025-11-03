@@ -73,6 +73,9 @@ paths:
     $ref: "./paths/create-user.path.yaml"
   /users:
     $ref: "./paths/get-all-users.path.yaml"
+  /users/drop/id/{id}:
+    $ref: "./paths/delete-user-logical.path.yaml"
+
   
   /loans:
     $ref: "./paths/get-all-loans.path.yaml"
@@ -138,3 +141,6 @@ components:
 
     Loan:
       $ref: "./components/loan.component.yaml#/Loan"
+
+    UserDropOutDTO:
+      $ref: "./components/user-drop-out-dto.component.yaml#/UserDropOutDTO"

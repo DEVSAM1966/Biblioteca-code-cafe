@@ -96,4 +96,24 @@ export class UsersController {
     response.status(200).json(success(userOutDto));
   }
 
+  static async deleteLogic(request: Request, response: Response): Promise<void> {
+    const { id } = request.params;
+    
+    if (typeof id !== "string" || id.trim().length === 0) {
+      throw new BadRequestError("User Id is missing");
+    }
+    if (!/^\d+$/.test(id)) {
+      throw new BadRequestError("Id can only contain number");
+    }
+    const idAsNumber = parseInt(id, 10)
+
+    if (isNaN(idAsNumber) || idAsNumber <= 0) {
+      throw new BadRequestError("Invalid ID for User");
+    }
+
+    const userDrop = await UsersService.deleteLogic(idAsNumber);
+
+    response.status(200).json(success(userDrop));
+  }
+
 }

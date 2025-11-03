@@ -1,6 +1,6 @@
 import { NotFoundError } from "../models/errors/not-found.error";
 import { ConflictError } from "../models/errors/conflict.error";
-import { UserOutDTO, UserAllOutDTO } from "../dtos/out/user.dto";
+import { UserOutDTO, UserAllOutDTO, UserDropOutDTO } from "../dtos/out/user.dto";
 import { UsersRepository } from "../repositories/users.repository";
 import { InternalServerError } from "../models/errors/internal-server.error";
 import { CreateUserDto } from "../dtos/in/create-user.dto";
@@ -152,4 +152,31 @@ export class UsersService {
       throw new InternalServerError('Failed to update user');
     }
   }
+
+  static async deleteLogic(id: number): Promise<UserDropOutDTO> {
+    const existing = await UsersRepository.getById(id);
+
+    if (!existing) {
+      throw new NotFoundError(`User with id ${id} not found`);
+    }
+
+    if (existing.userDrop) {
+      throw new ConflictError(`User with id ${id} is already marked as deleted`);
+    }
+
+    try {
+      const updatedUser: User = await UsersRepository.deleteLogic(id);
+
+      const dto: UserDropOutDTO = {
+        message: `User successfully marked as deleted`,
+        userId: updatedUser.userId,
+        userDrop: updatedUser.userDrop,
+      } 
+
+      return dto;
+    } catch (error) {
+      throw new InternalServerError('Failed to logical delete user');
+    }
+  }
+
 }

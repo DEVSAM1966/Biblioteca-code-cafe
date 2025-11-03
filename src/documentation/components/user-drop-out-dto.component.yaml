@@ -1,0 +1,16 @@
+UserDropOutDTO:
+  type: object
+  properties:
+    message:
+      type: string
+      example: "User successfully marked as deleted."
+    userId:
+      type: integer
+      example: 123
+    userDrop:
+      type: boolean
+      example: true
+  required:
+    - message
+    - userId
+    - userDrop
