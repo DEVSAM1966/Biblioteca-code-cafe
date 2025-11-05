@@ -65,4 +65,21 @@ export class AuthorsService {
       throw new InternalServerError(`Failed to create author: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
+
+  static async delete(id: number): Promise<boolean> {
+    try {
+      const result = await AuthorsRepository.delete(id);
+
+      if (!result) {
+        throw new NotFoundError(`Author with ID ${id} not found`);
+      }
+
+      return true;
+    } catch (error: any) {
+      if (error instanceof NotFoundError) {
+        throw error;
+      }
+      throw new InternalServerError("Failed to delete author");
+    }
+  }
 }

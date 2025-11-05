@@ -12,3 +12,5 @@ AuthorsRoutes.get("/name/:name", AuthorsController.getByName);
 AuthorsRoutes.get("/", AuthorsController.getAll);
 
 AuthorsRoutes.post("/", dtoValidationMiddleware(CreateAuthorDto), AuthorsController.create)
+
+AuthorsRoutes.delete("/id/:id", AuthorsController.delete)

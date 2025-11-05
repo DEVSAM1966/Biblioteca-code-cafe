@@ -18,4 +18,8 @@ export class AuthorsRepository {
   static async create(data: CreateAuthorDto): Promise<Author> {
     return await prisma.author.create({ data: { "nameAuthor": data.name } });
   }
+
+  static async delete(id: number): Promise<Author> {
+    return await prisma.author.delete({ where: { authorId: id } });
+  }
 }
