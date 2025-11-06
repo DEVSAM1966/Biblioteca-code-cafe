@@ -12,6 +12,8 @@ paths:
     $ref: "./paths/get-author-by-name.path.yaml"
   /authors/create:
     $ref: "./paths/create-author.path.yaml"
+  /authors/delete/id/{id}:
+    $ref: "./paths/delete-author.path.yaml"
 
   /publishers:
     $ref: "./paths/get-all-publishers.path.yaml"

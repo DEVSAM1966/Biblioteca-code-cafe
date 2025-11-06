@@ -1,0 +1,68 @@
+delete:
+  tags:
+    - Authors
+  summary: Delete an author by ID
+  description: Deletes an author by its numeric ID. Returns success if the author was deleted. Throws error if the ID is invalid, the author does not exist, or has related records that prevent deletion.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Numeric ID of the author to delete
+      schema:
+        type: integer
+        minimum: 1
+  responses:
+    '200':
+      description: Author successfully deleted
+      content:
+        application/json:
+          schema:
+            $ref: "../components/data-response.component.yaml#/DataResponse"
+          example:
+            data: true
+            timestamp: "25/09/2025, 17:41:33"
+    '400':
+      description: Invalid ID format
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error:
+              message: "Invalid ID for author"
+              code: 400
+            timestamp: "25/09/2025, 17:41:33"
+    '404':
+      description: Author not found
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error:
+              message: "Author with ID 123 not found"
+              code: 404
+            timestamp: "25/09/2025, 17:41:33"
+    '409':
+      description: Cannot delete author due to related records
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error:
+              message: "Cannot delete author with id 123 due to existing related records"
+              code: 409
+            timestamp: "25/09/2025, 17:41:33"
+    '500':
+      description: Unexpected internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "../components/error-response.component.yaml#/ErrorResponse"
+          example:
+            error:
+              message: "Unexpected error while deleting author"
+              code: 500
+            timestamp: "25/09/2025, 17:41:33"
+

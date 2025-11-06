@@ -48,4 +48,22 @@ export class AuthorsController {
 
     response.status(201).json(success(authorOutDto));
   }
+
+  static async delete(request: Request, response: Response): Promise<void> {
+    const { id } = request.params;
+
+    if (typeof id !== "string" || id.trim().length === 0) {
+      throw new BadRequestError("Id is missing");
+    }
+
+    if (!/^\d+$/.test(id)) {
+      throw new BadRequestError("Id can only contain number");
+    }
+
+    const idAsNumber = parseInt(id, 10);
+
+    const existing = await AuthorsService.delete(idAsNumber);
+
+    response.status(200).json(success(existing));
+  }
 }
