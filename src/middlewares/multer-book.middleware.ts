@@ -1,13 +1,13 @@
-import multer from "multer";
+import multer from 'multer';
 
-type UploadField = "bookCover" | "bookFile";
+type UploadField = 'bookCover' | 'bookFile';
 
 const allowedMimeTypes: Record<UploadField, string[]> = {
-  bookCover: ["image/jpeg", "image/png"],
-  bookFile: ["application/pdf", "application/epub+zip"],
+  bookCover: ['image/jpeg', 'image/png'],
+  bookFile: ['application/pdf', 'application/epub+zip'],
 };
 
-const fileFilter: multer.Options["fileFilter"] = (req, file, cb) => {
+const fileFilter: multer.Options['fileFilter'] = (req, file, cb) => {
   const field = file.fieldname as UploadField;
   const isValid = allowedMimeTypes[field]?.includes(file.mimetype);
 
@@ -25,6 +25,6 @@ export const uploadBookFiles = multer({
   storage,
   fileFilter,
 }).fields([
-  { name: "bookCover", maxCount: 1 },
-  { name: "bookFile", maxCount: 1 },
+  { name: 'bookCover', maxCount: 1 },
+  { name: 'bookFile', maxCount: 1 },
 ]);

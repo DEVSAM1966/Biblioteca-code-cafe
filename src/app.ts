@@ -1,30 +1,30 @@
 import 'reflect-metadata';
-import express, { json as jsonMiddleware } from "express";
-import { PORT } from "./configuration/env.configuration";
-import swaggerUi from "swagger-ui-express";
-import SwaggerParser from "@apidevtools/swagger-parser";
-import { errorHandlerMiddleware } from "./middlewares/error-handler.middleware";
-import { PublishersRoutes } from "./routes/publishers.routes";
-import { AuthorsRoutes } from "./routes/authors.routes";
-import { AuthRoutes } from "./routes/auth.routes";
-import { CategoriesRoutes } from "./routes/categories.routes";
-import { BooksRoutes } from "./routes/books.routes";
-import { UsersRoutes } from "./routes/users.routes";
-import { LoansRoutes } from "./routes/loans.routes";
+import express, { json as jsonMiddleware } from 'express';
+import { PORT } from './configuration/env.configuration';
+import swaggerUi from 'swagger-ui-express';
+import SwaggerParser from '@apidevtools/swagger-parser';
+import { errorHandlerMiddleware } from './middlewares/error-handler.middleware';
+import { PublishersRoutes } from './routes/publishers.routes';
+import { AuthorsRoutes } from './routes/authors.routes';
+import { AuthRoutes } from './routes/auth.routes';
+import { CategoriesRoutes } from './routes/categories.routes';
+import { BooksRoutes } from './routes/books.routes';
+import { UsersRoutes } from './routes/users.routes';
+import { LoansRoutes } from './routes/loans.routes';
 
-const documentationPath = "./src/documentation/main.documentation.yaml";
+const documentationPath = './src/documentation/main.documentation.yaml';
 const app = express();
 
 SwaggerParser.dereference(documentationPath).then((document) => {
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(document));
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(document));
   app.use(jsonMiddleware());
-  app.use("/auth", AuthRoutes);
-  app.use("/authors", AuthorsRoutes);
-  app.use("/publishers", PublishersRoutes);
-  app.use("/categories", CategoriesRoutes);
-  app.use("/books", BooksRoutes);
-  app.use("/users", UsersRoutes);
-  app.use("/loans", LoansRoutes);
+  app.use('/auth', AuthRoutes);
+  app.use('/authors', AuthorsRoutes);
+  app.use('/publishers', PublishersRoutes);
+  app.use('/categories', CategoriesRoutes);
+  app.use('/books', BooksRoutes);
+  app.use('/users', UsersRoutes);
+  app.use('/loans', LoansRoutes);
   app.use(errorHandlerMiddleware());
 
   app.listen(PORT, () => {

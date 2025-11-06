@@ -1,9 +1,9 @@
-import { AuthorsRepository } from "../repositories/authors.repository";
-import { AuthorOutDTO } from "../dtos/out/author.dto";
-import { NotFoundError } from "../models/errors/not-found.error";
-import { CreateAuthorDto } from "../dtos/in/create-author.dto";
-import { Author } from "@prisma/client";
-import { InternalServerError } from "../models/errors/internal-server.error";
+import { AuthorsRepository } from '../repositories/authors.repository';
+import { AuthorOutDTO } from '../dtos/out/author.dto';
+import { NotFoundError } from '../models/errors/not-found.error';
+import { CreateAuthorDto } from '../dtos/in/create-author.dto';
+import { Author } from '@prisma/client';
+import { InternalServerError } from '../models/errors/internal-server.error';
 
 export class AuthorsService {
   static async getById(id: number): Promise<AuthorOutDTO> {
@@ -40,7 +40,7 @@ export class AuthorsService {
     const authors = await AuthorsRepository.getAll();
 
     if (authors.length === 0) {
-      throw new NotFoundError("There are no records in Authors");
+      throw new NotFoundError('There are no records in Authors');
     }
 
     const authorsOutDTO: AuthorOutDTO[] = authors.map((author) => ({
@@ -58,11 +58,13 @@ export class AuthorsService {
       const authorOutDto: AuthorOutDTO = {
         authorId: newAuthor.authorId,
         nameAuthor: newAuthor.nameAuthor,
-      }
+      };
 
       return authorOutDto;
     } catch (error) {
-      throw new InternalServerError(`Failed to create author: ${error instanceof Error ? error.message : String(error)}`);
+      throw new InternalServerError(
+        `Failed to create author: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -79,7 +81,7 @@ export class AuthorsService {
       if (error instanceof NotFoundError) {
         throw error;
       }
-      throw new InternalServerError("Failed to delete author");
+      throw new InternalServerError('Failed to delete author');
     }
   }
 }

@@ -3,7 +3,6 @@ import { LoansController } from '../controllers/loans.controller';
 import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware';
 import { CreateLoanDTO, UpdateLoanDTO } from '../dtos/in/loan.dto';
 
-
 export const LoansRoutes = Router();
 
 LoansRoutes.get('/id/:id', LoansController.getById);
@@ -18,6 +17,6 @@ LoansRoutes.get('/date/:date', LoansController.getByDate);
 
 LoansRoutes.post('/', dtoValidationMiddleware(CreateLoanDTO), LoansController.create);
 
-LoansRoutes.put('/id/:id', dtoValidationMiddleware(UpdateLoanDTO) ,LoansController.update);
+LoansRoutes.put('/id/:id', dtoValidationMiddleware(UpdateLoanDTO), LoansController.update);
 
-LoansRoutes.delete('/id/:id', LoansController.delete);  
+LoansRoutes.delete('/id/:id', LoansController.delete);

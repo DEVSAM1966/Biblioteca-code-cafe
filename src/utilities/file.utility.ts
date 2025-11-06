@@ -1,4 +1,4 @@
-import fs from "fs/promises";
+import fs from 'fs/promises';
 
 export async function deleteUploadedFiles(paths: (string | undefined)[]): Promise<void> {
   for (const path of paths) {
@@ -11,7 +11,8 @@ export async function deleteIfExists(path: string | undefined | null): Promise<v
   try {
     await fs.unlink(path);
   } catch (err) {
-    console.warn(`Warning: Could not delete file ${path}: ${err instanceof Error ? err.message : String(err)}`);
+    console.warn(
+      `Warning: Could not delete file ${path}: ${err instanceof Error ? err.message : String(err)}`,
+    );
   }
 }
-

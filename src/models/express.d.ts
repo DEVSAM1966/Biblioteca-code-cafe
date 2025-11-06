@@ -1,6 +1,6 @@
-import { UserRole } from "@prisma/client";
-import { JWTUser } from "./jwt-user.model";
-import "express";
+import { UserRole } from '@prisma/client';
+import { JWTUser } from './jwt-user.model';
+import 'express';
 
 declare global {
   namespace Express {

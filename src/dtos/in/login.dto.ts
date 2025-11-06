@@ -1,4 +1,4 @@
-import { IsEmail, IsStrongPassword, MaxLength } from "class-validator";
+import { IsEmail, IsStrongPassword, MaxLength } from 'class-validator';
 
 export class LoginInDto {
   @IsEmail()

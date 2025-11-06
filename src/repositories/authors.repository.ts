@@ -1,6 +1,6 @@
-import { Author } from "@prisma/client";
-import { prisma } from "../configuration/prisma.configuration";
-import { CreateAuthorDto } from "../dtos/in/create-author.dto";
+import { Author } from '@prisma/client';
+import { prisma } from '../configuration/prisma.configuration';
+import { CreateAuthorDto } from '../dtos/in/create-author.dto';
 
 export class AuthorsRepository {
   static async getById(id: number): Promise<Author | null> {
@@ -16,7 +16,7 @@ export class AuthorsRepository {
   }
 
   static async create(data: CreateAuthorDto): Promise<Author> {
-    return await prisma.author.create({ data: { "nameAuthor": data.name } });
+    return await prisma.author.create({ data: { nameAuthor: data.name } });
   }
 
   static async delete(id: number): Promise<Author> {

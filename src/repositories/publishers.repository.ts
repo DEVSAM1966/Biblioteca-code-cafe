@@ -1,6 +1,6 @@
-import { Publisher } from "@prisma/client";
-import { prisma } from "../configuration/prisma.configuration";
-import { CreatePublisherDto } from "../dtos/in/publisher.dto";
+import { Publisher } from '@prisma/client';
+import { prisma } from '../configuration/prisma.configuration';
+import { CreatePublisherDto } from '../dtos/in/publisher.dto';
 
 export class PublishersRepository {
   static async getById(id: number): Promise<Publisher | null> {
@@ -39,7 +39,7 @@ export class PublishersRepository {
 
   static async update(id: number, data: CreatePublisherDto): Promise<Publisher> {
     return await prisma.publisher.update({
-      where: { publisherId: id},
+      where: { publisherId: id },
       data: {
         namePublisher: data.namePublisher,
         address: data.address,
@@ -56,5 +56,4 @@ export class PublishersRepository {
   static async delete(id: number): Promise<{ count: number }> {
     return await prisma.publisher.deleteMany({ where: { publisherId: id } });
   }
-
 }

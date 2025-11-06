@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 process.loadEnvFile();
 
 const envValidation = Joi.object({

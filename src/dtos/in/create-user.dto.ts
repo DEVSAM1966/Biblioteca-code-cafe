@@ -1,5 +1,16 @@
-import { UserRole } from "@prisma/client";
-import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsPostalCode, IsString, IsStrongPassword, MaxLength } from "class-validator";
+import { UserRole } from '@prisma/client';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPhoneNumber,
+  IsPostalCode,
+  IsString,
+  IsStrongPassword,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -21,7 +32,7 @@ export class CreateUserDto {
   @MaxLength(30)
   province?: string;
 
-  @IsPostalCode("any")
+  @IsPostalCode('any')
   @IsOptional()
   @MaxLength(20)
   postalCode?: string;
@@ -54,9 +65,9 @@ export class CreateUserDto {
   fullname: string;
 
   @IsEnum(UserRole)
-  role: UserRole
+  role: UserRole;
 
   @IsNumber()
   @IsOptional()
-  daysDisciplinary?: number
+  daysDisciplinary?: number;
 }
