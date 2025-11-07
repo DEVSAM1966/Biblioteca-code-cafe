@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import { BadRequestError } from "../models/errors/bad-request.error";
-import { AuthorsService } from "../services/authors.service";
-import { success } from "../utilities/success.utility";
-import { CreateAuthorDto } from "../dtos/in/create-author.dto";
-import { AuthorOutDTO } from "../dtos/out/author.dto";
+import { Request, Response } from 'express';
+import { BadRequestError } from '../models/errors/bad-request.error';
+import { AuthorsService } from '../services/authors.service';
+import { success } from '../utilities/success.utility';
+import { CreateAuthorDto } from '../dtos/in/create-author.dto';
+import { AuthorOutDTO } from '../dtos/out/author.dto';
 
 export class AuthorsController {
   static async getById(request: Request, response: Response): Promise<void> {
@@ -11,7 +11,7 @@ export class AuthorsController {
     const authorId = parseInt(id, 10);
 
     if (isNaN(authorId) || authorId <= 0) {
-      throw new BadRequestError("Invalid ID");
+      throw new BadRequestError('Invalid ID');
     }
 
     const authorOutDTO = await AuthorsService.getById(authorId);
@@ -23,11 +23,11 @@ export class AuthorsController {
     const { name } = request.params;
 
     if (!name || name.trim().length === 0) {
-      throw new BadRequestError("Name is missing");
+      throw new BadRequestError('Name is missing');
     }
 
     if (!/^[a-zA-Z\s]+$/.test(name)) {
-      throw new BadRequestError("Name can only contain characters and spaces");
+      throw new BadRequestError('Name can only contain characters and spaces');
     }
 
     const authorOutDTO = await AuthorsService.getByName(name);
@@ -52,12 +52,12 @@ export class AuthorsController {
   static async delete(request: Request, response: Response): Promise<void> {
     const { id } = request.params;
 
-    if (typeof id !== "string" || id.trim().length === 0) {
-      throw new BadRequestError("Id is missing");
+    if (typeof id !== 'string' || id.trim().length === 0) {
+      throw new BadRequestError('Id is missing');
     }
 
     if (!/^\d+$/.test(id)) {
-      throw new BadRequestError("Id can only contain number");
+      throw new BadRequestError('Id can only contain number');
     }
 
     const idAsNumber = parseInt(id, 10);

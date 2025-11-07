@@ -7,7 +7,7 @@ import {
   IsString,
   IsStrongPassword,
   MaxLength,
-} from "class-validator";
+} from 'class-validator';
 
 export class RegisterInDto {
   @IsString()
@@ -29,7 +29,7 @@ export class RegisterInDto {
   @MaxLength(30)
   province?: string;
 
-  @IsPostalCode("any")
+  @IsPostalCode('any')
   @IsOptional()
   @MaxLength(20)
   postalCode?: string;

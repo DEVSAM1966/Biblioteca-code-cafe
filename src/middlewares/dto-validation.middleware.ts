@@ -1,14 +1,14 @@
-import { NextFunction, Request, Response } from "express";
-import { BadRequestError } from "../models/errors/bad-request.error";
-import { getErrorMessage } from "../utilities/get-error-message.utility";
-import { plainToInstance } from "class-transformer";
-import { validate } from "class-validator";
+import { NextFunction, Request, Response } from 'express';
+import { BadRequestError } from '../models/errors/bad-request.error';
+import { getErrorMessage } from '../utilities/get-error-message.utility';
+import { plainToInstance } from 'class-transformer';
+import { validate } from 'class-validator';
 
 export function dtoValidationMiddleware(dto: { new (): any }) {
   return async (request: Request, _response: Response, next: NextFunction) => {
     try {
       if (!request.body) {
-        return next(new BadRequestError("Request body is missing"));
+        return next(new BadRequestError('Request body is missing'));
       }
 
       const dtoObject = plainToInstance(dto, request.body);
@@ -24,7 +24,7 @@ export function dtoValidationMiddleware(dto: { new (): any }) {
       }
 
       request.body = dtoObject;
-      
+
       next();
     } catch (error) {
       const errorMessage = getErrorMessage(error);

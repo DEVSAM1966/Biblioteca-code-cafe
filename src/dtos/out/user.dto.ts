@@ -1,5 +1,5 @@
-import { UserRole } from "@prisma/client";
-import { IsEnum, IsISO8601, IsNumber, IsString, IsBoolean } from "class-validator";
+import { UserRole } from '@prisma/client';
+import { IsEnum, IsISO8601, IsNumber, IsString, IsBoolean } from 'class-validator';
 
 export class UserOutDTO {
   @IsNumber()
@@ -45,7 +45,7 @@ export class UserAllOutDTO {
 
   @IsString()
   email: string;
-  
+
   @IsISO8601()
   registrationDate: string;
 
@@ -72,4 +72,3 @@ export class UserDropOutDTO {
   @IsBoolean()
   userDrop: boolean;
 }
-

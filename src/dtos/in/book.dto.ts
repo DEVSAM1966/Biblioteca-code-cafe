@@ -1,11 +1,4 @@
-import {
-  IsInt,
-  IsOptional,
-  IsString,
-  IsDateString,
-  MaxLength,
-  IsNumber,
-} from "class-validator";
+import { IsInt, IsOptional, IsString, IsDateString, MaxLength, IsNumber } from 'class-validator';
 
 export class CreateBookDto {
   @IsString()
@@ -122,4 +115,3 @@ export class UpdateBookFilesDto {
   @MaxLength(255)
   bookFile?: string;
 }
-

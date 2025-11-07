@@ -1,10 +1,4 @@
-import {
-  IsNumber,
-  IsOptional,
-  IsPhoneNumber,
-  IsPostalCode,
-  IsString,
-} from "class-validator";
+import { IsNumber, IsOptional, IsPhoneNumber, IsPostalCode, IsString } from 'class-validator';
 
 export class PublisherOutDTO {
   @IsNumber()

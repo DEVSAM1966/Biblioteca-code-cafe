@@ -1,5 +1,5 @@
-import { Prisma, User } from "@prisma/client";
-import { prisma } from "../configuration/prisma.configuration";
+import { Prisma, User } from '@prisma/client';
+import { prisma } from '../configuration/prisma.configuration';
 
 export class UsersRepository {
   static async create(data: Prisma.UserCreateInput) {
@@ -10,13 +10,9 @@ export class UsersRepository {
     }
   }
 
-  static async existsBy(field: "email" | "dni" | "phone", value: string) {
+  static async existsBy(field: 'email' | 'dni' | 'phone', value: string) {
     const where: Prisma.UserWhereUniqueInput =
-      field === "email"
-        ? { email: value }
-        : field === "dni"
-          ? { dni: value }
-          : { phone: value };
+      field === 'email' ? { email: value } : field === 'dni' ? { dni: value } : { phone: value };
 
     const user = await prisma.user.findUnique({
       where,
@@ -44,7 +40,7 @@ export class UsersRepository {
         fullname: {
           contains: name,
         },
-      }
+      },
     });
   }
 
@@ -65,5 +61,4 @@ export class UsersRepository {
       data: { userDrop: true },
     });
   }
-
 }

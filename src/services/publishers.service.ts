@@ -1,9 +1,9 @@
-import { Publisher } from "@prisma/client";
-import { CreatePublisherDto } from "../dtos/in/publisher.dto";
-import { PublisherOutDTO } from "../dtos/out/publisher.dto";
-import { NotFoundError } from "../models/errors/not-found.error";
-import { InternalServerError } from "../models/errors/internal-server.error";
-import { PublishersRepository } from "../repositories/publishers.repository";
+import { Publisher } from '@prisma/client';
+import { CreatePublisherDto } from '../dtos/in/publisher.dto';
+import { PublisherOutDTO } from '../dtos/out/publisher.dto';
+import { NotFoundError } from '../models/errors/not-found.error';
+import { InternalServerError } from '../models/errors/internal-server.error';
+import { PublishersRepository } from '../repositories/publishers.repository';
 
 export class PublishersService {
   static async getById(id: number): Promise<PublisherOutDTO> {
@@ -72,9 +72,9 @@ export class PublishersService {
 
   static async create(data: CreatePublisherDto): Promise<Publisher> {
     try {
-        return await PublishersRepository.create(data);
+      return await PublishersRepository.create(data);
     } catch (error) {
-        throw new InternalServerError("Failed to create publisher");
+      throw new InternalServerError('Failed to create publisher');
     }
   }
 
@@ -100,7 +100,7 @@ export class PublishersService {
         notes: updated.notes,
       };
     } catch (error) {
-      throw new InternalServerError("Failed to update publisher");
+      throw new InternalServerError('Failed to update publisher');
     }
   }
 
@@ -113,12 +113,11 @@ export class PublishersService {
       }
 
       return true;
-    } catch (error: any){
+    } catch (error: any) {
       if (error instanceof NotFoundError) {
         throw error;
       }
-      throw new InternalServerError("Failed to delete publisher, {cause: error}");
-    } 
+      throw new InternalServerError('Failed to delete publisher, {cause: error}');
+    }
   }
-
 }

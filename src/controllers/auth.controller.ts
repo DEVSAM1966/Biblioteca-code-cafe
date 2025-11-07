@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import { RegisterInDto } from "../dtos/in/register.dto";
-import { AuthService } from "../services/auth.service";
-import { success } from "../utilities/success.utility";
-import { LoginInDto } from "../dtos/in/login.dto";
+import { Request, Response } from 'express';
+import { RegisterInDto } from '../dtos/in/register.dto';
+import { AuthService } from '../services/auth.service';
+import { success } from '../utilities/success.utility';
+import { LoginInDto } from '../dtos/in/login.dto';
 
 export class AuthController {
   static async register(request: Request, response: Response): Promise<void> {

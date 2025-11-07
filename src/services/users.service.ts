@@ -1,12 +1,12 @@
-import { NotFoundError } from "../models/errors/not-found.error";
-import { ConflictError } from "../models/errors/conflict.error";
-import { UserOutDTO, UserAllOutDTO, UserDropOutDTO } from "../dtos/out/user.dto";
-import { UsersRepository } from "../repositories/users.repository";
-import { InternalServerError } from "../models/errors/internal-server.error";
-import { CreateUserDto } from "../dtos/in/create-user.dto";
-import { User } from "@prisma/client";
-import { Prisma } from "@prisma/client";
-import { UpdateUserDto } from "../dtos/in/update-user.dto";
+import { NotFoundError } from '../models/errors/not-found.error';
+import { ConflictError } from '../models/errors/conflict.error';
+import { UserOutDTO, UserAllOutDTO, UserDropOutDTO } from '../dtos/out/user.dto';
+import { UsersRepository } from '../repositories/users.repository';
+import { InternalServerError } from '../models/errors/internal-server.error';
+import { CreateUserDto } from '../dtos/in/create-user.dto';
+import { User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { UpdateUserDto } from '../dtos/in/update-user.dto';
 
 export class UsersService {
   static async getById(id: number): Promise<UserAllOutDTO> {
@@ -83,13 +83,15 @@ export class UsersService {
     } catch (error: any) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
-          case "P2025":
+          case 'P2025':
             throw new NotFoundError(`User with id ${id} not found`);
-          case "P2003":
-            throw new ConflictError(`Cannot delete user with id ${id} due to existing related records`);
+          case 'P2003':
+            throw new ConflictError(
+              `Cannot delete user with id ${id} due to existing related records`,
+            );
         }
       }
-      throw new InternalServerError("Failed to delete user");
+      throw new InternalServerError('Failed to delete user');
     }
   }
 
@@ -112,11 +114,11 @@ export class UsersService {
         daysDisciplinary: newUser.daysDisciplinary,
         role: newUser.role,
         userId: newUser.userId,
-      }
+      };
 
       return dto;
     } catch (error) {
-      throw new InternalServerError("Failed to create user");
+      throw new InternalServerError('Failed to create user');
     }
   }
 
@@ -145,7 +147,7 @@ export class UsersService {
         daysDisciplinary: updatedUser.daysDisciplinary,
         role: updatedUser.role,
         userId: updatedUser.userId,
-      }
+      };
 
       return dto;
     } catch (error) {
@@ -171,12 +173,11 @@ export class UsersService {
         message: `User successfully marked as deleted`,
         userId: updatedUser.userId,
         userDrop: updatedUser.userDrop,
-      } 
+      };
 
       return dto;
     } catch (error) {
       throw new InternalServerError('Failed to logical delete user');
     }
   }
-
 }
