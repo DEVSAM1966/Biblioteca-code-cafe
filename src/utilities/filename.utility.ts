@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 
 export function generateSafeFilename(originalName: string, isbn: string): string {
   const ext = path.extname(originalName);

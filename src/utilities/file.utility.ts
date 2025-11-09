@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 export async function deleteUploadedFiles(paths: (string | undefined)[]): Promise<void> {
   for (const path of paths) {
