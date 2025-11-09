@@ -9,13 +9,13 @@ import { CategoriesRoutes } from './routes/categories.routes';
 import { BooksRoutes } from './routes/books.routes';
 import { UsersRoutes } from './routes/users.routes';
 import { LoansRoutes } from './routes/loans.routes';
-import { swaggerUi, swaggerSpec } from './configuration/documentation.configuration';
+import swaggerUi from "swagger-ui-express"
+import { documentationConfiguration } from './configuration/documentation.configuration';
 
 const app = express();
 
 app
   .use(jsonMiddleware())
-  .use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
   .use('/auth', AuthRoutes)
   .use('/authors', AuthorsRoutes)
   .use('/publishers', PublishersRoutes)
@@ -23,6 +23,7 @@ app
   .use('/books', BooksRoutes)
   .use('/users', UsersRoutes)
   .use('/loans', LoansRoutes)
+  .use('/docs', swaggerUi.serve, swaggerUi.setup(documentationConfiguration))
   .use(errorHandlerMiddleware());
 
 app.listen(PORT, () => {

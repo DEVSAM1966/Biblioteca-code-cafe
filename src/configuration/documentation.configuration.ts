@@ -1,7 +1,9 @@
 import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+import path from 'node:path';
+import { schemas } from '../documentation/schemas.documentation';
+import { modules } from '../documentation/modules.documentation';
 
-const configuration = {
+export const documentationConfiguration = swaggerJsdoc({
   definition: {
     openapi: '3.0.0',
     info: {
@@ -15,10 +17,8 @@ const configuration = {
         description: 'Servidor local',
       },
     ],
+    components: { schemas },
+    paths: modules
   },
-  apis: ['./routes/*.ts', './models/*.ts'],
-};
-
-const swaggerSpec = swaggerJsdoc(configuration);
-
-export { swaggerUi, swaggerSpec };
+  apis: [path.join(__dirname, '../routes/*.{ts,js}')]
+});
