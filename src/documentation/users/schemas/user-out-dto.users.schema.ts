@@ -1,6 +1,6 @@
 import type { OpenAPIV3 } from "openapi-types";
 
-export const UserOutDto: OpenAPIV3.SchemaObject = {
+export const UserOutDtoSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
     userId: {

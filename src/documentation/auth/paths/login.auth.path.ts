@@ -1,5 +1,5 @@
-import { LoginInDto } from "../schemas/login-in-dto.schema";
-import { SignOutDto } from "../schemas/sign-out-dto.schema";
+import { LoginInDto } from "../schemas/login-in-dto.auth.schema";
+import { SignOutDto } from "../schemas/sign-out-dto.auth.schema";
 import { SuccesfulResponse } from "../../schemas/successful-response.schema";
 import type { OpenAPIV3 } from 'openapi-types';
 

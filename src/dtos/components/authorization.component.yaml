@@ -1,4 +1,0 @@
-Authorization:
-  type: string
-  description: JWT authorization token
-  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"

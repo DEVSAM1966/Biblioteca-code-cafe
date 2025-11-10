@@ -2,23 +2,32 @@ import type { OpenAPIV3 } from 'openapi-types';
 import { FailureResponse } from '../../schemas/failure-response.schema';
 import { SuccesfulResponse } from '../../schemas/successful-response.schema';
 import { UserOutDto } from '../schemas/user-out-dto.users.schema';
+import { UpdateUserInDto } from '../schemas/update-in-dto.users.schema';
 
-export const GetUserByNamePath: OpenAPIV3.PathsObject = {
-  "/users/name/{name}": {
-    get: {
+export const UpdateUserPath: OpenAPIV3.PathsObject = {
+  "/users/{id}": {
+    put: {
       tags: ['Users'],
-      summary: 'Get user by name',
+      summary: 'Update user',
       parameters: [
         {
-          name: 'name',
+          name: 'id',
           in: 'path',
           required: true,
-          description: 'User name',
+          description: 'User id',
           schema: {
             type: 'string'
           }
         }
       ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: UpdateUserInDto
+          }
+        }
+      },
       responses: {
         200: {
           description: 'User found',
@@ -29,12 +38,12 @@ export const GetUserByNamePath: OpenAPIV3.PathsObject = {
           },
         },
         400: {
-          description: 'Invalid name',
+          description: 'Invalid id',
           content: {
             'application/json': {
               schema: FailureResponse({
                 type: 'string',
-                example: 'Invalid name'
+                example: 'Invalid id'
               })
             },
           },
