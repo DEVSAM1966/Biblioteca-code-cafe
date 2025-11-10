@@ -1,9 +1,10 @@
-import { ErrorOutDto } from "../schemas/error-out-dto.schema";
-import { LoginInDto } from "../schemas/login-in-dto.schema";
+import { FailureResponse } from "../../schemas/failure-response.schema";
 import { RegisterInDto } from "../schemas/register-in-dto.schema";
 import { SignOutDto } from "../schemas/sign-out-dto.schema";
+import { SuccesfulResponse } from "../../schemas/successful-response.schema";
+import type { OpenAPIV3 } from 'openapi-types';
 
-export const AuthModuleDocs = {
+export const RegisterAuthPath: OpenAPIV3.PathsObject = {
   '/auth/register': {
     post: {
       tags: ['Auth'],
@@ -21,7 +22,7 @@ export const AuthModuleDocs = {
           description: 'User registered successfully',
           content: {
             'application/json': {
-              schema: SignOutDto
+              schema: SuccesfulResponse(SignOutDto)
             },
           },
         },
@@ -29,36 +30,14 @@ export const AuthModuleDocs = {
           description: 'Conflict - User already exists',
           content: {
             'application/json': {
-              schema: ErrorOutDto
+              schema: FailureResponse({
+                type: 'string',
+                example: 'User already exists'
+              })
             },
           },
         },
       },
     },
   },
-
-  '/auth/login': {
-    post: {
-      tags: ['Auth'],
-      summary: 'Login a user',
-      requestBody: {
-        required: true,
-        content: {
-          'application/json': {
-            schema: LoginInDto
-          },
-        },
-      },
-      responses: {
-        200: {
-          description: 'User logged in successfully',
-          content: {
-            'application/json': {
-              schema: SignOutDto
-            },
-          },
-        },
-      },
-    },
-  },
-};
+}

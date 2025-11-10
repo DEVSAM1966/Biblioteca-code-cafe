@@ -1,7 +1,6 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import path from 'node:path';
-import { schemas } from '../documentation/schemas.documentation';
-import { modules } from '../documentation/modules.documentation';
+import { documentation } from '../documentation/index';
 
 export const documentationConfiguration = swaggerJsdoc({
   definition: {
@@ -17,8 +16,8 @@ export const documentationConfiguration = swaggerJsdoc({
         description: 'Servidor local',
       },
     ],
-    components: { schemas },
-    paths: modules
+    components: { schemas: documentation.schemas },
+    paths: documentation.paths
   },
   apis: [path.join(__dirname, '../routes/*.{ts,js}')]
 });

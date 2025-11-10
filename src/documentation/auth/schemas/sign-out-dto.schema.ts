@@ -1,5 +1,5 @@
 import type { OpenAPIV3 } from "openapi-types";
-import { UserOutDto } from "../schemas/user-out-dto.schema";
+import { UserOutDto } from "../../users/schemas/user-out-dto.schema";
 
 export const SignOutDto: OpenAPIV3.SchemaObject = {
   type: 'object',
