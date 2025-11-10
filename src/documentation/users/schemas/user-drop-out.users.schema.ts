@@ -1,6 +1,6 @@
 import type { OpenAPIV3 } from "openapi-types";
 
-export const UserDropOutSchema: OpenAPIV3.SchemaObject = {
+export const UserDropOutDtoSchema: OpenAPIV3.SchemaObject = {
   type: "object",
   properties: {
     message: {

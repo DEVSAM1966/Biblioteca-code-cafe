@@ -1,6 +1,6 @@
 import type { OpenAPIV3 } from 'openapi-types';
 
-export const RegisterInDto: OpenAPIV3.SchemaObject = {
+export const RegisterInDtoSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
     dni: {

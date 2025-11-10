@@ -1,8 +1,8 @@
 import { LoginAuthPath } from "./paths/login.auth.path";
 import { RegisterAuthPath } from "./paths/register.auth.path";
-import { LoginInDto } from "./schemas/login-in-dto.auth.schema";
-import { RegisterInDto } from "./schemas/register-in-dto.auth.schema";
-import { SignOutDto } from "./schemas/sign-out-dto.auth.schema";
+import { LoginInDtoSchema } from "./schemas/login-in-dto.auth.schema";
+import { RegisterInDtoSchema } from "./schemas/register-in-dto.auth.schema";
+import { SignOutDtoSchema } from "./schemas/sign-out-dto.auth.schema";
 
 export const AuthDocumentation = {
   paths: {
@@ -10,8 +10,8 @@ export const AuthDocumentation = {
     ...LoginAuthPath,
   },
   schemas: {
-    RegisterInDto,
-    LoginInDto,
-    SignOutDto,
+    RegisterInDtoSchema,
+    LoginInDtoSchema,
+    SignOutDtoSchema,
   }
 };

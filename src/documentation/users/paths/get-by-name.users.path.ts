@@ -1,7 +1,7 @@
 import type { OpenAPIV3 } from 'openapi-types';
 import { FailureResponse } from '../../schemas/failure-response.schema';
 import { SuccesfulResponse } from '../../schemas/successful-response.schema';
-import { UserOutDto } from '../schemas/user-out-dto.users.schema';
+import { UserOutDtoSchema } from '../schemas/user-out-dto.users.schema';
 
 export const GetUserByNamePath: OpenAPIV3.PathsObject = {
   "/users/name/{name}": {
@@ -24,7 +24,7 @@ export const GetUserByNamePath: OpenAPIV3.PathsObject = {
           description: 'User found',
           content: {
             'application/json': {
-              schema: SuccesfulResponse(UserOutDto)
+              schema: SuccesfulResponse(UserOutDtoSchema)
             },
           },
         },

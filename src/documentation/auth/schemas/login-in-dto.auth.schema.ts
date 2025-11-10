@@ -1,6 +1,6 @@
 import type { OpenAPIV3 } from 'openapi-types';
 
-export const LoginInDto: OpenAPIV3.SchemaObject = {
+export const LoginInDtoSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
     email: {

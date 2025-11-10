@@ -1,6 +1,6 @@
 import type { OpenAPIV3 } from "openapi-types";
 
-export const UpdateUserInDto: OpenAPIV3.SchemaObject = {
+export const UpdateUserInDtoSchema: OpenAPIV3.SchemaObject = {
   type: 'object',
   properties: {
     dni: {

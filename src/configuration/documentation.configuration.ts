@@ -6,14 +6,14 @@ export const documentationConfiguration = swaggerJsdoc({
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Biblioteca Code Café',
+      title: 'Biblioteca Code Cafe',
       version: '1.0.0',
-      description: 'Documentación de la API de la biblioteca con Swagger y Express',
+      description: 'API Documentation for a team project built by the Code Cafe team',
     },
     servers: [
       {
         url: 'http://localhost:9800/',
-        description: 'Servidor local',
+        description: 'Local server',
       },
     ],
     components: { schemas: documentation.schemas },

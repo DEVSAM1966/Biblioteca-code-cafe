@@ -1,7 +1,7 @@
 import { FailureResponse } from "../../schemas/failure-response.schema";
 import { SuccesfulResponse } from "../../schemas/successful-response.schema";
-import { UserOutDto } from "../schemas/user-out-dto.users.schema";
 import type { OpenAPIV3 } from 'openapi-types';
+import { UserOutDtoSchema } from "../schemas/user-out-dto.users.schema";
 
 export const GetAllUsersPath: OpenAPIV3.PathsObject = {
   '/users': {
@@ -15,7 +15,7 @@ export const GetAllUsersPath: OpenAPIV3.PathsObject = {
             'application/json': {
               schema: SuccesfulResponse({
                 type: "array",
-                items: UserOutDto
+                items: UserOutDtoSchema
               })
             },
           },
