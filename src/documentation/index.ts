@@ -4,6 +4,7 @@ import { AuthorsDocumentation } from "./authors";
 import { BooksDocumentation } from "./books";
 import { LoansDocumentation } from "./loans";
 import { PublishersDocumentation } from "./publishers";
+import { CategoriesDocumentation } from "./categories";
 
 export const documentation = {
   paths: {
@@ -13,6 +14,7 @@ export const documentation = {
     ...BooksDocumentation.paths,
     ...LoansDocumentation.paths,
     ...PublishersDocumentation.paths,
+    ...CategoriesDocumentation.paths
   },
   schemas: {
     ...AuthDocumentation.schemas,
@@ -21,5 +23,6 @@ export const documentation = {
     ...BooksDocumentation.schemas,
     ...LoansDocumentation.schemas,
     ...PublishersDocumentation.schemas,
+    ...CategoriesDocumentation.schemas
   }
 }
