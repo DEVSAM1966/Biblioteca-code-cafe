@@ -1,8 +1,0 @@
-CreateAuthorDto:
-  type: object
-  required:
-    - name
-  properties:
-    name:
-      type: string
-      example: Jhon Doe
