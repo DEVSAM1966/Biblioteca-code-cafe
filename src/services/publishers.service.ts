@@ -1,5 +1,5 @@
 import { Publisher } from '@prisma/client';
-import { CreatePublisherDto } from '../dtos/in/publisher.dto';
+import { CreatePublisherDto, UpdatePublisherDto } from '../dtos/in/publisher.dto';
 import { PublisherOutDTO } from '../dtos/out/publisher.dto';
 import { NotFoundError } from '../models/errors/not-found.error';
 import { InternalServerError } from '../models/errors/internal-server.error';
@@ -78,7 +78,7 @@ export class PublishersService {
     }
   }
 
-  static async update(id: number, data: CreatePublisherDto): Promise<PublisherOutDTO> {
+  static async update(id: number, data: UpdatePublisherDto): Promise<PublisherOutDTO> {
     const existing = await PublishersRepository.getById(id);
 
     if (!existing) {

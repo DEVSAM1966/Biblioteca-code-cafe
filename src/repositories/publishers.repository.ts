@@ -1,6 +1,6 @@
 import { Publisher } from '@prisma/client';
 import { prisma } from '../configuration/prisma.configuration';
-import { CreatePublisherDto } from '../dtos/in/publisher.dto';
+import { CreatePublisherDto, UpdatePublisherDto } from '../dtos/in/publisher.dto';
 
 export class PublishersRepository {
   static async getById(id: number): Promise<Publisher | null> {
@@ -37,7 +37,7 @@ export class PublishersRepository {
     });
   }
 
-  static async update(id: number, data: CreatePublisherDto): Promise<Publisher> {
+  static async update(id: number, data: UpdatePublisherDto): Promise<Publisher> {
     return await prisma.publisher.update({
       where: { publisherId: id },
       data: {
