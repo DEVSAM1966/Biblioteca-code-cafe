@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { CategoriesController } from '../controllers/categories.controller';
-import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware';
+import { dtoValidationMiddleware } from '../middlewares/OLD-dto-validation.middleware';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/in/category.dto';
 
 export const CategoriesRoutes = Router();

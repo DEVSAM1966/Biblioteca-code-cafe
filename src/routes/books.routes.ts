@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { BooksController } from '../controllers/books.controller';
-import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware';
+import { dtoValidationMiddleware } from '../middlewares/OLD-dto-validation.middleware';
 import { CreateBookDto, UpdateBookDto } from '../dtos/in/book.dto';
 import multer from 'multer';
 import { uploadBookFiles } from '../middlewares/multer-book.middleware';

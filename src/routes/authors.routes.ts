@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { AuthorsController } from '../controllers/authors.controller';
-import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware';
+import { dtoValidationMiddleware } from '../middlewares/OLD-dto-validation.middleware';
 import { CreateAuthorDto } from '../dtos/in/create-author.dto';
 
 export const AuthorsRoutes = Router();
