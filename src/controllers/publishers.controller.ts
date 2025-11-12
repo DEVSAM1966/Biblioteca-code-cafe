@@ -1,81 +1,56 @@
 import type { Request, Response } from 'express'
-import { BadRequestError } from '../models/errors/bad-request.error'
 import { PublishersService } from '../services/publishers.service'
 import { success } from '../utilities/success.utility'
 import type { CreatePublisherDto } from '../dtos/in/create-publisher.dto'
+import type { PublisherIdParamDto } from '../dtos/in/publisher-id.dto'
+import type { PublisherNameDto } from '../dtos/in/publisher-name.dto'
+import type { UpdatePublisherDto } from '../dtos/in/update-publisher.dto'
 
 export class PublishersController {
   static async getById(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const publisherId = parseInt(id, 10)
+    const { id } = request.params as unknown as PublisherIdParamDto
 
-    if (Number.isNaN(publisherId) || publisherId <= 0) {
-      throw new BadRequestError('Invalid ID for publisher')
-    }
+    const publisherDto = await PublishersService.getById(id)
 
-    const publisherOutdto = await PublishersService.getById(publisherId)
-
-    response.status(200).json(success(publisherOutdto))
+    response.status(200).json(success(publisherDto))
   }
 
   static async getByName(request: Request, response: Response): Promise<void> {
-    const name = request.params.name || request.query.name
+    const { name } = request.params as unknown as PublisherNameDto
 
-    if (Array.isArray(name)) {
-      throw new BadRequestError('Multiple names not allowed')
-    }
+    const publishersDto = await PublishersService.getByName(name)
 
-    if (typeof name !== 'string' || name.trim().length === 0) {
-      throw new BadRequestError('Name is missing')
-    }
-
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
-      throw new BadRequestError('Name can only contain characters and spaces')
-    }
-
-    const publishersOutdto = await PublishersService.getByName(name)
-
-    response.status(200).json(success(publishersOutdto))
+    response.status(200).json(success(publishersDto))
   }
 
   static async getAll(_request: Request, response: Response): Promise<void> {
-    const publisherOutDto = await PublishersService.getAll()
+    const publisherDto = await PublishersService.getAll()
 
-    response.status(200).json(success(publisherOutDto))
+    response.status(200).json(success(publisherDto))
   }
 
   static async create(request: Request, response: Response): Promise<void> {
-    const dto = request.body as CreatePublisherDto
+    const createPublisherDto = request.body as CreatePublisherDto
 
-    const createdPublisher = await PublishersService.create(dto)
+    const publisherDto = await PublishersService.create(createPublisherDto)
 
-    response.status(201).json(success(createdPublisher))
+    response.status(201).json(success(publisherDto))
   }
 
   static async update(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const publisherId = parseInt(id, 10)
+    const { id } = request.params as unknown as PublisherIdParamDto
 
-    if (Number.isNaN(publisherId) || publisherId <= 0) {
-      throw new BadRequestError('Invalid ID for Publisher')
-    }
+    const updatePublisherDto = request.body as UpdatePublisherDto
 
-    const dto = request.body as CreatePublisherDto
-
-    const updatedPublisher = await PublishersService.update(publisherId, dto)
+    const updatedPublisher = await PublishersService.update(id, updatePublisherDto)
 
     response.status(200).json(success(updatedPublisher))
   }
 
   static async delete(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const publisherId = parseInt(id, 10)
+    const { id } = request.params as unknown as PublisherIdParamDto
 
-    if (Number.isNaN(publisherId) || publisherId <= 0) {
-      throw new BadRequestError('Invalid ID for publisher')
-    }
-
-    const existing = await PublishersService.delete(publisherId)
+    const existing = await PublishersService.delete(id)
 
     response.status(200).json(success(existing))
   }

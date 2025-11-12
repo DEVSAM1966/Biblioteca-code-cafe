@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { LoansController } from '../controllers/loans.controller'
-import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
 import { CreateLoanDto } from '../dtos/in/create-loan.dto'
 import { UpdateLoanDto } from '../dtos/in/update-loan.dto'
+import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
 
 export const LoansRoutes = Router()
 

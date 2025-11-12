@@ -1,23 +1,41 @@
 import { Router } from 'express'
 import { PublishersController } from '../controllers/publishers.controller'
 import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
-import { CreatePublisherDto } from '../dtos/in/create-publisher.dto'
-import { UpdatePublisherDto } from '../dtos/in/update-publisher.dto'
+import { CreatePublisherDto, UpdatePublisherDto } from '../dtos/in/publisher.dto'
+import { PublisherIdParamDto } from '../dtos/in/publisher-id.dto'
+import { PublisherNameDto } from '../dtos/in/publisher-name.dto'
 
 export const PublishersRoutes = Router()
 
-PublishersRoutes.get('/id/:id', PublishersController.getById)
+PublishersRoutes.get(
+  '/id/:id',
+  dtoValidationMiddleware(PublisherIdParamDto, 'params'),
+  PublishersController.getById,
+)
 
-PublishersRoutes.get('/name/:name', PublishersController.getByName)
+PublishersRoutes.get(
+  '/name/:name',
+  dtoValidationMiddleware(PublisherNameDto, 'params'),
+  PublishersController.getByName,
+)
 
 PublishersRoutes.get('/', PublishersController.getAll)
 
-PublishersRoutes.post('/', dtoValidationMiddleware(CreatePublisherDto), PublishersController.create)
+PublishersRoutes.post(
+  '/',
+  dtoValidationMiddleware(CreatePublisherDto, 'body'),
+  PublishersController.create,
+)
 
 PublishersRoutes.put(
   '/id/:id',
-  dtoValidationMiddleware(UpdatePublisherDto),
+  dtoValidationMiddleware(PublisherIdParamDto, 'params'),
+  dtoValidationMiddleware(UpdatePublisherDto, 'body'),
   PublishersController.update,
 )
 
-PublishersRoutes.delete('/id/:id', PublishersController.delete)
+PublishersRoutes.delete(
+  '/id/:id',
+  dtoValidationMiddleware(PublisherIdParamDto, 'params'),
+  PublishersController.delete,
+)

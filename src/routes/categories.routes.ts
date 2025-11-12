@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { CategoriesController } from '../controllers/categories.controller'
-import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
 import { CreateCategoryDto } from '../dtos/in/create-category.dto'
 import { UpdateCategoryDto } from '../dtos/in/update-category.dto'
+import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
 
 export const CategoriesRoutes = Router()
 

@@ -3,6 +3,7 @@ import { NotFoundError } from '../models/errors/not-found.error'
 import { InternalServerError } from '../models/errors/internal-server.error'
 import { PublishersRepository } from '../repositories/publishers.repository'
 import type { PublisherDto } from '../dtos/out/publisher.dto'
+import type { UpdatePublisherDto } from '../dtos/in/update-publisher.dto'
 
 export class PublishersService {
   static async getById(id: number): Promise<PublisherDto> {
@@ -77,7 +78,7 @@ export class PublishersService {
     }
   }
 
-  static async update(id: number, data: CreatePublisherDto): Promise<PublisherDto> {
+  static async update(id: number, data: UpdatePublisherDto): Promise<PublisherDto> {
     const existing = await PublishersRepository.getById(id)
 
     if (!existing) {

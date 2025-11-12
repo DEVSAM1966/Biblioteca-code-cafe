@@ -4,14 +4,19 @@ import { getErrorMessage } from '../utilities/get-error-message.utility'
 import { plainToInstance } from 'class-transformer'
 import { validate } from 'class-validator'
 
-export function dtoValidationMiddleware(dto: { new (): object }) {
+export function dtoValidationMiddleware(
+  dto: { new (): any },
+  source: 'body' | 'params' | 'query' = 'body',
+) {
   return async (request: Request, _response: Response, next: NextFunction) => {
     try {
-      if (!request.body) {
-        return next(new BadRequestError('Request body is missing'))
+      const data = request[source]
+
+      if (!data || Object.keys(data).length === 0) {
+        return next(new BadRequestError(`Request ${source} is missing`))
       }
 
-      const dtoObject = plainToInstance(dto, request.body)
+      const dtoObject = plainToInstance(dto, data)
       const errors = await validate(dtoObject)
 
       if (errors.length > 0) {
@@ -23,12 +28,10 @@ export function dtoValidationMiddleware(dto: { new (): object }) {
         return next(new BadRequestError(formattedErrors))
       }
 
-      request.body = dtoObject
-
+      request[source] = dtoObject
       next()
     } catch (error) {
       const errorMessage = getErrorMessage(error)
-
       return next(new BadRequestError(errorMessage))
     }
   }

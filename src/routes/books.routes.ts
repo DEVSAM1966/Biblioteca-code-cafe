@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import { BooksController } from '../controllers/books.controller'
-import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
 import { CreateBookDto } from '../dtos/in/create-book.dto'
-import { uploadBookFiles } from '../middlewares/multer-book.middleware'
 import { UpdateBookDto } from '../dtos/in/update-book.dto'
+import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
+import { uploadBookFiles } from '../middlewares/multer-book.middleware'
 
 export const BooksRoutes = Router()
 
