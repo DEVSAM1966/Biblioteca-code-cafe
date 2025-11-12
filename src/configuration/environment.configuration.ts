@@ -9,7 +9,6 @@ const envSchema = Joi.object<EnvSchemaModel>({
   SALT_ROUNDS: Joi.number().default(10),
 })
 
-
 const { error, value } = envSchema.validate(process.env, {
   allowUnknown: true,
   abortEarly: false,
@@ -23,6 +22,6 @@ export const environment = {
   port: value.PORT,
   jwt: {
     secret: value.JWT_SECRET,
-    saltRounds: value.SALT_ROUNDS
-  }
+    saltRounds: value.SALT_ROUNDS,
+  },
 }
