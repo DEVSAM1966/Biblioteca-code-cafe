@@ -1,6 +1,6 @@
-import { UserRole } from '@prisma/client';
+import type { UserRole } from '@prisma/client'
 
 export type JWTUser = {
-  id: number;
-  role: UserRole;
-};
+  id: number
+  role: UserRole
+}

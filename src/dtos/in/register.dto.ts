@@ -7,45 +7,45 @@ import {
   IsString,
   IsStrongPassword,
   MaxLength,
-} from 'class-validator';
+} from 'class-validator'
 
-export class RegisterInDto {
+export class RegisterDto {
   @IsString()
   @MaxLength(20)
-  dni: string;
+  dni: string
 
   @IsString()
   @IsOptional()
   @MaxLength(100)
-  address?: string;
+  address?: string
 
   @IsString()
   @IsOptional()
   @MaxLength(40)
-  city?: string;
+  city?: string
 
   @IsString()
   @IsOptional()
   @MaxLength(30)
-  province?: string;
+  province?: string
 
   @IsPostalCode('any')
   @IsOptional()
   @MaxLength(20)
-  postalCode?: string;
+  postalCode?: string
 
   @IsString()
   @IsOptional()
   @MaxLength(30)
-  country?: string;
+  country?: string
 
   @IsPhoneNumber()
   @MaxLength(50)
-  phone: string;
+  phone: string
 
   @IsEmail()
   @MaxLength(120)
-  email: string;
+  email: string
 
   @IsStrongPassword({
     minLength: 8,
@@ -54,10 +54,10 @@ export class RegisterInDto {
     minNumbers: 1,
   })
   @MaxLength(25)
-  password: string;
+  password: string
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  fullname: string;
+  fullname: string
 }

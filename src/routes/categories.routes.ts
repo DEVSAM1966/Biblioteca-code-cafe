@@ -1,22 +1,23 @@
-import { Router } from 'express';
-import { CategoriesController } from '../controllers/categories.controller';
-import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware';
-import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/in/category.dto';
+import { Router } from 'express'
+import { CategoriesController } from '../controllers/categories.controller'
+import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
+import { CreateCategoryDto } from '../dtos/in/create-category.dto'
+import { UpdateCategoryDto } from '../dtos/in/update-category.dto'
 
-export const CategoriesRoutes = Router();
+export const CategoriesRoutes = Router()
 
-CategoriesRoutes.get('/id/:id', CategoriesController.getById);
+CategoriesRoutes.get('/id/:id', CategoriesController.getById)
 
-CategoriesRoutes.get('/', CategoriesController.getAll);
+CategoriesRoutes.get('/', CategoriesController.getAll)
 
-CategoriesRoutes.get('/name/:name', CategoriesController.getByName);
+CategoriesRoutes.get('/name/:name', CategoriesController.getByName)
 
-CategoriesRoutes.post('/', dtoValidationMiddleware(CreateCategoryDto), CategoriesController.create);
+CategoriesRoutes.post('/', dtoValidationMiddleware(CreateCategoryDto), CategoriesController.create)
 
 CategoriesRoutes.put(
   '/id/:id',
   dtoValidationMiddleware(UpdateCategoryDto),
   CategoriesController.update,
-);
+)
 
-CategoriesRoutes.delete('/id/:id', CategoriesController.delete);
+CategoriesRoutes.delete('/id/:id', CategoriesController.delete)

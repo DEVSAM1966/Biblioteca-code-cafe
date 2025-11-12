@@ -1,15 +1,15 @@
-import type { ModuleDocumentation } from "../../models/module-documentation.model";
-import { mergePaths } from "../../utilities/merge-path.utility";
-import { CreateBookPath } from "./paths/create.books.path";
-import { DeleteBookPath } from "./paths/delete.books.path";
-import { GetAllBooksPath } from "./paths/get-all.books.path";
-import { GetBookByIsbnPath } from "./paths/get-by-isbn.books.path";
-import { GetBooksByTitlePath } from "./paths/get-by-title.books.path";
-import { UpdateBookPath } from "./paths/update.books.path";
-import { UpdateBookFilesPath } from "./paths/update-files.books.path";
-import { BookOutDtoSchema } from "./schemas/book-out-dto.books.schema";
-import { CreateBookInDtoSchema } from "./schemas/create-book-in-dto.books.schema";
-import { UpdateBookInDtoSchema } from "./schemas/update-book-in-dto.books.schema";
+import type { ModuleDocumentation } from '../../models/module-documentation.model'
+import { mergePaths } from '../../utilities/merge-paths.utility'
+import { CreateBookPath } from './paths/create-book.path'
+import { DeleteBookPath } from './paths/delete-book.path'
+import { GetAllBooksPath } from './paths/get-all-books.path'
+import { GetBookByIsbnPath } from './paths/get-book-by-isbn.path'
+import { GetBooksByTitlePath } from './paths/get-book-by-title.path'
+import { UpdateBookPath } from './paths/update-book.path'
+import { UpdateBookFilesPath } from './paths/update-book-files.path'
+import { BookDtoSchema } from './schemas/book-dto.schema'
+import { CreateBookDtoSchema } from './schemas/create-book-dto.schema'
+import { UpdateBookDtoSchema } from './schemas/update-book-dto.schema'
 
 export const BooksDocumentation: ModuleDocumentation = {
   paths: mergePaths(
@@ -19,11 +19,11 @@ export const BooksDocumentation: ModuleDocumentation = {
     GetBookByIsbnPath,
     GetBooksByTitlePath,
     UpdateBookPath,
-    UpdateBookFilesPath
+    UpdateBookFilesPath,
   ),
   schemas: {
-    BookOutDtoSchema,
-    CreateBookInDtoSchema,
-    UpdateBookInDtoSchema
-  }
-};
+    BookDtoSchema,
+    CreateBookDtoSchema,
+    UpdateBookDtoSchema,
+  },
+}

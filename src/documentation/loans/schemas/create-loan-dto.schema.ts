@@ -1,0 +1,21 @@
+import type { OpenAPIV3 } from 'openapi-types'
+
+export const CreateLoanDtoSchema: OpenAPIV3.SchemaObject = {
+  type: 'object',
+  required: ['userId', 'isbn'],
+  properties: {
+    userId: {
+      type: 'integer',
+      example: 2,
+    },
+    isbn: {
+      type: 'string',
+      example: '9780000000002',
+    },
+    returnDate: {
+      type: 'string',
+      format: 'date',
+      example: '2025-06-15',
+    },
+  },
+}

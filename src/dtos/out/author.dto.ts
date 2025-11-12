@@ -1,9 +1,9 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator'
 
-export class AuthorOutDTO {
+export class AuthorDto {
   @IsNumber()
-  authorId: number;
+  authorId: number
 
   @IsString()
-  nameAuthor: string;
+  nameAuthor: string
 }

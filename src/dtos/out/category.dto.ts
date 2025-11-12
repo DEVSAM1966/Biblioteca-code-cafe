@@ -1,13 +1,13 @@
-import { IsNumber, IsString, IsOptional } from 'class-validator';
+import { IsNumber, IsString, IsOptional } from 'class-validator'
 
-export class CategoryOutDto {
+export class CategoryDto {
   @IsNumber()
-  categoryId: number;
+  categoryId: number
 
   @IsString()
-  nameCategory: string;
+  nameCategory: string
 
   @IsOptional()
   @IsString()
-  subtopicCategory?: string | null;
+  subtopicCategory?: string | null
 }

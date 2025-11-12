@@ -1,4 +1,4 @@
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@prisma/client'
 import {
   IsEmail,
   IsEnum,
@@ -10,48 +10,48 @@ import {
   IsString,
   IsStrongPassword,
   MaxLength,
-} from 'class-validator';
+} from 'class-validator'
 
 export class UpdateUserDto {
   @IsString()
   @IsOptional()
   @MaxLength(20)
-  dni?: string;
+  dni?: string
 
   @IsString()
   @IsOptional()
   @MaxLength(100)
-  address?: string;
+  address?: string
 
   @IsString()
   @IsOptional()
   @MaxLength(40)
-  city?: string;
+  city?: string
 
   @IsString()
   @IsOptional()
   @MaxLength(30)
-  province?: string;
+  province?: string
 
   @IsPostalCode('any')
   @IsOptional()
   @MaxLength(20)
-  postalCode?: string;
+  postalCode?: string
 
   @IsString()
   @IsOptional()
   @MaxLength(30)
-  country?: string;
+  country?: string
 
   @IsPhoneNumber()
   @IsOptional()
   @MaxLength(50)
-  phone?: string;
+  phone?: string
 
   @IsEmail()
   @IsOptional()
   @MaxLength(120)
-  email?: string;
+  email?: string
 
   @IsStrongPassword({
     minLength: 8,
@@ -61,19 +61,19 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @MaxLength(25)
-  password?: string;
+  password?: string
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
   @IsOptional()
-  fullname?: string;
+  fullname?: string
 
   @IsEnum(UserRole)
   @IsOptional()
-  role?: UserRole;
+  role?: UserRole
 
   @IsNumber()
   @IsOptional()
-  daysDisciplinary?: number;
+  daysDisciplinary?: number
 }

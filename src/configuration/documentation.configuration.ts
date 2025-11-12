@@ -1,6 +1,6 @@
-import swaggerJsdoc from 'swagger-jsdoc';
-import path from 'node:path';
-import { documentation } from '../documentation/index';
+import swaggerJsdoc from 'swagger-jsdoc'
+import path from 'node:path'
+import { documentation } from '../documentation/index'
 
 export const documentationConfiguration = swaggerJsdoc({
   definition: {
@@ -17,7 +17,7 @@ export const documentationConfiguration = swaggerJsdoc({
       },
     ],
     components: { schemas: documentation.schemas },
-    paths: documentation.paths
+    paths: documentation.paths,
   },
-  apis: [path.join(__dirname, '../routes/*.{ts,js}')]
-});
+  apis: [path.join(__dirname, '../routes/*.{ts,js}')],
+})

@@ -1,20 +1,27 @@
-import type { ModuleDocumentation } from "../../models/module-documentation.model";
-import { mergePaths } from "../../utilities/merge-path.utility";
-import { CreateCategoryPath } from "./paths/create.categories.path";
-import { DeleteCategoryPath } from "./paths/delete.categories.path";
-import { GetAllCategoriesPath } from "./paths/get-all.categories.path";
-import { GetCategoryByIdPath } from "./paths/get-by-id.categories.path";
-import { GetCategoryByNamePath } from "./paths/get-by-name.categories.path";
-import { UpdateCategoryPath } from "./paths/update.categories.path";
-import { CategoryOutDtoSchema } from "./schemas/category-out-dto.categories.schema";
-import { CreateCategoryInDtoSchema } from "./schemas/create-category-in-dto.categories.schema";
-import { UpdateCategoryInDtoSchema } from "./schemas/update-category-in-dto.categories.schema";
+import type { ModuleDocumentation } from '../../models/module-documentation.model'
+import { mergePaths } from '../../utilities/merge-paths.utility'
+import { CreateCategoryPath } from './paths/create-category.path'
+import { DeleteCategoryPath } from './paths/delete-category.path'
+import { GetAllCategoriesPath } from './paths/get-all-categories.path'
+import { GetCategoryByIdPath } from './paths/get-category-by-id.path'
+import { GetCategoryByNamePath } from './paths/get-category-by-name.path'
+import { UpdateCategoryPath } from './paths/update-category.path'
+import { CategoryDtoSchema } from './schemas/category-dto.schema'
+import { CreateCategoryDtoSchema } from './schemas/create-category-dto.schema'
+import { UpdateCategoryDtoSchema } from './schemas/update-category-dto.schema'
 
 export const CategoriesDocumentation: ModuleDocumentation = {
-  paths: mergePaths(CreateCategoryPath, DeleteCategoryPath, GetAllCategoriesPath, GetCategoryByIdPath, GetCategoryByNamePath, UpdateCategoryPath),
+  paths: mergePaths(
+    CreateCategoryPath,
+    DeleteCategoryPath,
+    GetAllCategoriesPath,
+    GetCategoryByIdPath,
+    GetCategoryByNamePath,
+    UpdateCategoryPath,
+  ),
   schemas: {
-    CategoryOutDtoSchema,
-    CreateCategoryInDtoSchema,
-    UpdateCategoryInDtoSchema
-  }
-};
+    CategoryDtoSchema,
+    CreateCategoryDtoSchema,
+    UpdateCategoryDtoSchema,
+  },
+}

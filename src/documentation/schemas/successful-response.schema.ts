@@ -1,4 +1,4 @@
-import type { OpenAPIV3 } from 'openapi-types';
+import type { OpenAPIV3 } from 'openapi-types'
 
 export const SuccesfulResponse = (value: OpenAPIV3.SchemaObject): OpenAPIV3.SchemaObject => ({
   type: 'object',
@@ -7,7 +7,7 @@ export const SuccesfulResponse = (value: OpenAPIV3.SchemaObject): OpenAPIV3.Sche
     timestamp: {
       type: 'string',
       format: 'date-time',
-      example: '2025-10-03T21:55:00.000Z'
-    }
-  }
-});
+      example: '2025-10-03T21:55:00.000Z',
+    },
+  },
+})
