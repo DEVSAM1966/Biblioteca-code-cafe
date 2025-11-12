@@ -1,9 +1,9 @@
 import { allowedMimeTypes } from '../configuration/mime-types.configuration'
-import type { UploadField } from '../models/multer-book-upload-field.model'
+import type { BookUploadField } from '../models/book-upload-field.model'
 import multer from 'multer'
 
 const fileFilter: multer.Options['fileFilter'] = (_request, file, callback) => {
-  const field = file.fieldname as UploadField
+  const field = file.fieldname as BookUploadField
   const isValid = allowedMimeTypes[field]?.includes(file.mimetype)
 
   if (!isValid) {

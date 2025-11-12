@@ -9,7 +9,8 @@ const envSchema = Joi.object<EnvSchemaModel>({
   SALT_ROUNDS: Joi.number().default(10),
 })
 
-const { error, value: envVars } = envSchema.validate(process.env, {
+
+const { error, value } = envSchema.validate(process.env, {
   allowUnknown: true,
   abortEarly: false,
 })
@@ -18,4 +19,10 @@ if (error) {
   throw new Error(`ENV Configuration error: ${error.message}`)
 }
 
-export const { PORT, JWT_SECRET, SALT_ROUNDS, DATABASE_URL } = envVars
+export const environment = {
+  port: value.PORT,
+  jwt: {
+    secret: value.JWT_SECRET,
+    saltRounds: value.SALT_ROUNDS
+  }
+}

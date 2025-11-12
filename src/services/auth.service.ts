@@ -1,5 +1,4 @@
 import type { User } from '@prisma/client'
-import { JWT_SECRET, SALT_ROUNDS } from '../configuration/env.configuration'
 import { BadRequestError } from '../models/errors/bad-request.error'
 import { ConflictError } from '../models/errors/conflict.error'
 import { NotFoundError } from '../models/errors/not-found.error'
@@ -12,23 +11,24 @@ import type { RegisterDto } from '../dtos/in/register.dto'
 import type { UserDto } from '../dtos/out/user.dto'
 import type { LoginDto } from '../dtos/in/login.dto'
 import type { SignDto } from '../dtos/out/sign.dto'
+import { environment } from '../configuration/environment.configuration'
 
 export class AuthService {
   static getAuthorization(user: User): string {
     const expiresIn = '1h'
     const payload = { sub: user.userId, role: user.role }
 
-    return jwt.sign(payload, JWT_SECRET, { expiresIn })
+    return jwt.sign(payload, environment.jwt.secret, { expiresIn })
   }
 
   static getPayloadOf(token: string): AuthorizationTokenPayload {
-    const payload = jwt.verify(token, JWT_SECRET) as AuthorizationTokenPayload
+    const payload = jwt.verify(token, environment.jwt.secret) as AuthorizationTokenPayload
 
     return payload
   }
 
   static async hash(value: string): Promise<string> {
-    return await bcrypt.hash(value, SALT_ROUNDS)
+    return await bcrypt.hash(value, environment.jwt.saltRounds)
   }
 
   static async register(data: RegisterDto): Promise<SignDto> {

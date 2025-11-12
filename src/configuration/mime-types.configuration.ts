@@ -1,4 +1,4 @@
-import type { UploadField } from '../models/multer-book-upload-field.model'
+import type { UploadField } from '../models/book-upload-field.model'
 
 export const allowedMimeTypes: Record<UploadField, string[]> = {
   bookCover: ['image/jpeg', 'image/png'],
