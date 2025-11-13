@@ -1,0 +1,66 @@
+import type { OpenAPIV3 } from 'openapi-types'
+
+export const BookDtoSchema: OpenAPIV3.SchemaObject = {
+  type: 'object',
+  properties: {
+    isbn: {
+      type: 'string',
+      example: '9780000000001',
+    },
+    title: {
+      type: 'string',
+      example: 'Fundación',
+    },
+    pages: {
+      type: 'integer',
+      nullable: true,
+      example: 320,
+    },
+    summary: {
+      type: 'string',
+      nullable: true,
+      example: 'Saga galáctica sobre el conocimiento y el poder.',
+    },
+    editionDate: {
+      type: 'string',
+      format: 'date-time',
+      nullable: true,
+      example: '2020-01-01T00:00:00.000Z',
+    },
+    bookCover: {
+      type: 'string',
+      nullable: true,
+      example: 'null',
+    },
+    bookFile: {
+      type: 'string',
+      nullable: true,
+      example: 'null',
+    },
+    language: {
+      type: 'string',
+      nullable: true,
+      example: 'Español',
+    },
+    authorId: {
+      type: 'integer',
+      nullable: true,
+      example: 1,
+    },
+    authors: {
+      type: 'string',
+      nullable: true,
+      example: 'Isaac Asimov',
+    },
+    publisherId: {
+      type: 'integer',
+      nullable: true,
+      example: 1001,
+    },
+    categoryId: {
+      type: 'integer',
+      nullable: true,
+      example: 1,
+    },
+  },
+}

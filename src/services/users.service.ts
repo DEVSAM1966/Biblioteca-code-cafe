@@ -1,19 +1,20 @@
-import { NotFoundError } from '../models/errors/not-found.error';
-import { ConflictError } from '../models/errors/conflict.error';
-import { UserOutDTO, UserAllOutDTO, UserDropOutDTO } from '../dtos/out/user.dto';
-import { UsersRepository } from '../repositories/users.repository';
-import { InternalServerError } from '../models/errors/internal-server.error';
-import { CreateUserDto } from '../dtos/in/create-user.dto';
-import { User } from '@prisma/client';
-import { Prisma } from '@prisma/client';
-import { UpdateUserDto } from '../dtos/in/update-user.dto';
+import { NotFoundError } from '../models/errors/not-found.error'
+import { ConflictError } from '../models/errors/conflict.error'
+import { UsersRepository } from '../repositories/users.repository'
+import { InternalServerError } from '../models/errors/internal-server.error'
+import type { CreateUserDto } from '../dtos/in/create-user.dto'
+import type { User } from '@prisma/client'
+import { Prisma } from '@prisma/client'
+import type { UpdateUserDto } from '../dtos/in/update-user.dto'
+import type { DetailedUserDto } from '../dtos/out/detailed-user.dto'
+import type { UserDto } from '../dtos/out/user.dto'
 
 export class UsersService {
-  static async getById(id: number): Promise<UserAllOutDTO> {
-    const user = await UsersRepository.getById(id);
+  static async getById(id: number): Promise<DetailedUserDto> {
+    const user = await UsersRepository.getById(id)
 
     if (!user) {
-      throw new NotFoundError(`User with id ${id} not found`);
+      throw new NotFoundError(`User with id ${id} not found`)
     }
 
     return {
@@ -31,14 +32,14 @@ export class UsersService {
       daysDisciplinary: user.daysDisciplinary,
       role: user.role,
       userId: user.userId,
-    };
+    }
   }
 
-  static async getAll(): Promise<UserOutDTO[]> {
-    const users = await UsersRepository.getAll();
+  static async getAll(): Promise<UserDto[]> {
+    const users = await UsersRepository.getAll()
 
     if (!users || users.length === 0) {
-      throw new NotFoundError(`There are no records in Users`);
+      throw new NotFoundError(`There are no records in Users`)
     }
 
     return users.map((user) => ({
@@ -47,14 +48,14 @@ export class UsersService {
       userDrop: user.userDrop,
       role: user.role,
       userId: user.userId,
-    }));
+    }))
   }
 
-  static async getByName(name: string): Promise<UserAllOutDTO[]> {
-    const users = await UsersRepository.getByName(name);
+  static async getByName(name: string): Promise<DetailedUserDto[]> {
+    const users = await UsersRepository.getByName(name)
 
     if (!users || users.length === 0) {
-      throw new NotFoundError(`No user found with name: ${name}`);
+      throw new NotFoundError(`No user found with name: ${name}`)
     }
 
     return users.map((user) => ({
@@ -72,34 +73,34 @@ export class UsersService {
       daysDisciplinary: user.daysDisciplinary,
       role: user.role,
       userId: user.userId,
-    }));
+    }))
   }
 
   static async delete(id: number): Promise<boolean> {
     try {
-      await UsersRepository.delete(id);
+      await UsersRepository.delete(id)
 
-      return true;
+      return true
     } catch (error: any) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2025':
-            throw new NotFoundError(`User with id ${id} not found`);
+            throw new NotFoundError(`User with id ${id} not found`)
           case 'P2003':
             throw new ConflictError(
               `Cannot delete user with id ${id} due to existing related records`,
-            );
+            )
         }
       }
-      throw new InternalServerError('Failed to delete user');
+      throw new InternalServerError('Failed to delete user')
     }
   }
 
-  static async create(data: CreateUserDto): Promise<UserAllOutDTO> {
+  static async create(data: CreateUserDto): Promise<DetailedUserDto> {
     try {
-      const newUser: User = await UsersRepository.create(data);
+      const newUser: User = await UsersRepository.create(data)
 
-      const dto: UserAllOutDTO = {
+      const dto: DetailedUserDto = {
         fullname: newUser.fullname,
         dni: newUser.dni,
         address: newUser.address,
@@ -114,25 +115,25 @@ export class UsersService {
         daysDisciplinary: newUser.daysDisciplinary,
         role: newUser.role,
         userId: newUser.userId,
-      };
+      }
 
-      return dto;
-    } catch (error) {
-      throw new InternalServerError('Failed to create user');
+      return dto
+    } catch {
+      throw new InternalServerError('Failed to create user')
     }
   }
 
-  static async update(id: number, data: UpdateUserDto): Promise<UserAllOutDTO> {
-    const existing = await UsersRepository.getById(id);
+  static async update(id: number, data: UpdateUserDto): Promise<DetailedUserDto> {
+    const existing = await UsersRepository.getById(id)
 
     if (!existing) {
-      throw new NotFoundError(`User with id ${id} not found`);
+      throw new NotFoundError(`User with id ${id} not found`)
     }
 
     try {
-      const updatedUser: User = await UsersRepository.update(id, data);
+      const updatedUser: User = await UsersRepository.update(id, data)
 
-      const dto: UserAllOutDTO = {
+      const dto: DetailedUserDto = {
         fullname: updatedUser.fullname,
         dni: updatedUser.dni,
         address: updatedUser.address,
@@ -147,37 +148,31 @@ export class UsersService {
         daysDisciplinary: updatedUser.daysDisciplinary,
         role: updatedUser.role,
         userId: updatedUser.userId,
-      };
+      }
 
-      return dto;
-    } catch (error) {
-      throw new InternalServerError('Failed to update user');
+      return dto
+    } catch {
+      throw new InternalServerError('Failed to update user')
     }
   }
 
-  static async deleteLogic(id: number): Promise<UserDropOutDTO> {
-    const existing = await UsersRepository.getById(id);
+  static async deleteLogic(id: number): Promise<boolean> {
+    const existing = await UsersRepository.getById(id)
 
     if (!existing) {
-      throw new NotFoundError(`User with id ${id} not found`);
+      throw new NotFoundError(`User with id ${id} not found`)
     }
 
     if (existing.userDrop) {
-      throw new ConflictError(`User with id ${id} is already marked as deleted`);
+      throw new ConflictError(`User with id ${id} is already marked as deleted`)
     }
 
     try {
-      const updatedUser: User = await UsersRepository.deleteLogic(id);
+      await UsersRepository.deleteLogic(id)
 
-      const dto: UserDropOutDTO = {
-        message: `User successfully marked as deleted`,
-        userId: updatedUser.userId,
-        userDrop: updatedUser.userDrop,
-      };
-
-      return dto;
-    } catch (error) {
-      throw new InternalServerError('Failed to logical delete user');
+      return true
+    } catch {
+      throw new InternalServerError('Failed to logical delete user')
     }
   }
 }

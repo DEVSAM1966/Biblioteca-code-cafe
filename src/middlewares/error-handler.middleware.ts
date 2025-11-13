@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
-import { CustomError } from '../models/errors/custom-error.error';
-import { getErrorMessage } from '../utilities/get-error-message.utility';
-import { getErrorResponse } from '../utilities/get-error-response.utility';
+import type { NextFunction, Request, Response } from 'express'
+import { CustomError } from '../models/errors/custom-error.error'
+import { getErrorMessage } from '../utilities/get-error-message.utility'
+import { getErrorResponse } from '../utilities/get-error-response.utility'
 
 export function errorHandlerMiddleware() {
   return async (
@@ -11,20 +11,20 @@ export function errorHandlerMiddleware() {
     next: NextFunction,
   ): Promise<void> => {
     if (response.headersSent) {
-      next(error);
-      return;
+      next(error)
+      return
     }
 
     if (error instanceof CustomError) {
-      const errorResponse = getErrorResponse(error.message);
+      const errorResponse = getErrorResponse(error.message)
 
-      response.status(error.statusCode).json(errorResponse);
-      return;
+      response.status(error.statusCode).json(errorResponse)
+      return
     }
 
-    const errorMessage = getErrorMessage(error);
-    const errorResponse = getErrorResponse(errorMessage);
+    const errorMessage = getErrorMessage(error)
+    const errorResponse = getErrorResponse(errorMessage)
 
-    response.status(500).json(errorResponse);
-  };
+    response.status(500).json(errorResponse)
+  }
 }

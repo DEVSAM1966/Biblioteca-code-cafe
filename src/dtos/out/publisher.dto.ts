@@ -1,37 +1,37 @@
-import { IsNumber, IsOptional, IsPhoneNumber, IsPostalCode, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsPhoneNumber, IsPostalCode, IsString } from 'class-validator'
 
-export class PublisherOutDTO {
+export class PublisherDto {
   @IsNumber()
-  publisherId: number;
+  publisherId: number
 
   @IsString()
-  namePublisher: string;
-
-  @IsString()
-  @IsOptional()
-  address: string | null;
+  namePublisher: string
 
   @IsString()
   @IsOptional()
-  city: string | null;
+  address: string | null
 
   @IsString()
   @IsOptional()
-  province: string | null;
+  city: string | null
+
+  @IsString()
+  @IsOptional()
+  province: string | null
 
   @IsPostalCode()
   @IsOptional()
-  postalCode: string | null;
+  postalCode: string | null
 
   @IsString()
   @IsOptional()
-  country: string | null;
+  country: string | null
 
   @IsPhoneNumber()
   @IsOptional()
-  phone: string | null;
+  phone: string | null
 
   @IsString()
   @IsOptional()
-  notes: string | null;
+  notes: string | null
 }

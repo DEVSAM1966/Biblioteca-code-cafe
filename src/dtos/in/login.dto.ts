@@ -1,9 +1,9 @@
-import { IsEmail, IsStrongPassword, MaxLength } from 'class-validator';
+import { IsEmail, IsStrongPassword, MaxLength } from 'class-validator'
 
-export class LoginInDto {
+export class LoginDto {
   @IsEmail()
   @MaxLength(120)
-  email: string;
+  email: string
 
   @IsStrongPassword({
     minLength: 8,
@@ -12,5 +12,5 @@ export class LoginInDto {
     minNumbers: 1,
   })
   @MaxLength(25)
-  password: string;
+  password: string
 }

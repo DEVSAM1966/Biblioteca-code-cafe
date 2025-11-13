@@ -1,22 +1,23 @@
-import { Router } from 'express';
-import { LoansController } from '../controllers/loans.controller';
-import { dtoValidationMiddleware } from '../middlewares/OLD-dto-validation.middleware';
-import { CreateLoanDTO, UpdateLoanDTO } from '../dtos/in/loan.dto';
+import { Router } from 'express'
+import { LoansController } from '../controllers/loans.controller'
+import { CreateLoanDto } from '../dtos/in/create-loan.dto'
+import { UpdateLoanDto } from '../dtos/in/update-loan.dto'
+import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
 
-export const LoansRoutes = Router();
+export const LoansRoutes = Router()
 
-LoansRoutes.get('/id/:id', LoansController.getById);
+LoansRoutes.get('/id/:id', LoansController.getById)
 
-LoansRoutes.get('/', LoansController.getAll);
+LoansRoutes.get('/', LoansController.getAll)
 
-LoansRoutes.get('/isbn/:id', LoansController.getByIsbn);
+LoansRoutes.get('/isbn/:id', LoansController.getByIsbn)
 
-LoansRoutes.get('/user/:id', LoansController.getByUser);
+LoansRoutes.get('/user/:id', LoansController.getByUser)
 
-LoansRoutes.get('/date/:date', LoansController.getByDate);
+LoansRoutes.get('/date/:date', LoansController.getByDate)
 
-LoansRoutes.post('/', dtoValidationMiddleware(CreateLoanDTO), LoansController.create);
+LoansRoutes.post('/', dtoValidationMiddleware(CreateLoanDto), LoansController.create)
 
-LoansRoutes.put('/id/:id', dtoValidationMiddleware(UpdateLoanDTO), LoansController.update);
+LoansRoutes.put('/id/:id', dtoValidationMiddleware(UpdateLoanDto), LoansController.update)
 
-LoansRoutes.delete('/id/:id', LoansController.delete);
+LoansRoutes.delete('/id/:id', LoansController.delete)

@@ -1,46 +1,46 @@
-import { IsNumber, IsString, IsISO8601, IsOptional } from 'class-validator';
+import { IsNumber, IsString, IsISO8601, IsOptional } from 'class-validator'
 
-export class BookOutDTO {
+export class BookDto {
   @IsString()
-  isbn: string;
+  isbn: string
 
   @IsString()
-  title: string;
+  title: string
 
   @IsNumber()
   @IsOptional()
-  pages?: number | null;
+  pages?: number | null
 
   @IsString()
   @IsOptional()
-  summary?: string | null;
+  summary?: string | null
 
   @IsISO8601()
   @IsOptional()
-  editionDate?: string | null;
+  editionDate?: string | null
 
   @IsString()
   @IsOptional()
-  bookCover?: string | null;
+  bookCover?: string | null
 
   @IsString()
   @IsOptional()
-  bookFile?: string | null;
+  bookFile?: string | null
 
   @IsString()
   @IsOptional()
-  language?: string | null;
+  language?: string | null
 
   @IsNumber()
-  authorId?: number | null;
+  authorId?: number | null
 
   @IsString()
   @IsOptional()
-  authors?: string | null;
+  authors?: string | null
 
   @IsNumber()
-  publisherId?: number | null;
+  publisherId?: number | null
 
   @IsNumber()
-  categoryId?: number | null;
+  categoryId?: number | null
 }

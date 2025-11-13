@@ -1,10 +1,9 @@
-import { Book } from '@prisma/client';
-import { prisma } from '../configuration/prisma.configuration';
-import { CreateBookDto, UpdateBookDto } from '../dtos/in/book.dto';
+import type { Book, Prisma } from '@prisma/client'
+import { prisma } from '../configuration/prisma.configuration'
 
 export class BooksRepository {
   static async getById(id: string): Promise<Book | null> {
-    return await prisma.book.findUnique({ where: { isbn: id } });
+    return await prisma.book.findUnique({ where: { isbn: id } })
   }
 
   static async getByName(name: string): Promise<Book[]> {
@@ -14,25 +13,25 @@ export class BooksRepository {
           contains: name,
         },
       },
-    });
+    })
   }
 
   static async getAll(): Promise<Book[]> {
-    return await prisma.book.findMany();
+    return await prisma.book.findMany()
   }
 
-  static async create(bookData: CreateBookDto): Promise<Book> {
-    return await prisma.book.create({ data: bookData });
+  static async create(bookData: Prisma.BookCreateInput): Promise<Book> {
+    return await prisma.book.create({ data: bookData })
   }
 
-  static async update(id: string, bookData: Partial<UpdateBookDto>): Promise<Book> {
+  static async update(id: string, bookData: Prisma.BookUpdateInput): Promise<Book> {
     return await prisma.book.update({
       where: { isbn: id },
       data: bookData,
-    });
+    })
   }
 
   static async delete(id: string): Promise<{ count: number }> {
-    return await prisma.book.deleteMany({ where: { isbn: id } });
+    return await prisma.book.deleteMany({ where: { isbn: id } })
   }
 }

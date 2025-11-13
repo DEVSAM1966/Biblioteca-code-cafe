@@ -1,19 +1,19 @@
-import { Publisher } from '@prisma/client';
-import { CreatePublisherDto, UpdatePublisherDto } from '../dtos/in/publisher.dto';
-import { PublisherOutDTO } from '../dtos/out/publisher.dto';
-import { NotFoundError } from '../models/errors/not-found.error';
-import { InternalServerError } from '../models/errors/internal-server.error';
-import { PublishersRepository } from '../repositories/publishers.repository';
+import type { CreatePublisherDto } from '../dtos/in/create-publisher.dto'
+import { NotFoundError } from '../models/errors/not-found.error'
+import { InternalServerError } from '../models/errors/internal-server.error'
+import { PublishersRepository } from '../repositories/publishers.repository'
+import type { PublisherDto } from '../dtos/out/publisher.dto'
+import type { UpdatePublisherDto } from '../dtos/in/update-publisher.dto'
 
 export class PublishersService {
-  static async getById(id: number): Promise<PublisherOutDTO> {
-    const publisher = await PublishersRepository.getById(id);
+  static async getById(id: number): Promise<PublisherDto> {
+    const publisher = await PublishersRepository.getById(id)
 
     if (!publisher) {
-      throw new NotFoundError(`Publisher with id ${id} not found`);
+      throw new NotFoundError(`Publisher with id ${id} not found`)
     }
 
-    const dto: PublisherOutDTO = {
+    const dto: PublisherDto = {
       publisherId: publisher.publisherId,
       namePublisher: publisher.namePublisher,
       address: publisher.address,
@@ -23,16 +23,16 @@ export class PublishersService {
       country: publisher.country,
       phone: publisher.phone,
       notes: publisher.notes,
-    };
+    }
 
-    return dto;
+    return dto
   }
 
-  static async getByName(name: string): Promise<PublisherOutDTO[]> {
-    const publishers = await PublishersRepository.getByName(name);
+  static async getByName(name: string): Promise<PublisherDto[]> {
+    const publishers = await PublishersRepository.getByName(name)
 
     if (!publishers || publishers.length === 0) {
-      throw new NotFoundError(`No publisher found with name: ${name}`);
+      throw new NotFoundError(`No publisher found with name: ${name}`)
     }
 
     return publishers.map((publisher) => ({
@@ -45,17 +45,17 @@ export class PublishersService {
       country: publisher.country,
       phone: publisher.phone,
       notes: publisher.notes,
-    }));
+    }))
   }
 
-  static async getAll(): Promise<PublisherOutDTO[]> {
-    const publishers = await PublishersRepository.getAll();
+  static async getAll(): Promise<PublisherDto[]> {
+    const publishers = await PublishersRepository.getAll()
 
     if (publishers.length === 0) {
-      throw new NotFoundError(`There are no records in Publishers`);
+      throw new NotFoundError(`There are no records in Publishers`)
     }
 
-    const dto: PublisherOutDTO[] = publishers.map((publisher) => ({
+    const dto: PublisherDto[] = publishers.map((publisher) => ({
       publisherId: publisher.publisherId,
       namePublisher: publisher.namePublisher,
       address: publisher.address,
@@ -65,28 +65,28 @@ export class PublishersService {
       country: publisher.country,
       phone: publisher.phone,
       notes: publisher.notes,
-    }));
+    }))
 
-    return dto;
+    return dto
   }
 
-  static async create(data: CreatePublisherDto): Promise<Publisher> {
+  static async create(data: CreatePublisherDto): Promise<PublisherDto> {
     try {
-      return await PublishersRepository.create(data);
-    } catch (error) {
-      throw new InternalServerError('Failed to create publisher');
+      return await PublishersRepository.create(data)
+    } catch {
+      throw new InternalServerError('Failed to create publisher')
     }
   }
 
-  static async update(id: number, data: UpdatePublisherDto): Promise<PublisherOutDTO> {
-    const existing = await PublishersRepository.getById(id);
+  static async update(id: number, data: UpdatePublisherDto): Promise<PublisherDto> {
+    const existing = await PublishersRepository.getById(id)
 
     if (!existing) {
-      throw new NotFoundError(`Publisher with id ${id} not found`);
+      throw new NotFoundError(`Publisher with id ${id} not found`)
     }
 
     try {
-      const updated = await PublishersRepository.update(id, data);
+      const updated = await PublishersRepository.update(id, data)
 
       return {
         publisherId: updated.publisherId,
@@ -98,26 +98,26 @@ export class PublishersService {
         country: updated.country,
         phone: updated.phone,
         notes: updated.notes,
-      };
-    } catch (error) {
-      throw new InternalServerError('Failed to update publisher');
+      }
+    } catch {
+      throw new InternalServerError('Failed to update publisher')
     }
   }
 
   static async delete(id: number): Promise<boolean> {
     try {
-      const result = await PublishersRepository.delete(id);
+      const result = await PublishersRepository.delete(id)
 
       if (result.count === 0) {
-        throw new NotFoundError(`Publisher with ID ${id} not found`);
+        throw new NotFoundError(`Publisher with ID ${id} not found`)
       }
 
-      return true;
+      return true
     } catch (error: any) {
       if (error instanceof NotFoundError) {
-        throw error;
+        throw error
       }
-      throw new InternalServerError('Failed to delete publisher, {cause: error}');
+      throw new InternalServerError('Failed to delete publisher, {cause: error}')
     }
   }
 }

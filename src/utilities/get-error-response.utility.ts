@@ -1,5 +1,5 @@
 export function getErrorResponse(error: any) {
-  const now = new Date();
+  const now = new Date()
   const timestamp = new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: '2-digit',
@@ -8,7 +8,7 @@ export function getErrorResponse(error: any) {
     minute: '2-digit',
     second: '2-digit',
     hour12: false,
-  }).format(now);
+  }).format(now)
 
-  return { error, timestamp };
+  return { error, timestamp }
 }

@@ -1,23 +1,23 @@
-import { Request, Response } from 'express';
-import { RegisterInDto } from '../dtos/in/register.dto';
-import { AuthService } from '../services/auth.service';
-import { success } from '../utilities/success.utility';
-import { LoginInDto } from '../dtos/in/login.dto';
+import type { Request, Response } from 'express'
+import { AuthService } from '../services/auth.service'
+import { success } from '../utilities/success.utility'
+import type { RegisterDto } from '../dtos/in/register.dto'
+import type { LoginDto } from '../dtos/in/login.dto'
 
 export class AuthController {
   static async register(request: Request, response: Response): Promise<void> {
-    const registerInDto = request.body as RegisterInDto;
+    const registerInDto = request.body as RegisterDto
 
-    const registerData = await AuthService.register(registerInDto);
+    const signDto = await AuthService.register(registerInDto)
 
-    response.status(201).json(success(registerData));
+    response.status(201).json(success(signDto))
   }
 
   static async login(request: Request, response: Response): Promise<void> {
-    const loginInDto = request.body as LoginInDto;
+    const loginInDto = request.body as LoginDto
 
-    const loginData = await AuthService.login(loginInDto);
+    const signDto = await AuthService.login(loginInDto)
 
-    response.status(200).json(success(loginData));
+    response.status(200).json(success(signDto))
   }
 }

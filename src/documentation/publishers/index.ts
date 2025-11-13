@@ -1,20 +1,27 @@
-import type { ModuleDocumentation } from "../../models/module-documentation.model";
-import { mergePaths } from "../../utilities/merge-path.utility";
-import { CreatePublisherInDtoSchema } from "./schemas/create-publisher-in-dto.publishers.schema";
-import { PublisherOutDtoSchema } from "./schemas/publisher-out-dto.publishers.schema";
-import { UpdatePublisherInDtoSchema } from "./schemas/update-publisher-in-dto.publishers.schema";
-import { CreatePublisherPath } from "./paths/create.publishers.path";
-import { UpdatePublisherPath } from "./paths/update.publishers.path";
-import { DeletePublisherPath } from "./paths/delete.publishers.path";
-import { GetAllPublishersPath } from "./paths/get-all.publishers.path";
-import { GetPublisherByIdPath } from "./paths/get-by-id.publishers.path";
-import { GetPublisherByNamePath } from "./paths/get-by-name.publishers.path";
+import type { ModuleDocumentation } from '../../models/module-documentation.model'
+import { mergePaths } from '../../utilities/merge-paths.utility'
+import { CreatePublisherDtoSchema } from './schemas/create-publisher-dto.schema'
+import { PublisherDtoSchema } from './schemas/publisher-dto.schema'
+import { UpdatePublisherDtoSchema } from './schemas/update-publisher-dto.schema'
+import { CreatePublisherPath } from './paths/create-publisher.path'
+import { UpdatePublisherPath } from './paths/update-publisher.path'
+import { DeletePublisherPath } from './paths/delete-publisher.path'
+import { GetAllPublishersPath } from './paths/get-all-publishers.path'
+import { GetPublisherByIdPath } from './paths/get-publisher-by-id.path'
+import { GetPublisherByNamePath } from './paths/get-publisher-by-name.path'
 
 export const PublishersDocumentation: ModuleDocumentation = {
-  paths: mergePaths(CreatePublisherPath, UpdatePublisherPath, DeletePublisherPath, GetAllPublishersPath, GetPublisherByIdPath, GetPublisherByNamePath),
+  paths: mergePaths(
+    CreatePublisherPath,
+    UpdatePublisherPath,
+    DeletePublisherPath,
+    GetAllPublishersPath,
+    GetPublisherByIdPath,
+    GetPublisherByNamePath,
+  ),
   schemas: {
-    CreatePublisherInDtoSchema,
-    PublisherOutDtoSchema,
-    UpdatePublisherInDtoSchema
-  }
-};
+    CreatePublisherDtoSchema,
+    PublisherDtoSchema,
+    UpdatePublisherDtoSchema,
+  },
+}

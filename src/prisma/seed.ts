@@ -1,13 +1,13 @@
-import { prisma } from '../configuration/prisma.configuration';
-import { UserRole } from '@prisma/client';
+import { prisma } from '../configuration/prisma.configuration'
+import { UserRole } from '@prisma/client'
 
 async function main() {
-  await prisma.loan.deleteMany();
-  await prisma.book.deleteMany();
-  await prisma.author.deleteMany();
-  await prisma.user.deleteMany();
-  await prisma.category.deleteMany();
-  await prisma.publisher.deleteMany();
+  await prisma.loan.deleteMany()
+  await prisma.book.deleteMany()
+  await prisma.author.deleteMany()
+  await prisma.user.deleteMany()
+  await prisma.category.deleteMany()
+  await prisma.publisher.deleteMany()
 
   // Publishers
   await prisma.publisher.createMany({
@@ -46,7 +46,7 @@ async function main() {
         notes: 'Activo',
       },
     ],
-  });
+  })
 
   // Categories
   await prisma.category.createMany({
@@ -77,7 +77,7 @@ async function main() {
         subtopicCategory: 'Narrativa Contemporánea',
       },
     ],
-  });
+  })
 
   // Users
   await prisma.user.createMany({
@@ -117,7 +117,7 @@ async function main() {
         role: UserRole.USER,
       },
     ],
-  });
+  })
 
   // Authors
   await prisma.author.createMany({
@@ -133,7 +133,7 @@ async function main() {
       { authorId: 9, nameAuthor: 'Jane Austen' },
       { authorId: 10, nameAuthor: 'Arthur C. Clarke' },
     ],
-  });
+  })
 
   // Books
   await prisma.book.createMany({
@@ -165,7 +165,7 @@ async function main() {
         categoryId: 1,
       },
     ],
-  });
+  })
 
   // Loans
   await prisma.loan.createMany({
@@ -183,14 +183,14 @@ async function main() {
         isbn: '9780000000002',
       },
     ],
-  });
+  })
 }
 
 main()
   .catch((e) => {
-    console.error(e);
-    process.exit(1);
+    console.error(e)
+    process.exit(1)
   })
   .finally(async () => {
-    await prisma.$disconnect();
-  });
+    await prisma.$disconnect()
+  })
