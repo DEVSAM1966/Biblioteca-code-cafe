@@ -2,19 +2,18 @@ import type { Request, Response } from 'express'
 import { BadRequestError } from '../models/errors/bad-request.error'
 import { LoansService } from '../services/loans.service'
 import { success } from '../utilities/success.utility'
+import type { LoanIdParamDto } from '../dtos/in/loan-id.dto'
+import type { LoanDateDto } from '../dtos/in/loan-date.dto'
+import type { LoanIsbnDto } from '../dtos/in/loan-isbn.dto'
+import type { LoanUserIdDto } from '../dtos/in/loan-user.dto'
 import type { UpdateLoanDto } from '../dtos/in/update-loan.dto'
 import type { CreateLoanDto } from '../dtos/in/create-loan.dto'
 
 export class LoansController {
   static async getById(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const loadId = parseInt(id, 10)
+    const { id } = request.params as unknown as LoanIdParamDto
 
-    if (Number.isNaN(loadId)) {
-      throw new BadRequestError('Invalid ID for loan')
-    }
-
-    const loadOutdto = await LoansService.getById(loadId)
+    const loadOutdto = await LoansService.getById(id)
 
     response.status(200).json(success(loadOutdto))
   }
@@ -26,15 +25,7 @@ export class LoansController {
   }
 
   static async getByIsbn(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-
-    if (typeof id !== 'string' || id.trim().length === 0) {
-      throw new BadRequestError('Invalid ISBN for loan')
-    }
-
-    if (!/^\d+$/.test(id)) {
-      throw new BadRequestError('Isbn for loan can only contain number')
-    }
+    const { id } = request.params as unknown as LoanIsbnDto
 
     const loanOutDtos = await LoansService.getByIsbn(id)
 
@@ -42,27 +33,17 @@ export class LoansController {
   }
 
   static async getByUser(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const userId = parseInt(id, 10)
+    const { id } = request.params as unknown as LoanUserIdDto
 
-    if (Number.isNaN(userId)) {
-      throw new BadRequestError('Invalid userId for loan')
-    }
-
-    const loanOutDtos = await LoansService.getByUser(userId)
+    const loanOutDtos = await LoansService.getByUser(id)
 
     response.status(200).json(success(loanOutDtos))
   }
 
   static async getByDate(request: Request, response: Response): Promise<void> {
-    const { date } = request.params
-    const loanDate = new Date(date)
+    const { date } = request.params as unknown as LoanDateDto
 
-    if (Number.isNaN(loanDate.getTime())) {
-      throw new BadRequestError('Invalid date for loan')
-    }
-
-    const loanOutDtos = await LoansService.getByDate(loanDate)
+    const loanOutDtos = await LoansService.getByDate(date)
 
     response.status(200).json(success(loanOutDtos))
   }
@@ -76,29 +57,19 @@ export class LoansController {
   }
 
   static async update(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const loanId = parseInt(id, 10)
-
-    if (Number.isNaN(loanId) || loanId <= 0) {
-      throw new BadRequestError('Invalid ID for loan')
-    }
+    const { id } = request.params as unknown as LoanIdParamDto
 
     const dto = request.body as UpdateLoanDto
 
-    const updatedLoan = await LoansService.update(loanId, dto)
+    const updatedLoan = await LoansService.update(id, dto)
 
     response.status(200).json(success(updatedLoan))
   }
 
   static async delete(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const loanId = parseInt(id, 10)
+    const { id } = request.params as unknown as LoanIdParamDto
 
-    if (Number.isNaN(loanId) || loanId <= 0) {
-      throw new BadRequestError('Invalid ID for loan')
-    }
-
-    const existing = await LoansService.delete(loanId)
+    const existing = await LoansService.delete(id)
 
     response.status(200).json(success(existing))
   }

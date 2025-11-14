@@ -2,18 +2,16 @@ import type { Request, Response } from 'express'
 import { BadRequestError } from '../models/errors/bad-request.error'
 import { CategoriesService } from '../services/categories.service'
 import { success } from '../utilities/success.utility'
+import type { CategoryIdParamDto } from '../dtos/in/category-id.dto'
+import type { CategoryNameDto } from '../dtos/in/category-name.dto'
 import type { CreateCategoryDto } from '../dtos/in/create-category.dto'
+import type { UpdateCategoryDto } from '../dtos/in/update-category.dto'
 
 export class CategoriesController {
   static async getById(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const categoryId = parseInt(id, 10)
+    const { id } = request.params as unknown as CategoryIdParamDto
 
-    if (Number.isNaN(categoryId) || categoryId <= 0) {
-      throw new BadRequestError('Invalid ID for Category')
-    }
-
-    const categoryOutDto = await CategoriesService.getById(categoryId)
+    const categoryOutDto = await CategoriesService.getById(id)
 
     response.status(200).json(success(categoryOutDto))
   }
@@ -25,15 +23,7 @@ export class CategoriesController {
   }
 
   static async getByName(request: Request, response: Response): Promise<void> {
-    const name = request.params.name || request.query.name
-
-    if (typeof name !== 'string' || name.trim().length === 0) {
-      throw new BadRequestError('Name is missing')
-    }
-
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
-      throw new BadRequestError('Name can only contain characters and spaces')
-    }
+    const { name } = request.params as unknown as CategoryNameDto
 
     const categoryOutDto = await CategoriesService.getByName(name)
 
@@ -49,29 +39,19 @@ export class CategoriesController {
   }
 
   static async update(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const categoryId = parseInt(id, 10)
+    const { id } = request.params as unknown as CategoryIdParamDto
 
-    if (Number.isNaN(categoryId) || categoryId <= 0) {
-      throw new BadRequestError('Invalid ID for Category')
-    }
+    const dto = request.body as UpdateCategoryDto
 
-    const dto = request.body as CreateCategoryDto
-
-    const updatedCategory = await CategoriesService.update(categoryId, dto)
+    const updatedCategory = await CategoriesService.update(id, dto)
 
     response.status(200).json(success(updatedCategory))
   }
 
   static async delete(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const categoryId = parseInt(id, 10)
+    const { id } = request.params as unknown as CategoryIdParamDto
 
-    if (Number.isNaN(categoryId) || categoryId <= 0) {
-      throw new BadRequestError('Invalid ID for category')
-    }
-
-    const existing = await CategoriesService.delete(categoryId)
+    const existing = await CategoriesService.delete(id)
 
     response.status(200).json(success(existing))
   }
