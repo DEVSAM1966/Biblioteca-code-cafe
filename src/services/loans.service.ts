@@ -99,10 +99,11 @@ export class LoansService {
 
   static async create(data: CreateLoanDto): Promise<LoanDto> {
     try {
+      const loanDate = new Date(data.loanDate)
       const returnDate = data.returnDate
         ? new Date(data.returnDate)
         : new Date(new Date().setDate(new Date().getDate() + 7))
-      const loan = await LoansRepository.create({ ...data, returnDate })
+      const loan = await LoansRepository.create({ ...data, loanDate, returnDate })
 
       const dto: LoanDto = {
         loanId: loan.loanId,
@@ -126,7 +127,12 @@ export class LoansService {
     }
 
     try {
-      const updated = await LoansRepository.update(id, data)
+      const returnDate = data.returnDate ? new Date(data.returnDate) : undefined
+
+      const updated = await LoansRepository.update(id, {
+        ...data,
+        returnDate,
+      })
 
       return {
         loanId: updated.loanId,

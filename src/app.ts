@@ -27,5 +27,6 @@ app
   .use(errorHandlerMiddleware())
 
 app.listen(environment.port, () => {
-  console.log(`Documentation available on http://localhost:${environment.port}/documentation`)
+  console.log(`🖖 Server available on http://localhost:${environment.port}`)
+  console.log(`🖖 Documentation available on http://localhost:${environment.port}/documentation`)
 })

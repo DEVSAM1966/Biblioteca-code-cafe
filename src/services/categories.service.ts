@@ -4,6 +4,7 @@ import { NotFoundError } from '../models/errors/not-found.error'
 import { CategoryRepository } from '../repositories/categories.repository'
 import { InternalServerError } from '../models/errors/internal-server.error'
 import type { CategoryDto } from '../dtos/out/category.dto'
+import type { UpdateCategoryDto } from '../dtos/in/update-category.dto'
 
 export class CategoriesService {
   static async getById(id: number): Promise<CategoryDto> {
@@ -56,7 +57,7 @@ export class CategoriesService {
     }
   }
 
-  static async update(id: number, data: CreateCategoryDto): Promise<CategoryDto> {
+  static async update(id: number, data: UpdateCategoryDto): Promise<CategoryDto> {
     const existing = await CategoryRepository.getById(id)
 
     if (!existing) {

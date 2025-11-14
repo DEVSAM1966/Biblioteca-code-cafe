@@ -1,18 +1,15 @@
-import { Type } from 'class-transformer'
-import { IsOptional, IsDate, MinDate, IsNumber, IsString } from 'class-validator'
+import { IsOptional, IsNumber, IsString, Matches } from 'class-validator'
 
 export class UpdateLoanDto {
   @IsOptional()
-  @IsDate()
-  @MinDate(() => new Date())
-  @Type(() => Date)
-  returnDate?: Date
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'Return date must be in format YYYY-MM-DD' })
+  returnDate?: string
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({}, { message: 'User ID must be a number' })
   userId?: number
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'ISBN must be a string' })
   isbn?: string
 }
