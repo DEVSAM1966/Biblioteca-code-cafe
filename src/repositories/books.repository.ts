@@ -1,9 +1,11 @@
 import type { Book, Prisma } from '@prisma/client'
 import { prisma } from '../configuration/prisma.configuration'
+import type { CreateBookDto } from '../dtos/in/create-book.dto'
+import { UpdateBookDto } from '../dtos/in/update-book.dto'
 
 export class BooksRepository {
-  static async getById(id: string): Promise<Book | null> {
-    return await prisma.book.findUnique({ where: { isbn: id } })
+  static async getById(isbn: string): Promise<Book | null> {
+    return await prisma.book.findUnique({ where: { isbn: isbn } })
   }
 
   static async getByName(name: string): Promise<Book[]> {
@@ -20,14 +22,39 @@ export class BooksRepository {
     return await prisma.book.findMany()
   }
 
-  static async create(bookData: Prisma.BookCreateInput): Promise<Book> {
-    return await prisma.book.create({ data: bookData })
+  static async create(bookData: CreateBookDto): Promise<Book> {
+    return await prisma.book.create({ 
+      data: {
+        isbn: bookData.isbn,
+        title: bookData.title,
+        summary: bookData.summary,
+        pages: bookData.pages,
+        editionDate: bookData.editionDate ? new Date(bookData.editionDate) : undefined,
+        language: bookData.language,
+        authors: bookData.authors,
+        author: { connect: { authorId: bookData.authorId } },
+        publisher: { connect: { publisherId: bookData.publisherId } },
+        category: { connect: { categoryId: bookData.categoryId } },
+      }, 
+    })
   }
 
-  static async update(id: string, bookData: Prisma.BookUpdateInput): Promise<Book> {
+  static async update(isbn: string, bookData: UpdateBookDto): Promise<Book> {
     return await prisma.book.update({
-      where: { isbn: id },
-      data: bookData,
+      where: { isbn },
+      data: {
+        title: bookData.title,
+      pages: bookData.pages,
+      summary: bookData.summary,
+      editionDate: bookData.editionDate ? new Date(bookData.editionDate) : undefined,
+      bookCover: bookData.bookCover,
+      bookFile: bookData.bookFile,
+      language: bookData.language,
+      authors: bookData.authors,
+      author: bookData.authorId ? { connect: { authorId: bookData.authorId } } : undefined,
+      publisher: bookData.publisherId ? { connect: { publisherId: bookData.publisherId } } : undefined,
+      category: bookData.categoryId ? { connect: { categoryId: bookData.categoryId } } : undefined,
+      },
     })
   }
 
