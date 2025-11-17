@@ -2,41 +2,23 @@ import type { Request, Response } from 'express'
 import { BadRequestError } from '../models/errors/bad-request.error'
 import { BooksService } from '../services/books.service'
 import { success } from '../utilities/success.utility'
+import type { BookIsbnDto } from '../dtos/in/book-isbn.dto'
+import type { BookNameDto } from '../dtos/in/book-name.dto'
 import type { CreateBookDto } from '../dtos/in/create-book.dto'
 import type { UpdateBookDto } from '../dtos/in/update-book.dto'
 
 export class BooksController {
   static async getById(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-
-    if (typeof id !== 'string' || id.trim().length === 0) {
-      throw new BadRequestError('Isbn is missing')
-    }
-
-    if (!/^\d+$/.test(id)) {
-      throw new BadRequestError('Isbn can only contain number')
-    }
-
-    const booksOutdto = await BooksService.getById(id)
+    const { isbn } = request.params as unknown as BookIsbnDto
+    
+    const booksOutdto = await BooksService.getById(isbn)
 
     response.status(200).json(success(booksOutdto))
   }
 
   static async getByName(request: Request, response: Response): Promise<void> {
-    const name = request.params.name || request.query.name
-
-    if (Array.isArray(name)) {
-      throw new BadRequestError('Multiple names not allowed')
-    }
-
-    if (typeof name !== 'string' || name.trim().length === 0) {
-      throw new BadRequestError('Title is missing')
-    }
-
-    if (!/^[\p{L}\s]+$/u.test(name)) {
-      throw new BadRequestError('Title can only contain characters and spaces')
-    }
-
+    const { name } = request.params as unknown as BookNameDto
+   
     const booksOutdto = await BooksService.getByName(name)
 
     response.status(200).json(success(booksOutdto))
@@ -49,7 +31,7 @@ export class BooksController {
   }
 
   static async create(request: Request, response: Response): Promise<void> {
-    const createBookDto: CreateBookDto = request.body
+    const createBookDto = request.body as CreateBookDto
 
     const bookDto = await BooksService.create(createBookDto)
 
@@ -57,36 +39,26 @@ export class BooksController {
   }
 
   static async update(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const { isbn } = request.params as unknown as BookIsbnDto
 
-    if (typeof id !== 'string' || id.trim().length === 0) {
-      throw new BadRequestError('Isbn is missing')
-    }
+    const updateBookDto = request.body as UpdateBookDto
 
-    if (!/^\d+$/.test(id)) {
-      throw new BadRequestError('Isbn can only contain number')
-    }
-
-    const updateBookDto: UpdateBookDto = request.body
-
-    const bookDto = await BooksService.update(id, updateBookDto)
+    const bookDto = await BooksService.update(isbn, updateBookDto)
 
     response.status(200).json(success(bookDto))
   }
 
   static async updateFiles(request: Request, response: Response): Promise<void> {
     const { isbn } = request.params
+
     const files = request.files as {
       bookCover?: Express.Multer.File[]
       bookFile?: Express.Multer.File[]
     }
 
-    if (!isbn || !/^\d+$/.test(isbn)) {
-      throw new BadRequestError('Invalid ISBN format')
-    }
-
     const bookCover = files.bookCover?.[0]
     const bookFile = files.bookFile?.[0]
+
     if (!bookCover || !bookFile) {
       throw new BadRequestError("Both 'bookCover' and 'bookFile' must be provided")
     }
@@ -105,17 +77,9 @@ export class BooksController {
   }
 
   static async delete(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const { isbn } = request.params as unknown as BookIsbnDto
 
-    if (typeof id !== 'string' || id.trim().length === 0) {
-      throw new BadRequestError('Isbn is missing')
-    }
-
-    if (!/^\d+$/.test(id)) {
-      throw new BadRequestError('Isbn can only contain number')
-    }
-
-    const existing = await BooksService.delete(id)
+    const existing = await BooksService.delete(isbn)
 
     response.status(200).json(success(existing))
   }

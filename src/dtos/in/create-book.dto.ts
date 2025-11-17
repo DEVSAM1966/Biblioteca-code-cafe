@@ -1,43 +1,50 @@
-import { IsInt, IsOptional, IsString, IsDateString, MaxLength } from 'class-validator'
+import { IsInt, IsOptional, IsString, Matches, MaxLength } from 'class-validator'
+import { Type } from 'class-transformer';
 
 export class CreateBookDto {
-  @IsString()
-  @MaxLength(13)
+  @IsString({ message: 'Book ISBN must be a string' })
+  @Matches(/^(?:\d{9}[\dXx]|\d{13})$/, {
+    message: 'Book ISBN must be either 10 digits (last can be X) or 13 digits',
+  })
   isbn: string
 
-  @IsString()
-  @MaxLength(55)
+  @IsString({ message: 'Book Title must be a string' })
+  @MaxLength(55, { message: 'Book Title must be at most 55 characters long' })
   title: string
 
   @IsOptional()
-  @IsInt()
+  @Type(() => Number)
+  @IsInt({ message: 'Book Pages must be an integer' })
   pages?: number
 
   @IsOptional()
-  @IsString()
-  @MaxLength(255)
+  @IsString({ message: 'Book Summary must be a string' })
+  @MaxLength(255, { message: 'Book Summary must be at most 255 characters long' })
   summary?: string
 
   @IsOptional()
-  @IsDateString()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'Book Edition date must be in format YYYY-MM-DD' })
   editionDate?: string
 
   @IsOptional()
-  @IsString()
-  @MaxLength(20)
+  @IsString({ message: 'Book Language must be a string' })
+  @MaxLength(20, { message: 'Language must be at most 20 characters long' })
   language?: string
 
   @IsOptional()
-  @IsString()
-  @MaxLength(100)
+  @IsString({ message: 'Book Authors must be a string' })
+  @MaxLength(100, { message: 'Book Authors must be at most 100 characters long' })
   authors?: string
 
-  @IsInt()
+  @Type(() => Number)
+  @IsInt({ message: 'Book Author ID must be an integer' })
   authorId: number
 
-  @IsInt()
+  @Type(() => Number)
+  @IsInt({ message: 'Book Publisher ID must be an integer' })
   publisherId: number
 
-  @IsInt()
+  @Type(() => Number)
+  @IsInt({ message: 'Book Category ID must be an integer' })
   categoryId: number
 }

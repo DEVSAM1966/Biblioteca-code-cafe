@@ -3,6 +3,9 @@ import type { CreateBookDto } from '../dtos/in/create-book.dto'
 import { NotFoundError } from '../models/errors/not-found.error'
 import { InternalServerError } from '../models/errors/internal-server.error'
 import { BooksRepository } from '../repositories/books.repository'
+import { AuthorsRepository } from '../repositories/authors.repository'
+import { CategoryRepository } from '../repositories/categories.repository'
+import { PublishersRepository } from '../repositories/publishers.repository'
 import fs from 'node:fs/promises'
 import { ConflictError } from '../models/errors/conflict.error'
 import type { BookDto } from '../dtos/out/book.dto'
@@ -27,11 +30,11 @@ export class BooksService {
     }
   }
 
-  static async getById(id: string): Promise<BookDto> {
-    const book: Book | null = await BooksRepository.getById(id)
+  static async getById(isbn: string): Promise<BookDto> {
+    const book: Book | null = await BooksRepository.getById(isbn)
 
     if (!book) {
-      throw new NotFoundError(`Book with isbn ${id} not found`)
+      throw new NotFoundError(`Book with isbn ${isbn} not found`)
     }
 
     const dto: BookDto = {
@@ -101,10 +104,28 @@ export class BooksService {
   }
 
   static async create(bookData: CreateBookDto): Promise<BookDto> {
-    const existing = await BooksRepository.getById(bookData.isbn)
+    const existingBook = await BooksRepository.getById(bookData.isbn)
 
-    if (existing) {
+    if (existingBook) {
       throw new ConflictError(`Book with ISBN ${bookData.isbn} already exists`)
+    }
+
+    const existingAuthor = await AuthorsRepository.getById(bookData.authorId)
+
+    if (!existingAuthor) {
+      throw new NotFoundError(`Book Author with ID ${bookData.authorId} not found`)
+    }
+
+    const existingCategory = await CategoryRepository.getById(bookData.categoryId)
+
+    if (!existingCategory) {
+      throw new NotFoundError(`Book Category with ID ${bookData.categoryId} not found`)
+    }
+
+    const existingPublisher = await PublishersRepository.getById(bookData.publisherId)
+
+    if (!existingPublisher) {
+      throw new NotFoundError(`Book Publisher with ID ${bookData.publisherId} not found`)
     }
 
     try {
@@ -115,7 +136,9 @@ export class BooksService {
         title: newBook.title,
         summary: newBook.summary ?? null,
         pages: newBook.pages ?? null,
-        editionDate: (newBook.editionDate as unknown as Date)?.toISOString() ?? null,
+        editionDate: newBook.editionDate
+          ? (newBook.editionDate as Date).toISOString().split('T')[0]
+          : null,
         bookCover: newBook.bookCover ?? null,
         bookFile: newBook.bookFile ?? null,
         language: newBook.language ?? null,
@@ -140,6 +163,30 @@ export class BooksService {
       throw new NotFoundError(`Book with isbn ${isbn} not found`)
     }
 
+    if (bookData.authorId !== null && bookData.authorId !== undefined) {
+      const existingAuthor = await AuthorsRepository.getById(bookData.authorId)
+
+      if (!existingAuthor) {
+        throw new NotFoundError(`Book Author with ID ${bookData.authorId} not found`)
+      }
+    }
+
+    if (bookData.categoryId !== null && bookData.categoryId !== undefined) {
+      const existingCategory = await CategoryRepository.getById(bookData.categoryId)
+
+      if (!existingCategory) {
+        throw new NotFoundError(`Book Category with ID ${bookData.categoryId} not found`)
+      }
+    }
+    
+    if (bookData.publisherId !== null && bookData.publisherId !== undefined) {
+      const existingPublisher = await PublishersRepository.getById(bookData.publisherId)
+
+      if (!existingPublisher) {
+        throw new NotFoundError(`Book Publisher with ID ${bookData.publisherId} not found`)
+      }
+    }
+
     try {
       const updatedBook: Book = await BooksRepository.update(isbn, bookData)
 
@@ -148,7 +195,9 @@ export class BooksService {
         title: updatedBook.title,
         summary: updatedBook.summary ?? null,
         pages: updatedBook.pages ?? null,
-        editionDate: (updatedBook.editionDate as unknown as Date)?.toISOString() ?? null,
+        editionDate: updatedBook.editionDate
+          ? (updatedBook.editionDate as Date).toISOString().split('T')[0]
+          : null,
         bookCover: updatedBook.bookCover ?? null,
         bookFile: updatedBook.bookFile ?? null,
         language: updatedBook.language ?? null,
