@@ -10,44 +10,37 @@ import { uploadBookFiles } from '../middlewares/multer-book.middleware'
 export const BooksRoutes = Router()
 
 BooksRoutes.get(
-    '/isbn/:isbn', 
-    dtoValidationMiddleware(BookIsbnDto, 'params'),
-    BooksController.getById,
+  '/isbn/:isbn',
+  dtoValidationMiddleware(BookIsbnDto, 'params'),
+  BooksController.getById,
 )
 
 BooksRoutes.get(
-    '/title/:name', 
-    dtoValidationMiddleware(BookNameDto, 'params'),
-    BooksController.getByName,
+  '/title/:name',
+  dtoValidationMiddleware(BookNameDto, 'params'),
+  BooksController.getByName,
 )
 
-BooksRoutes.get(
-    '/', 
-    BooksController.getAll,
-)
+BooksRoutes.get('/', BooksController.getAll)
 
-BooksRoutes.post(
-    '/', 
-    dtoValidationMiddleware(CreateBookDto, 'body'), 
-    BooksController.create,
+BooksRoutes.post('/', dtoValidationMiddleware(CreateBookDto, 'body'), BooksController.create)
+
+BooksRoutes.put(
+  '/isbn/:isbn',
+  dtoValidationMiddleware(BookIsbnDto, 'params'),
+  dtoValidationMiddleware(UpdateBookDto, 'body'),
+  BooksController.update,
 )
 
 BooksRoutes.put(
-    '/isbn/:isbn', 
-    dtoValidationMiddleware(BookIsbnDto, 'params'),
-    dtoValidationMiddleware(UpdateBookDto, 'body'), 
-    BooksController.update,
-)
-
-BooksRoutes.put(
-    '/:isbn/files', 
-    dtoValidationMiddleware(BookIsbnDto, 'params'),
-    uploadBookFiles(), 
-    BooksController.updateFiles,
+  '/:isbn/files',
+  dtoValidationMiddleware(BookIsbnDto, 'params'),
+  uploadBookFiles(),
+  BooksController.updateFiles,
 )
 
 BooksRoutes.delete(
-    '/isbn/:isbn', 
-    dtoValidationMiddleware(BookIsbnDto, 'params'),
-    BooksController.delete,
+  '/isbn/:isbn',
+  dtoValidationMiddleware(BookIsbnDto, 'params'),
+  BooksController.delete,
 )

@@ -1,7 +1,7 @@
-import type { Book, Prisma } from '@prisma/client'
+import type { Book } from '@prisma/client'
 import { prisma } from '../configuration/prisma.configuration'
 import type { CreateBookDto } from '../dtos/in/create-book.dto'
-import { UpdateBookDto } from '../dtos/in/update-book.dto'
+import type { UpdateBookDto } from '../dtos/in/update-book.dto'
 
 export class BooksRepository {
   static async getById(isbn: string): Promise<Book | null> {
@@ -23,7 +23,7 @@ export class BooksRepository {
   }
 
   static async create(bookData: CreateBookDto): Promise<Book> {
-    return await prisma.book.create({ 
+    return await prisma.book.create({
       data: {
         isbn: bookData.isbn,
         title: bookData.title,
@@ -35,7 +35,7 @@ export class BooksRepository {
         author: { connect: { authorId: bookData.authorId } },
         publisher: { connect: { publisherId: bookData.publisherId } },
         category: { connect: { categoryId: bookData.categoryId } },
-      }, 
+      },
     })
   }
 
@@ -44,16 +44,20 @@ export class BooksRepository {
       where: { isbn },
       data: {
         title: bookData.title,
-      pages: bookData.pages,
-      summary: bookData.summary,
-      editionDate: bookData.editionDate ? new Date(bookData.editionDate) : undefined,
-      bookCover: bookData.bookCover,
-      bookFile: bookData.bookFile,
-      language: bookData.language,
-      authors: bookData.authors,
-      author: bookData.authorId ? { connect: { authorId: bookData.authorId } } : undefined,
-      publisher: bookData.publisherId ? { connect: { publisherId: bookData.publisherId } } : undefined,
-      category: bookData.categoryId ? { connect: { categoryId: bookData.categoryId } } : undefined,
+        pages: bookData.pages,
+        summary: bookData.summary,
+        editionDate: bookData.editionDate ? new Date(bookData.editionDate) : undefined,
+        bookCover: bookData.bookCover,
+        bookFile: bookData.bookFile,
+        language: bookData.language,
+        authors: bookData.authors,
+        author: bookData.authorId ? { connect: { authorId: bookData.authorId } } : undefined,
+        publisher: bookData.publisherId
+          ? { connect: { publisherId: bookData.publisherId } }
+          : undefined,
+        category: bookData.categoryId
+          ? { connect: { categoryId: bookData.categoryId } }
+          : undefined,
       },
     })
   }

@@ -1,5 +1,4 @@
 import type { Request, Response } from 'express'
-import { BadRequestError } from '../models/errors/bad-request.error'
 import { CategoriesService } from '../services/categories.service'
 import { success } from '../utilities/success.utility'
 import type { CategoryIdParamDto } from '../dtos/in/category-id.dto'

@@ -1,6 +1,7 @@
 import { AuthorsRepository } from '../repositories/authors.repository'
 import { NotFoundError } from '../models/errors/not-found.error'
 import type { CreateAuthorDto } from '../dtos/in/create-author.dto'
+import type { UpdateAuthorDto } from '../dtos/in/update-author.dto'
 import type { Author } from '@prisma/client'
 import { InternalServerError } from '../models/errors/internal-server.error'
 import type { AuthorDto } from '../dtos/out/author.dto'
@@ -53,7 +54,7 @@ export class AuthorsService {
 
   static async create(data: CreateAuthorDto): Promise<AuthorDto> {
     try {
-      const newAuthor: Author = await AuthorsRepository.create({ nameAuthor: data.name })
+      const newAuthor: Author = await AuthorsRepository.create(data)
 
       const authorOutDto: AuthorDto = {
         authorId: newAuthor.authorId,
@@ -64,6 +65,29 @@ export class AuthorsService {
     } catch (error) {
       throw new InternalServerError(
         `Failed to create author: ${error instanceof Error ? error.message : String(error)}`,
+      )
+    }
+  }
+
+  static async update(id: number, data: UpdateAuthorDto): Promise<AuthorDto> {
+    const existingAuthor = await AuthorsRepository.getById(id)
+
+    if (!existingAuthor) {
+      throw new NotFoundError(`Author with ID ${id} not found`)
+    }
+
+    try {
+      const updatedAuthor: Author = await AuthorsRepository.update(id, data)
+
+      const authorOutDto: AuthorDto = {
+        authorId: updatedAuthor.authorId,
+        nameAuthor: updatedAuthor.nameAuthor,
+      }
+
+      return authorOutDto
+    } catch (error) {
+      throw new InternalServerError(
+        `Failed to update author: ${error instanceof Error ? error.message : String(error)}`,
       )
     }
   }

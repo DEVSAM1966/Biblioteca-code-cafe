@@ -1,5 +1,5 @@
 import { IsInt, IsOptional, IsString, Matches, MaxLength } from 'class-validator'
-import { Type } from 'class-transformer';
+import { Type } from 'class-transformer'
 
 export class CreateBookDto {
   @IsString({ message: 'Book ISBN must be a string' })

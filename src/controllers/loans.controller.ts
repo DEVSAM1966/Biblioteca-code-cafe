@@ -1,5 +1,4 @@
 import type { Request, Response } from 'express'
-import { BadRequestError } from '../models/errors/bad-request.error'
 import { LoansService } from '../services/loans.service'
 import { success } from '../utilities/success.utility'
 import type { LoanIdParamDto } from '../dtos/in/loan-id.dto'

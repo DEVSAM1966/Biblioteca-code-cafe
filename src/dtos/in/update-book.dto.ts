@@ -1,5 +1,5 @@
 import { IsOptional, IsString, MaxLength, IsInt, Matches } from 'class-validator'
-import { Type } from 'class-transformer';
+import { Type } from 'class-transformer'
 
 export class UpdateBookDto {
   @IsOptional()

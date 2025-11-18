@@ -178,7 +178,7 @@ export class BooksService {
         throw new NotFoundError(`Book Category with ID ${bookData.categoryId} not found`)
       }
     }
-    
+
     if (bookData.publisherId !== null && bookData.publisherId !== undefined) {
       const existingPublisher = await PublishersRepository.getById(bookData.publisherId)
 
