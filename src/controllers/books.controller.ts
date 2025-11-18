@@ -10,7 +10,7 @@ import type { UpdateBookDto } from '../dtos/in/update-book.dto'
 export class BooksController {
   static async getById(request: Request, response: Response): Promise<void> {
     const { isbn } = request.params as unknown as BookIsbnDto
-    
+
     const booksOutdto = await BooksService.getById(isbn)
 
     response.status(200).json(success(booksOutdto))
@@ -18,7 +18,7 @@ export class BooksController {
 
   static async getByName(request: Request, response: Response): Promise<void> {
     const { name } = request.params as unknown as BookNameDto
-   
+
     const booksOutdto = await BooksService.getByName(name)
 
     response.status(200).json(success(booksOutdto))

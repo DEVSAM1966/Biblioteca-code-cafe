@@ -1,5 +1,7 @@
-import type { Author, Prisma } from '@prisma/client'
+import type { Author } from '@prisma/client'
 import { prisma } from '../configuration/prisma.configuration'
+import type { CreateAuthorDto } from '../dtos/in/create-author.dto'
+import type { UpdateAuthorDto } from '../dtos/in/update-author.dto'
 
 export class AuthorsRepository {
   static async getById(id: number): Promise<Author | null> {
@@ -14,8 +16,21 @@ export class AuthorsRepository {
     return await prisma.author.findMany()
   }
 
-  static async create(data: Prisma.AuthorCreateInput): Promise<Author> {
-    return await prisma.author.create({ data })
+  static async create(data: CreateAuthorDto): Promise<Author> {
+    return await prisma.author.create({
+      data: {
+        nameAuthor: data.nameAuthor,
+      },
+    })
+  }
+
+  static async update(authorId: number, data: UpdateAuthorDto): Promise<Author> {
+    return await prisma.author.update({
+      where: { authorId },
+      data: {
+        nameAuthor: data.nameAuthor,
+      },
+    })
   }
 
   static async delete(id: number): Promise<Author> {
