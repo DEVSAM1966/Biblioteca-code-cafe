@@ -8,7 +8,15 @@ export class UsersRepository {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new Error('A user with this email already exists')
+          let target: string
+
+          if (Array.isArray(error.meta?.target)) {
+            target = (error.meta?.target as string[]).join(', ')
+          } else {
+            target = String(error.meta?.target || 'field')
+          }
+
+          throw new Error(`A user with this ${target} already exists`)
         }
       }
       throw error

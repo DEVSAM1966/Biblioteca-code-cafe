@@ -1,20 +1,16 @@
 import type { Request, Response } from 'express'
-import { BadRequestError } from '../models/errors/bad-request.error'
 import { success } from '../utilities/success.utility'
 import { UsersService } from '../services/users.service'
 import type { CreateUserDto } from '../dtos/in/create-user.dto'
 import type { UpdateUserDto } from '../dtos/in/update-user.dto'
+import type { UserIdParamDto } from '../dtos/in/user-id.dto'
+import type { UserNameDto } from '../dtos/in/user-name.dto'
 
 export class UsersController {
   static async getById(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
-    const userId = parseInt(id, 10)
+    const { id } = request.params as unknown as UserIdParamDto
 
-    if (Number.isNaN(userId) || userId <= 0) {
-      throw new BadRequestError('Invalid ID for User')
-    }
-
-    const userOutDto = await UsersService.getById(userId)
+    const userOutDto = await UsersService.getById(id)
 
     response.status(200).json(success(userOutDto))
   }
@@ -26,15 +22,7 @@ export class UsersController {
   }
 
   static async getByName(request: Request, response: Response): Promise<void> {
-    const name = request.params.name || request.query.name
-
-    if (typeof name !== 'string' || name.trim().length === 0) {
-      throw new BadRequestError('Name is missing')
-    }
-
-    if (!/^[\p{L}\s]+$/u.test(name)) {
-      throw new BadRequestError('Name can only contain characters and spaces')
-    }
+    const { name } = request.params as unknown as UserNameDto
 
     const userOutDto = await UsersService.getByName(name)
 
@@ -42,29 +30,15 @@ export class UsersController {
   }
 
   static async delete(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const { id } = request.params as unknown as UserIdParamDto
 
-    if (typeof id !== 'string' || id.trim().length === 0) {
-      throw new BadRequestError('Id is missing')
-    }
-
-    if (!/^\d+$/.test(id)) {
-      throw new BadRequestError('Id can only contain number')
-    }
-
-    const idAsNumber = parseInt(id, 10)
-
-    if (Number.isNaN(idAsNumber) || idAsNumber <= 0) {
-      throw new BadRequestError('Invalid ID for User')
-    }
-
-    const existing = await UsersService.delete(idAsNumber)
+    const existing = await UsersService.delete(id)
 
     response.status(200).json(success(existing))
   }
 
   static async create(request: Request, response: Response): Promise<void> {
-    const createUserDto: CreateUserDto = request.body
+    const createUserDto = request.body as CreateUserDto
 
     const userOutDto = await UsersService.create(createUserDto)
 
@@ -72,45 +46,19 @@ export class UsersController {
   }
 
   static async update(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const { id } = request.params as unknown as UserIdParamDto
 
-    if (typeof id !== 'string' || id.trim().length === 0) {
-      throw new BadRequestError('User Id is missing')
-    }
+    const updateUserDto = request.body as UpdateUserDto
 
-    if (!/^\d+$/.test(id)) {
-      throw new BadRequestError('User Id can only contain number')
-    }
-
-    const idAsNumber = parseInt(id, 10)
-
-    if (Number.isNaN(idAsNumber) || idAsNumber <= 0) {
-      throw new BadRequestError('Invalid ID for User')
-    }
-
-    const updateUserDto: UpdateUserDto = request.body
-
-    const userOutDto = await UsersService.update(idAsNumber, updateUserDto)
+    const userOutDto = await UsersService.update(id, updateUserDto)
 
     response.status(200).json(success(userOutDto))
   }
 
   static async deleteLogic(request: Request, response: Response): Promise<void> {
-    const { id } = request.params
+    const { id } = request.params as unknown as UserIdParamDto
 
-    if (typeof id !== 'string' || id.trim().length === 0) {
-      throw new BadRequestError('User Id is missing')
-    }
-    if (!/^\d+$/.test(id)) {
-      throw new BadRequestError('Id can only contain number')
-    }
-    const idAsNumber = parseInt(id, 10)
-
-    if (Number.isNaN(idAsNumber) || idAsNumber <= 0) {
-      throw new BadRequestError('Invalid ID for User')
-    }
-
-    const userDrop = await UsersService.deleteLogic(idAsNumber)
+    const userDrop = await UsersService.deleteLogic(id)
 
     response.status(200).json(success(userDrop))
   }

@@ -1,5 +1,6 @@
 import { UserRole } from '@prisma/client'
 import { IsNumber, IsString, IsISO8601, IsBoolean, IsEnum } from 'class-validator'
+import { Transform } from 'class-transformer'
 
 export class DetailedUserDto {
   @IsNumber()
@@ -30,6 +31,7 @@ export class DetailedUserDto {
   email: string
 
   @IsISO8601()
+  @Transform(({ value }) => value.split('T')[0])
   registrationDate: string
 
   @IsBoolean()
