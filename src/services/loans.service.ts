@@ -2,6 +2,8 @@ import type { Loan } from '@prisma/client'
 import { NotFoundError } from '../models/errors/not-found.error'
 import { InternalServerError } from '../models/errors/internal-server.error'
 import { LoansRepository } from '../repositories/loans.repository'
+import { BooksRepository } from '../repositories/books.repository'
+import { UsersRepository } from '../repositories/users.repository'
 import type { LoanDto } from '../dtos/out/loan.dto'
 import type { CreateLoanDto } from '../dtos/in/create-loan.dto'
 import type { UpdateLoanDto } from '../dtos/in/update-loan.dto'
@@ -102,7 +104,24 @@ export class LoansService {
       const loanDate = new Date(data.loanDate)
       const returnDate = data.returnDate
         ? new Date(data.returnDate)
-        : new Date(new Date().setDate(new Date().getDate() + 7))
+        : new Date(loanDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+
+      const existingBook = await BooksRepository.getById(data.isbn)
+      if (!existingBook) {
+        throw new NotFoundError(`Loan of Book with ISBN ${data.isbn} not found`)
+      }
+
+      const existingUser = await UsersRepository.getById(data.userId)
+      if (!existingUser) {
+        throw new NotFoundError(`Loan of User with id ${data.userId} not found`)
+      } else {
+        if (existingUser.userDrop === true) {
+          throw new NotFoundError(
+            `User with id ${data.userId} has been dropped and cannot borrow books`,
+          )
+        }
+      }
+
       const loan = await LoansRepository.create({ ...data, loanDate, returnDate })
 
       const dto: LoanDto = {
@@ -114,7 +133,10 @@ export class LoansService {
       }
 
       return dto
-    } catch {
+    } catch (error: any) {
+      if (error instanceof NotFoundError) {
+        throw error
+      }
       throw new InternalServerError('Failed to create loan')
     }
   }
@@ -124,6 +146,22 @@ export class LoansService {
 
     if (!existing) {
       throw new NotFoundError(`Loan with id ${id} not found`)
+    }
+
+    if (data.isbn !== null && data.isbn !== undefined) {
+      const existingBook = await BooksRepository.getById(data.isbn)
+
+      if (!existingBook) {
+        throw new NotFoundError(`Loan of Book with ISBN ${data.isbn} not found`)
+      }
+    }
+
+    if (data.userId !== null && data.userId !== undefined) {
+      const existingUser = await UsersRepository.getById(data.userId)
+
+      if (!existingUser) {
+        throw new NotFoundError(`Loan of User with id ${data.userId} not found`)
+      }
     }
 
     try {

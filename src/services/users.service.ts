@@ -6,8 +6,9 @@ import type { CreateUserDto } from '../dtos/in/create-user.dto'
 import type { User } from '@prisma/client'
 import { Prisma } from '@prisma/client'
 import type { UpdateUserDto } from '../dtos/in/update-user.dto'
-import type { DetailedUserDto } from '../dtos/out/detailed-user.dto'
+import { DetailedUserDto } from '../dtos/out/detailed-user.dto'
 import type { UserDto } from '../dtos/out/user.dto'
+import { plainToInstance } from 'class-transformer'
 
 export class UsersService {
   static async getById(id: number): Promise<DetailedUserDto> {
@@ -100,7 +101,7 @@ export class UsersService {
     try {
       const newUser: User = await UsersRepository.create(data)
 
-      const dto: DetailedUserDto = {
+      const dto = plainToInstance(DetailedUserDto, {
         fullname: newUser.fullname,
         dni: newUser.dni,
         address: newUser.address,
@@ -115,11 +116,12 @@ export class UsersService {
         daysDisciplinary: newUser.daysDisciplinary,
         role: newUser.role,
         userId: newUser.userId,
-      }
+      })
 
       return dto
-    } catch {
-      throw new InternalServerError('Failed to create user')
+    } catch (error: any) {
+      console.error('Create user error message:', error.message)
+      throw new InternalServerError('Failed to create user or Invalid credentials user')
     }
   }
 
@@ -133,7 +135,7 @@ export class UsersService {
     try {
       const updatedUser: User = await UsersRepository.update(id, data)
 
-      const dto: DetailedUserDto = {
+      const dto = plainToInstance(DetailedUserDto, {
         fullname: updatedUser.fullname,
         dni: updatedUser.dni,
         address: updatedUser.address,
@@ -148,10 +150,11 @@ export class UsersService {
         daysDisciplinary: updatedUser.daysDisciplinary,
         role: updatedUser.role,
         userId: updatedUser.userId,
-      }
+      })
 
       return dto
-    } catch {
+    } catch (error) {
+      console.error('Create user error raw:', error)
       throw new InternalServerError('Failed to update user')
     }
   }
