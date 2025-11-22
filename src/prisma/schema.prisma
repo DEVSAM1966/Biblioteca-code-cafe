@@ -63,7 +63,7 @@ model History {
 
 model Loan {
   loanId     Int       @id @default(autoincrement()) @map("loan_id")
-  loanDate   DateTime? @default(now()) @map("loan_date") @db.Date
+  loanDate   DateTime? @map("loan_date") @db.Date
   returnDate DateTime? @map("return_date") @db.Date
   userId     Int?      @map("user_id")
   isbn       String?   @db.VarChar(13)
@@ -114,5 +114,7 @@ model User {
 }
 
 enum UserRole {
+  ADMIN
+  SUPPORT
   USER
 }

@@ -7,46 +7,72 @@ import { LoanDateDto } from '../dtos/in/loan-date.dto'
 import { CreateLoanDto } from '../dtos/in/create-loan.dto'
 import { UpdateLoanDto } from '../dtos/in/update-loan.dto'
 import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
+import { authMiddleware } from '../middlewares/auth.middleware'
+import { authorize } from '../middlewares/authorize.middleware'
+import { UserRole } from '@prisma/client'
 
 export const LoansRoutes = Router()
 
 LoansRoutes.get(
-  '/id/:id',
+  '/id/:id', 
+  authMiddleware(), 
+  authorize([UserRole.ADMIN, UserRole.SUPPORT]), 
   dtoValidationMiddleware(LoanIdParamDto, 'params'),
   LoansController.getById,
 )
 
-LoansRoutes.get('/', LoansController.getAll)
+LoansRoutes.get(
+  '/', 
+  authMiddleware(), 
+  authorize([UserRole.ADMIN, UserRole.SUPPORT]), 
+  LoansController.getAll,
+)
 
 LoansRoutes.get(
-  '/isbn/:id',
+  '/isbn/:id', 
+  authMiddleware(), 
+  authorize([UserRole.ADMIN, UserRole.SUPPORT]), 
   dtoValidationMiddleware(LoanIsbnDto, 'params'),
   LoansController.getByIsbn,
 )
 
 LoansRoutes.get(
-  '/user/:id',
+  '/user/:id', 
+  authMiddleware(), 
+  authorize([UserRole.ADMIN, UserRole.SUPPORT]), 
   dtoValidationMiddleware(LoanUserIdDto, 'params'),
   LoansController.getByUser,
 )
 
 LoansRoutes.get(
-  '/date/:date',
+  '/date/:date', 
+  authMiddleware(), 
+  authorize([UserRole.ADMIN, UserRole.SUPPORT]), 
   dtoValidationMiddleware(LoanDateDto, 'params'),
   LoansController.getByDate,
 )
 
-LoansRoutes.post('/', dtoValidationMiddleware(CreateLoanDto), LoansController.create)
+LoansRoutes.post(
+  '/', 
+  authMiddleware(), 
+  authorize([UserRole.ADMIN, UserRole.SUPPORT]), 
+  dtoValidationMiddleware(CreateLoanDto), 
+  LoansController.create,
+)
 
 LoansRoutes.put(
-  '/id/:id',
+  '/id/:id', 
+  authMiddleware(), 
+  authorize([UserRole.ADMIN, UserRole.SUPPORT]), 
   dtoValidationMiddleware(LoanIdParamDto, 'params'),
   dtoValidationMiddleware(UpdateLoanDto),
   LoansController.update,
 )
 
 LoansRoutes.delete(
-  '/id/:id',
+  '/id/:id', 
+  authMiddleware(), 
+  authorize([UserRole.ADMIN]), 
   dtoValidationMiddleware(LoanIdParamDto, 'params'),
   LoansController.delete,
 )
