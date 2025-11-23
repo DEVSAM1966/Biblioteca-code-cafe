@@ -25,10 +25,8 @@ export function authMiddleware(...allowedRoles: UserRole[]) {
 
       request.user = { id: payload.sub, role: payload.role }
 
-      // NUEVO: si no se pasan roles → solo autenticación
       if (allowedRoles.length === 0) return next()
 
-      // NUEVO: si se pasan roles → validar rol o ADMIN
       if (payload.role === 'ADMIN' || allowedRoles.includes(payload.role as UserRole)) {
         return next()
       }
