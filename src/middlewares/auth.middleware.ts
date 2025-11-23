@@ -1,10 +1,12 @@
 import { UnauthorizedError } from '../models/errors/unauthorized.error'
+import { ForbiddenError } from '../models/errors/forbidden.error'
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 import { getTokenFrom } from '../utilities/get-token-from.utility'
 import type { Response, Request, NextFunction } from 'express'
 import { AuthService } from '../services/auth.service'
+import type { UserRole } from '@prisma/client'
 
-export function authMiddleware() {
+export function authMiddleware(...allowedRoles: UserRole[]) {
   return async (request: Request, _response: Response, next: NextFunction) => {
     const authorizationHeader = request.headers.authorization
 
@@ -23,7 +25,13 @@ export function authMiddleware() {
 
       request.user = { id: payload.sub, role: payload.role }
 
-      next()
+      if (allowedRoles.length === 0) return next()
+
+      if (payload.role === 'ADMIN' || allowedRoles.includes(payload.role as UserRole)) {
+        return next()
+      }
+
+      throw new ForbiddenError(`Access denied for role ${payload.role}`)
     } catch (error) {
       if (error instanceof TokenExpiredError) {
         throw new UnauthorizedError('Token expired')

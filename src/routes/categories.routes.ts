@@ -5,27 +5,41 @@ import { CategoryNameDto } from '../dtos/in/category-name.dto'
 import { CreateCategoryDto } from '../dtos/in/create-category.dto'
 import { UpdateCategoryDto } from '../dtos/in/update-category.dto'
 import { dtoValidationMiddleware } from '../middlewares/dto-validation.middleware'
+import { authMiddleware } from '../middlewares/auth.middleware'
+import { UserRole } from '@prisma/client'
 
 export const CategoriesRoutes = Router()
 
 CategoriesRoutes.get(
   '/id/:id',
+  authMiddleware(UserRole.ADMIN, UserRole.SUPPORT, UserRole.USER),
   dtoValidationMiddleware(CategoryIdParamDto, 'params'),
   CategoriesController.getById,
 )
 
-CategoriesRoutes.get('/', CategoriesController.getAll)
+CategoriesRoutes.get(
+  '/',
+  authMiddleware(UserRole.ADMIN, UserRole.SUPPORT, UserRole.USER),
+  CategoriesController.getAll,
+)
 
 CategoriesRoutes.get(
   '/name/:name',
+  authMiddleware(UserRole.ADMIN, UserRole.SUPPORT, UserRole.USER),
   dtoValidationMiddleware(CategoryNameDto, 'params'),
   CategoriesController.getByName,
 )
 
-CategoriesRoutes.post('/', dtoValidationMiddleware(CreateCategoryDto), CategoriesController.create)
+CategoriesRoutes.post(
+  '/',
+  authMiddleware(UserRole.ADMIN, UserRole.SUPPORT),
+  dtoValidationMiddleware(CreateCategoryDto),
+  CategoriesController.create,
+)
 
 CategoriesRoutes.put(
   '/id/:id',
+  authMiddleware(UserRole.ADMIN, UserRole.SUPPORT),
   dtoValidationMiddleware(CategoryIdParamDto, 'params'),
   dtoValidationMiddleware(UpdateCategoryDto),
   CategoriesController.update,
@@ -33,6 +47,7 @@ CategoriesRoutes.put(
 
 CategoriesRoutes.delete(
   '/id/:id',
+  authMiddleware(UserRole.ADMIN),
   dtoValidationMiddleware(CategoryIdParamDto, 'params'),
   CategoriesController.delete,
 )

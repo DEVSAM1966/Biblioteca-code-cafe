@@ -8,8 +8,14 @@ export class AuthorsRepository {
     return await prisma.author.findUnique({ where: { authorId: id } })
   }
 
-  static async getByName(name: string): Promise<Author | null> {
-    return await prisma.author.findUnique({ where: { nameAuthor: name } })
+  static async getByName(name: string): Promise<Author[]> {
+    return await prisma.author.findMany({
+      where: {
+        nameAuthor: {
+          contains: name,
+        },
+      },
+    })
   }
 
   static async getAll(): Promise<Author[]> {
