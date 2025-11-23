@@ -22,19 +22,17 @@ export class AuthorsService {
     return dto
   }
 
-  static async getByName(name: string): Promise<AuthorDto> {
-    const author = await AuthorsRepository.getByName(name)
+  static async getByName(name: string): Promise<AuthorDto[]> {
+    const authors = await AuthorsRepository.getByName(name)
 
-    if (!author) {
+    if (!authors || authors.length === 0) {
       throw new NotFoundError(`Author with name ${name} not found`)
     }
 
-    const dto: AuthorDto = {
+    return authors.map((author) => ({
       authorId: author.authorId,
       nameAuthor: author.nameAuthor,
-    }
-
-    return dto
+    }))
   }
 
   static async getAll(): Promise<AuthorDto[]> {

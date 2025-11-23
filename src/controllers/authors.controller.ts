@@ -18,9 +18,9 @@ export class AuthorsController {
   static async getByName(request: Request, response: Response): Promise<void> {
     const { name } = request.params as unknown as AuthorNameDto
 
-    const authorDto = await AuthorsService.getByName(name)
+    const authorDtos = await AuthorsService.getByName(name)
 
-    response.status(200).json(success(authorDto))
+    response.status(200).json(success(authorDtos))
   }
 
   static async getAll(_request: Request, response: Response): Promise<void> {

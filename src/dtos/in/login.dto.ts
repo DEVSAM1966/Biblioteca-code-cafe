@@ -6,7 +6,7 @@ export class LoginDto {
   email: string
 
   @IsString()
-  @MinLength(8,{ message: 'Password must be at least 8 characters long' })
+  @MinLength(8, { message: 'Password must be at least 8 characters long' })
   @MaxLength(120, { message: 'Password must be shorter than or equal to 120 characters' })
   password: string
 }
