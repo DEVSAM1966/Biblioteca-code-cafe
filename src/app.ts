@@ -11,10 +11,12 @@ import { LoansRoutes } from './routes/loans.routes'
 import swaggerUi from 'swagger-ui-express'
 import { documentationConfiguration } from './configuration/documentation.configuration'
 import { environment } from './configuration/environment.configuration'
+import path from 'node:path'
 
 const app = express()
 
 app
+  .use('/uploads', express.static(path.join(__dirname, '../uploads')))
   .use(jsonMiddleware())
   .use('/auth', AuthRoutes)
   .use('/authors', AuthorsRoutes)

@@ -83,4 +83,15 @@ export class BooksController {
 
     response.status(200).json(success(existing))
   }
+
+  static async getPublicBooks(request: Request, response: Response): Promise<void> {
+    const { page = 1, limit = 10, authorId, categoryId } = request.query
+
+    const booksOutDto = await BooksService.getPublicBooks(Number(page), Number(limit), {
+      authorId: authorId ? Number(authorId) : undefined,
+      categoryId: categoryId ? Number(categoryId) : undefined,
+    })
+
+    response.status(200).json(success(booksOutDto))
+  }
 }

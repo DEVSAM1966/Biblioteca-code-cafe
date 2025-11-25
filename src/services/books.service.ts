@@ -10,6 +10,7 @@ import fs from 'node:fs/promises'
 import { ConflictError } from '../models/errors/conflict.error'
 import type { BookDto } from '../dtos/out/book.dto'
 import type { UpdateBookDto } from '../dtos/in/update-book.dto'
+import { BookPublicDto } from '../dtos/out/book.public.dto'
 import path from 'node:path'
 
 export class BooksService {
@@ -260,7 +261,9 @@ export class BooksService {
       title: updatedBook.title,
       summary: updatedBook.summary ?? null,
       pages: updatedBook.pages ?? null,
-      editionDate: updatedBook.editionDate ?? null,
+      editionDate: updatedBook.editionDate
+        ? updatedBook.editionDate.toISOString().split('T')[0]
+        : null,
       bookCover: updatedBook.bookCover ?? null,
       bookFile: updatedBook.bookFile ?? null,
       language: updatedBook.language ?? null,
@@ -294,6 +297,33 @@ export class BooksService {
         throw error
       }
       throw new InternalServerError('Failed to delete book')
+    }
+  }
+
+  static async getPublicBooks(
+    page: number = 1,
+    limit: number = 10,
+    filters?: { authorId?: number; categoryId?: number },
+  ): Promise<BookPublicDto[]> {
+    try {
+      const books = await BooksRepository.getPublicBooks(page, limit, filters)
+
+      return books.map(
+        (book) =>
+          new BookPublicDto({
+            isbn: book.isbn,
+            title: book.title,
+            language: book.language,
+            bookCover: book.bookCover,
+            nameAuthor: book.author?.nameAuthor ?? null,
+            nameCategory: book.category?.nameCategory ?? null,
+            subtopicCategory: book.category?.subtopicCategory ?? null,
+          }),
+      )
+    } catch (error) {
+      throw new InternalServerError(
+        `Failed to retrieve public books: ${error instanceof Error ? error.message : String(error)}`,
+      )
     }
   }
 }
