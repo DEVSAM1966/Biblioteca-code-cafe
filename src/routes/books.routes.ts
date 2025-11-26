@@ -12,6 +12,11 @@ import { UserRole } from '@prisma/client'
 export const BooksRoutes = Router()
 
 BooksRoutes.get(
+  '/public', 
+  BooksController.getPublicBooks,
+)
+
+BooksRoutes.get(
   '/isbn/:isbn',
   authMiddleware(UserRole.ADMIN, UserRole.SUPPORT, UserRole.USER),
   dtoValidationMiddleware(BookIsbnDto, 'params'),

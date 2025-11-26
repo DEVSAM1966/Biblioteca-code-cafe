@@ -65,4 +65,41 @@ export class BooksRepository {
   static async delete(id: string): Promise<{ count: number }> {
     return await prisma.book.deleteMany({ where: { isbn: id } })
   }
+
+  static async getPublicBooks(
+    page: number = 1,
+    limit: number = 10,
+    filters?: { authorId?: number; categoryId?: number },
+  ) {
+    const skip = (page - 1) * limit
+
+    return prisma.book.findMany({
+      skip,
+      take: limit,
+      where: {
+        ...(filters?.authorId ? { authorId: filters.authorId } : {}),
+        ...(filters?.categoryId ? { categoryId: filters.categoryId } : {}),
+      },
+      select: {
+        isbn: true,
+        title: true,
+        language: true,
+        bookCover: true,
+        author: {
+          select: {
+            nameAuthor: true,
+          },
+        },
+        category: {
+          select: {
+            nameCategory: true,
+            subtopicCategory: true,
+          },
+        },
+      },
+      orderBy: {
+        title: 'asc',
+      },
+    })
+  }
 }
