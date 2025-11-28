@@ -94,4 +94,24 @@ export class BooksController {
 
     response.status(200).json(success(booksOutDto))
   }
+
+  static async getPublicBooksIsbn(request: Request, response: Response): Promise<void> {
+    const { isbn } = request.params as unknown as BookIsbnDto
+
+    const bookOutDto = await BooksService.getPublicBooksIsbn(isbn)
+
+    response.status(200).json(success(bookOutDto))
+  }
+
+  static async getPrivateBookFile(request: Request, response: Response): Promise<void> {
+    const { isbn } = request.params as unknown as BookIsbnDto
+
+    const book = await BooksService.getById(isbn)
+
+    const filePath = String(book.bookFile)
+
+    const fileUrl = `${request.protocol}://${request.get('host')}/${filePath}`
+
+    response.status(200).json(success({ fileUrl }))
+  }
 }

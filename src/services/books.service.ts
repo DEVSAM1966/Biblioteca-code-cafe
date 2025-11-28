@@ -11,6 +11,7 @@ import { ConflictError } from '../models/errors/conflict.error'
 import type { BookDto } from '../dtos/out/book.dto'
 import type { UpdateBookDto } from '../dtos/in/update-book.dto'
 import { BookPublicDto } from '../dtos/out/book.public.dto'
+import { BookPublicIsbnDto } from '../dtos/out/book-isbn.public.dto'
 import path from 'node:path'
 
 export class BooksService {
@@ -308,6 +309,10 @@ export class BooksService {
     try {
       const books = await BooksRepository.getPublicBooks(page, limit, filters)
 
+      if (!books || books.length === 0) {
+        throw new NotFoundError('With this select there not are books')
+      }
+
       return books.map(
         (book) =>
           new BookPublicDto({
@@ -321,9 +326,60 @@ export class BooksService {
           }),
       )
     } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error
+      }
       throw new InternalServerError(
         `Failed to retrieve public books: ${error instanceof Error ? error.message : String(error)}`,
       )
     }
+  }
+
+  static async getPublicBooksIsbn(isbn: string): Promise<BookPublicIsbnDto> {
+    try {
+      const book = await BooksRepository.getPublicBooksIsbn(isbn)
+
+      if (!book) {
+        throw new NotFoundError(`Book with ISBN ${isbn} not found`)
+      }
+
+      return new BookPublicIsbnDto({
+        isbn: book.isbn,
+        title: book.title,
+        language: book.language,
+        summary: book.summary ?? null,
+        pages: book.pages ?? null,
+        editionDate: book.editionDate
+          ? (book.editionDate as Date).toISOString().split('T')[0]
+          : null,
+        bookCover: book.bookCover,
+        nameAuthor: book.author?.nameAuthor ?? null,
+        authors: book.authors ?? null,
+        nameCategory: book.category?.nameCategory ?? null,
+        subtopicCategory: book.category?.subtopicCategory ?? null,
+        namePublisher: book.publisher?.namePublisher ?? null,
+      })
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error
+      }
+      throw new InternalServerError(
+        `Failed to retrieve public book by ISBN: ${error instanceof Error ? error.message : String(error)}`,
+      )
+    }
+  }
+
+  static async getPrivateBookFile(isbn: string): Promise<string> {
+    const book: Book | null = await BooksRepository.getById(isbn)
+
+    if (!book) {
+      throw new NotFoundError(`Book with isbn ${isbn} not found`)
+    }
+
+    if (!book.bookFile) {
+      throw new NotFoundError(`Book file for isbn ${isbn} not found`)
+    }
+
+    return book.bookFile
   }
 }
