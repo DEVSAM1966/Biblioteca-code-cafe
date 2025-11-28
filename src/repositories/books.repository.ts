@@ -102,4 +102,36 @@ export class BooksRepository {
       },
     })
   }
+
+  static async getPublicBooksIsbn(isbn: string) {
+    return prisma.book.findUnique({
+      where: { isbn },
+      select: {
+        isbn: true,
+        title: true,
+        language: true,
+        summary: true,
+        pages: true,
+        editionDate: true,
+        bookCover: true,
+        author: {
+          select: {
+            nameAuthor: true,
+          },
+        },
+        authors: true,
+        category: {
+          select: {
+            nameCategory: true,
+            subtopicCategory: true,
+          },
+        },
+        publisher: {
+          select: {
+            namePublisher: true,
+          },
+        },
+      },
+    })
+  }
 }
