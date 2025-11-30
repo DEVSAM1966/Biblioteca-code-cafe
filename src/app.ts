@@ -8,6 +8,7 @@ import { CategoriesRoutes } from './routes/categories.routes'
 import { BooksRoutes } from './routes/books.routes'
 import { UsersRoutes } from './routes/users.routes'
 import { LoansRoutes } from './routes/loans.routes'
+import { HistoriesRouter } from './routes/histories.routes'
 import swaggerUi from 'swagger-ui-express'
 import { documentationConfiguration } from './configuration/documentation.configuration'
 import { environment } from './configuration/environment.configuration'
@@ -25,6 +26,7 @@ app
   .use('/books', BooksRoutes)
   .use('/users', UsersRoutes)
   .use('/loans', LoansRoutes)
+  .use('/histories', HistoriesRouter)
   .use('/documentation', swaggerUi.serve, swaggerUi.setup(documentationConfiguration))
   .use(errorHandlerMiddleware())
 
