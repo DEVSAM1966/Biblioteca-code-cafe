@@ -82,4 +82,38 @@ export class HistoriesService {
       throw new InternalServerError('Failed to create history record')
     }
   }
+
+  static async deleteById(id: number): Promise<boolean> {
+    try {
+      const deleteResult = await HistoriesRepository.deleteById(id)
+
+      if (deleteResult.count === 0) {
+        throw new NotFoundError(`History with historyId ${id} not found`)
+      }
+
+      return true
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error
+      }
+      throw new InternalServerError('Failed to delete history record')
+    }
+  }
+
+  static async deleteByLoanId(loanId: number): Promise<boolean> {
+    try {
+      const deleteResult = await HistoriesRepository.deleteByLoanId(loanId)
+
+      if (deleteResult.count === 0) {
+        throw new NotFoundError(`No histories found for loanId ${loanId}`)
+      }
+
+      return true
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error
+      }
+      throw new InternalServerError('Failed to delete histories by loanId')
+    }
+  }
 }
