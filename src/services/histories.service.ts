@@ -2,6 +2,8 @@ import { HistoriesRepository } from '../repositories/histories.repository'
 import { NotFoundError } from '../models/errors/not-found.error'
 import { InternalServerError } from '../models/errors/internal-server.error'
 import type { HistoryDTO } from '../dtos/out/history.dto'
+import type { CreateHistoryDto } from '../dtos/in/create-history.dto'
+import { LoansRepository } from '../repositories/loans.repository'
 
 export class HistoriesService {
   static async getAll(): Promise<HistoryDTO[]> {
@@ -45,6 +47,39 @@ export class HistoriesService {
         throw error
       }
       throw new InternalServerError('Failed to retrieve histories by loanId')
+    }
+  }
+
+  static async create(data: CreateHistoryDto): Promise<HistoryDTO> {
+    try {
+      const loanExists = await LoansRepository.getById(data.loanId)
+
+      if (!loanExists) {
+        throw new NotFoundError(`Loan with ID ${data.loanId} does not exist`)
+      }
+
+      const history = await HistoriesRepository.create({
+        dateFeedback: data.dateFeedback ? new Date(data.dateFeedback) : null,
+        feedback: data.feedback,
+        loan: {
+          connect: { loanId: data.loanId },
+        },
+      })
+
+      return {
+        historyId: history.historyId,
+        loanId: history.loanId,
+        dateFeedback: history.dateFeedback
+          ? history.dateFeedback.toISOString().split('T')[0]
+          : null,
+        feedback: history.feedback,
+      }
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error
+      }
+
+      throw new InternalServerError('Failed to create history record')
     }
   }
 }

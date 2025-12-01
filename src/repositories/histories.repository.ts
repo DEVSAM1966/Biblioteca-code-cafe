@@ -1,4 +1,4 @@
-import type { History } from '@prisma/client'
+import type { Prisma, History } from '@prisma/client'
 import { prisma } from '../configuration/prisma.configuration'
 
 export class HistoriesRepository {
@@ -12,5 +12,9 @@ export class HistoriesRepository {
         loanId: loanId,
       },
     })
+  }
+
+  static async create(data: Prisma.HistoryCreateInput): Promise<History> {
+    return await prisma.history.create({ data })
   }
 }
