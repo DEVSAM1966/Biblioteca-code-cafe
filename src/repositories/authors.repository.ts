@@ -39,7 +39,7 @@ export class AuthorsRepository {
     })
   }
 
-  static async delete(id: number): Promise<Author> {
-    return await prisma.author.delete({ where: { authorId: id } })
+  static async delete(id: number): Promise<{ count: number }> {
+    return await prisma.author.deleteMany({ where: { authorId: id } })
   }
 }

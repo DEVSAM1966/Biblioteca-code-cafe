@@ -13,7 +13,7 @@ export class LoansService {
     const loan = await LoansRepository.getById(id)
 
     if (!loan) {
-      throw new NotFoundError(`Loan with id ${id} not found`)
+      throw new NotFoundError(`Loan with ${id} not found`)
     }
 
     const dto: LoanDto = {
@@ -31,7 +31,7 @@ export class LoansService {
     const loans: Loan[] = await LoansRepository.getAll()
 
     if (loans.length === 0) {
-      throw new NotFoundError('No loans found')
+      throw new NotFoundError(`There are not records in Loans`)
     }
 
     const dtos: LoanDto[] = loans.map((loan: Loan) => ({
@@ -49,7 +49,7 @@ export class LoansService {
     const loans = await LoansRepository.getByIsbn(id)
 
     if (loans.length === 0) {
-      throw new NotFoundError(`No loans found for ISBN ${id}`)
+      throw new NotFoundError(`Loan Isbn with ${id} not found`)
     }
 
     const dtos: LoanDto[] = loans.map((loan: Loan) => ({
@@ -67,7 +67,7 @@ export class LoansService {
     const loans = await LoansRepository.getByUser(id)
 
     if (loans.length === 0) {
-      throw new NotFoundError(`No loans found for user with id ${id}`)
+      throw new NotFoundError(`Loan User with ${id} not found`)
     }
 
     const dtos: LoanDto[] = loans.map((loan: Loan) => ({
@@ -85,7 +85,7 @@ export class LoansService {
     const loans = await LoansRepository.getByDate(date)
 
     if (loans.length === 0) {
-      throw new NotFoundError(`No loans found for date ${date.toISOString().split('T')[0]}`)
+      throw new NotFoundError(`Loan Date with ${date.toISOString().split('T')[0]} not found`)
     }
 
     const dtos: LoanDto[] = loans.map((loan: Loan) => ({
@@ -108,12 +108,12 @@ export class LoansService {
 
       const existingBook = await BooksRepository.getById(data.isbn)
       if (!existingBook) {
-        throw new NotFoundError(`Loan of Book with ISBN ${data.isbn} not found`)
+        throw new NotFoundError(`Loan Isbn with ${data.isbn} not found`)
       }
 
       const existingUser = await UsersRepository.getById(data.userId)
       if (!existingUser) {
-        throw new NotFoundError(`Loan of User with id ${data.userId} not found`)
+        throw new NotFoundError(`Loan User with ${data.userId} not found`)
       } else {
         if (existingUser.userDrop === true) {
           throw new NotFoundError(
@@ -137,7 +137,7 @@ export class LoansService {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to create loan')
+      throw new InternalServerError(`Failed to create loan, ${error.message}`)
     }
   }
 
@@ -145,14 +145,14 @@ export class LoansService {
     const existing = await LoansRepository.getById(id)
 
     if (!existing) {
-      throw new NotFoundError(`Loan with id ${id} not found`)
+      throw new NotFoundError(`Loan with ${id} not found`)
     }
 
     if (data.isbn !== null && data.isbn !== undefined) {
       const existingBook = await BooksRepository.getById(data.isbn)
 
       if (!existingBook) {
-        throw new NotFoundError(`Loan of Book with ISBN ${data.isbn} not found`)
+        throw new NotFoundError(`Loan Isbn with ${data.isbn} not found`)
       }
     }
 
@@ -160,7 +160,7 @@ export class LoansService {
       const existingUser = await UsersRepository.getById(data.userId)
 
       if (!existingUser) {
-        throw new NotFoundError(`Loan of User with id ${data.userId} not found`)
+        throw new NotFoundError(`Loan User with ${data.userId} not found`)
       }
     }
 
@@ -179,8 +179,8 @@ export class LoansService {
         isbn: updated.isbn ?? null,
         userId: updated.userId ?? null,
       }
-    } catch {
-      throw new InternalServerError(`Failed to update loan with id ${id}`)
+    } catch (error: any) {
+      throw new InternalServerError(`Failed to update loan with, ${error.message}`)
     }
   }
 
@@ -189,7 +189,7 @@ export class LoansService {
       const result = await LoansRepository.delete(id)
 
       if (result.count === 0) {
-        throw new NotFoundError(`Loan with id ${id} not found`)
+        throw new NotFoundError(`Loan with ${id} not found`)
       }
 
       return true
@@ -197,7 +197,7 @@ export class LoansService {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError(`Failed to delete loan, {cause, error}`)
+      throw new InternalServerError(`Failed to delete loan, ${error.message}`)
     }
   }
 }

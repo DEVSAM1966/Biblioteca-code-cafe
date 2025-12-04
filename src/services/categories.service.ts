@@ -11,7 +11,7 @@ export class CategoriesService {
     const category = await CategoryRepository.getById(id)
 
     if (!category) {
-      throw new NotFoundError(`Category with id ${id} not found`)
+      throw new NotFoundError(`Category with ${id} not found`)
     }
 
     return {
@@ -25,7 +25,7 @@ export class CategoriesService {
     const categories = await CategoryRepository.getAll()
 
     if (!categories || categories.length === 0) {
-      throw new NotFoundError(`There are no records in Categories`)
+      throw new NotFoundError(`There are not records in Categories`)
     }
 
     return categories.map((category) => ({
@@ -52,8 +52,8 @@ export class CategoriesService {
   static async create(data: CreateCategoryDto): Promise<Category> {
     try {
       return await CategoryRepository.create(data)
-    } catch {
-      throw new InternalServerError('Failed to create category')
+    } catch (error: any) {
+      throw new InternalServerError(`Failed to create category, ${error.message}`)
     }
   }
 
@@ -61,7 +61,7 @@ export class CategoriesService {
     const existing = await CategoryRepository.getById(id)
 
     if (!existing) {
-      throw new NotFoundError(`Category with id ${id} not found`)
+      throw new NotFoundError(`Category with ${id} not found`)
     }
 
     try {
@@ -72,8 +72,8 @@ export class CategoriesService {
         nameCategory: updated.nameCategory,
         subtopicCategory: updated.subtopicCategory,
       }
-    } catch {
-      throw new InternalServerError('Failed to update category')
+    } catch (error: any) {
+      throw new InternalServerError(`Failed to update category, ${error.message}`)
     }
   }
 
@@ -82,7 +82,7 @@ export class CategoriesService {
       const result = await CategoryRepository.delete(id)
 
       if (result.count === 0) {
-        throw new NotFoundError(`Category with ID ${id} not found`)
+        throw new NotFoundError(`Category with ${id} not found`)
       }
 
       return true
@@ -90,7 +90,7 @@ export class CategoriesService {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to delete category, {cause: error}')
+      throw new InternalServerError(`Failed to delete category, ${error.message}`)
     }
   }
 }

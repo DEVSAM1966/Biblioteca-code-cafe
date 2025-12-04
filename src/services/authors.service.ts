@@ -11,7 +11,7 @@ export class AuthorsService {
     const author = await AuthorsRepository.getById(id)
 
     if (!author) {
-      throw new NotFoundError(`Author with id ${id} not found`)
+      throw new NotFoundError(`Author with ${id} not found`)
     }
 
     const dto: AuthorDto = {
@@ -26,7 +26,7 @@ export class AuthorsService {
     const authors = await AuthorsRepository.getByName(name)
 
     if (!authors || authors.length === 0) {
-      throw new NotFoundError(`Author with name ${name} not found`)
+      throw new NotFoundError(`No author found with name: ${name}`)
     }
 
     return authors.map((author) => ({
@@ -39,7 +39,7 @@ export class AuthorsService {
     const authors = await AuthorsRepository.getAll()
 
     if (authors.length === 0) {
-      throw new NotFoundError('There are no records in Authors')
+      throw new NotFoundError(`There are not records in Authors`)
     }
 
     const authorsOutdto: AuthorDto[] = authors.map((author) => ({
@@ -60,10 +60,8 @@ export class AuthorsService {
       }
 
       return authorOutDto
-    } catch (error) {
-      throw new InternalServerError(
-        `Failed to create author: ${error instanceof Error ? error.message : String(error)}`,
-      )
+    } catch (error: any) {
+      throw new InternalServerError(`Failed to create author, ${error.message}`)
     }
   }
 
@@ -71,7 +69,7 @@ export class AuthorsService {
     const existingAuthor = await AuthorsRepository.getById(id)
 
     if (!existingAuthor) {
-      throw new NotFoundError(`Author with ID ${id} not found`)
+      throw new NotFoundError(`Author with ${id} not found`)
     }
 
     try {
@@ -83,10 +81,8 @@ export class AuthorsService {
       }
 
       return authorOutDto
-    } catch (error) {
-      throw new InternalServerError(
-        `Failed to update author: ${error instanceof Error ? error.message : String(error)}`,
-      )
+    } catch (error: any) {
+      throw new InternalServerError(`Failed to update author, ${error.message}`)
     }
   }
 
@@ -94,8 +90,8 @@ export class AuthorsService {
     try {
       const result = await AuthorsRepository.delete(id)
 
-      if (!result) {
-        throw new NotFoundError(`Author with ID ${id} not found`)
+      if (result.count === 0) {
+        throw new NotFoundError(`Author with ${id} not found`)
       }
 
       return true
@@ -103,7 +99,7 @@ export class AuthorsService {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to delete author')
+      throw new InternalServerError(`Failed to delete author, ${error.message}`)
     }
   }
 }

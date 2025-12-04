@@ -10,7 +10,7 @@ export class PublishersService {
     const publisher = await PublishersRepository.getById(id)
 
     if (!publisher) {
-      throw new NotFoundError(`Publisher with id ${id} not found`)
+      throw new NotFoundError(`Publisher with ${id} not found`)
     }
 
     const dto: PublisherDto = {
@@ -52,7 +52,7 @@ export class PublishersService {
     const publishers = await PublishersRepository.getAll()
 
     if (publishers.length === 0) {
-      throw new NotFoundError(`There are no records in Publishers`)
+      throw new NotFoundError(`There are not records in Publishers`)
     }
 
     const dto: PublisherDto[] = publishers.map((publisher) => ({
@@ -73,8 +73,8 @@ export class PublishersService {
   static async create(data: CreatePublisherDto): Promise<PublisherDto> {
     try {
       return await PublishersRepository.create(data)
-    } catch {
-      throw new InternalServerError('Failed to create publisher')
+    } catch (error: any) {
+      throw new InternalServerError(`Failed to create publisher, ${error.message}`)
     }
   }
 
@@ -82,7 +82,7 @@ export class PublishersService {
     const existing = await PublishersRepository.getById(id)
 
     if (!existing) {
-      throw new NotFoundError(`Publisher with id ${id} not found`)
+      throw new NotFoundError(`Publisher with ${id} not found`)
     }
 
     try {
@@ -99,8 +99,8 @@ export class PublishersService {
         phone: updated.phone,
         notes: updated.notes,
       }
-    } catch {
-      throw new InternalServerError('Failed to update publisher')
+    } catch (error: any) {
+      throw new InternalServerError(`Failed to update publisher, ${error.message}`)
     }
   }
 
@@ -109,7 +109,7 @@ export class PublishersService {
       const result = await PublishersRepository.delete(id)
 
       if (result.count === 0) {
-        throw new NotFoundError(`Publisher with ID ${id} not found`)
+        throw new NotFoundError(`Publisher with ${id} not found`)
       }
 
       return true
@@ -117,7 +117,7 @@ export class PublishersService {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to delete publisher, {cause: error}')
+      throw new InternalServerError(`Failed to delete publisher, ${error.message}`)
     }
   }
 }
