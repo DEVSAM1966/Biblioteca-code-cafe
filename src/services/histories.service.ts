@@ -11,7 +11,7 @@ export class HistoriesService {
       const histories = await HistoriesRepository.getAll()
 
       if (histories.length === 0) {
-        throw new NotFoundError('There are no records in Histories')
+        throw new NotFoundError(`There are not records in Histories`)
       }
 
       return histories.map((history) => ({
@@ -24,7 +24,7 @@ export class HistoriesService {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to retrieve histories')
+      throw new InternalServerError(`Failed to retrieve histories`)
     }
   }
 
@@ -33,7 +33,7 @@ export class HistoriesService {
       const histories = await HistoriesRepository.getByLoanId(loanId)
 
       if (histories.length === 0) {
-        throw new NotFoundError(`No histories found for loanId: ${loanId}`)
+        throw new NotFoundError(`Histories not found for loanId: ${loanId}`)
       }
 
       return histories.map((history) => ({
@@ -46,7 +46,7 @@ export class HistoriesService {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to retrieve histories by loanId')
+      throw new InternalServerError(`Failed to retrieve histories by loanId`)
     }
   }
 
@@ -55,7 +55,7 @@ export class HistoriesService {
       const loanExists = await LoansRepository.getById(data.loanId)
 
       if (!loanExists) {
-        throw new NotFoundError(`Loan with ID ${data.loanId} does not exist`)
+        throw new NotFoundError(`History Loan with ${data.loanId} not found`)
       }
 
       const history = await HistoriesRepository.create({
@@ -74,12 +74,12 @@ export class HistoriesService {
           : null,
         feedback: history.feedback,
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof NotFoundError) {
         throw error
       }
 
-      throw new InternalServerError('Failed to create history record')
+      throw new InternalServerError(`Failed to create history, ${error.message}`)
     }
   }
 
@@ -88,15 +88,15 @@ export class HistoriesService {
       const deleteResult = await HistoriesRepository.deleteById(id)
 
       if (deleteResult.count === 0) {
-        throw new NotFoundError(`History with historyId ${id} not found`)
+        throw new NotFoundError(`History with ${id} not found`)
       }
 
       return true
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to delete history record')
+      throw new InternalServerError(`Failed to delete history record, ${error.message}`)
     }
   }
 
@@ -105,15 +105,15 @@ export class HistoriesService {
       const deleteResult = await HistoriesRepository.deleteByLoanId(loanId)
 
       if (deleteResult.count === 0) {
-        throw new NotFoundError(`No histories found for loanId ${loanId}`)
+        throw new NotFoundError(`History Loan with ${loanId} not found`)
       }
 
       return true
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to delete histories by loanId')
+      throw new InternalServerError(`Failed to delete history by loanId, ${error.message}`)
     }
   }
 }

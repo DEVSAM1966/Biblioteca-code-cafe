@@ -36,7 +36,7 @@ export class BooksService {
     const book: Book | null = await BooksRepository.getById(isbn)
 
     if (!book) {
-      throw new NotFoundError(`Book with isbn ${isbn} not found`)
+      throw new NotFoundError(`Book with ${isbn} not found`)
     }
 
     const dto: BookDto = {
@@ -84,7 +84,7 @@ export class BooksService {
     const books: Book[] = await BooksRepository.getAll()
 
     if (!books.length) {
-      throw new NotFoundError(`There are no records in Books`)
+      throw new NotFoundError(`There are not records in Books`)
     }
 
     const dto: BookDto[] = books.map((book) => ({
@@ -109,25 +109,25 @@ export class BooksService {
     const existingBook = await BooksRepository.getById(bookData.isbn)
 
     if (existingBook) {
-      throw new ConflictError(`Book with ISBN ${bookData.isbn} already exists`)
+      throw new ConflictError(`Book isbn with ${bookData.isbn} already exists`)
     }
 
     const existingAuthor = await AuthorsRepository.getById(bookData.authorId)
 
     if (!existingAuthor) {
-      throw new NotFoundError(`Book Author with ID ${bookData.authorId} not found`)
+      throw new NotFoundError(`Book Author with ${bookData.authorId} not found`)
     }
 
     const existingCategory = await CategoryRepository.getById(bookData.categoryId)
 
     if (!existingCategory) {
-      throw new NotFoundError(`Book Category with ID ${bookData.categoryId} not found`)
+      throw new NotFoundError(`Book Category with ${bookData.categoryId} not found`)
     }
 
     const existingPublisher = await PublishersRepository.getById(bookData.publisherId)
 
     if (!existingPublisher) {
-      throw new NotFoundError(`Book Publisher with ID ${bookData.publisherId} not found`)
+      throw new NotFoundError(`Book Publisher with ${bookData.publisherId} not found`)
     }
 
     try {
@@ -162,14 +162,14 @@ export class BooksService {
     const existing = await BooksRepository.getById(isbn)
 
     if (!existing) {
-      throw new NotFoundError(`Book with isbn ${isbn} not found`)
+      throw new NotFoundError(`Book with ${isbn} not found`)
     }
 
     if (bookData.authorId !== null && bookData.authorId !== undefined) {
       const existingAuthor = await AuthorsRepository.getById(bookData.authorId)
 
       if (!existingAuthor) {
-        throw new NotFoundError(`Book Author with ID ${bookData.authorId} not found`)
+        throw new NotFoundError(`Book Author with ${bookData.authorId} not found`)
       }
     }
 
@@ -177,7 +177,7 @@ export class BooksService {
       const existingCategory = await CategoryRepository.getById(bookData.categoryId)
 
       if (!existingCategory) {
-        throw new NotFoundError(`Book Category with ID ${bookData.categoryId} not found`)
+        throw new NotFoundError(`Book Category with ${bookData.categoryId} not found`)
       }
     }
 
@@ -185,7 +185,7 @@ export class BooksService {
       const existingPublisher = await PublishersRepository.getById(bookData.publisherId)
 
       if (!existingPublisher) {
-        throw new NotFoundError(`Book Publisher with ID ${bookData.publisherId} not found`)
+        throw new NotFoundError(`Book Publisher with ${bookData.publisherId} not found`)
       }
     }
 
@@ -280,13 +280,13 @@ export class BooksService {
       const book: Book | null = await BooksRepository.getById(isbn)
 
       if (!book) {
-        throw new NotFoundError(`Book with isbn ${isbn} not found`)
+        throw new NotFoundError(`Book with ${isbn} not found`)
       }
 
       const result = await BooksRepository.delete(isbn)
 
       if (result.count === 0) {
-        throw new NotFoundError(`Book with isbn ${isbn} not found`)
+        throw new NotFoundError(`Book with ${isbn} not found`)
       }
 
       await BooksService.deleteBookIfExists(book.bookCover)
@@ -297,7 +297,7 @@ export class BooksService {
       if (error instanceof NotFoundError) {
         throw error
       }
-      throw new InternalServerError('Failed to delete book')
+      throw new InternalServerError(`Failed to delete book, ${error.message}`)
     }
   }
 
@@ -310,7 +310,7 @@ export class BooksService {
       const books = await BooksRepository.getPublicBooks(page, limit, filters)
 
       if (!books || books.length === 0) {
-        throw new NotFoundError('With this select there not are books')
+        throw new NotFoundError(`With this select there not are books`)
       }
 
       return books.map(
@@ -340,7 +340,7 @@ export class BooksService {
       const book = await BooksRepository.getPublicBooksIsbn(isbn)
 
       if (!book) {
-        throw new NotFoundError(`Book with ISBN ${isbn} not found`)
+        throw new NotFoundError(`Book with ${isbn} not found`)
       }
 
       return new BookPublicIsbnDto({
@@ -373,11 +373,11 @@ export class BooksService {
     const book: Book | null = await BooksRepository.getById(isbn)
 
     if (!book) {
-      throw new NotFoundError(`Book with isbn ${isbn} not found`)
+      throw new NotFoundError(`Book with ${isbn} not found`)
     }
 
     if (!book.bookFile) {
-      throw new NotFoundError(`Book file for isbn ${isbn} not found`)
+      throw new NotFoundError(`Book file with ${isbn} not found`)
     }
 
     return book.bookFile

@@ -1,4 +1,4 @@
-import { IsOptional, IsNumber, IsString, Matches } from 'class-validator'
+import { IsOptional, IsNumber, IsString, Matches, Min } from 'class-validator'
 
 export class UpdateLoanDto {
   @IsOptional()
@@ -7,9 +7,13 @@ export class UpdateLoanDto {
 
   @IsOptional()
   @IsNumber({}, { message: 'User ID must be a number' })
+  @Min(1, { message: 'User ID must be a positive integer' })
   userId?: number
 
   @IsOptional()
-  @IsString({ message: 'ISBN must be a string' })
+  @IsString({ message: 'Book ISBN must be a string' })
+  @Matches(/^(?:\d{9}[\dXx]|\d{13})$/, {
+    message: 'Book ISBN must be either 10 digits (last can be X) or 13 digits',
+  })
   isbn?: string
 }

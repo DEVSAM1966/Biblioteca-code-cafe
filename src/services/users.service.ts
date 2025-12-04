@@ -15,7 +15,7 @@ export class UsersService {
     const user = await UsersRepository.getById(id)
 
     if (!user) {
-      throw new NotFoundError(`User with id ${id} not found`)
+      throw new NotFoundError(`User with ${id} not found`)
     }
 
     return {
@@ -40,7 +40,7 @@ export class UsersService {
     const users = await UsersRepository.getAll()
 
     if (!users || users.length === 0) {
-      throw new NotFoundError(`There are no records in Users`)
+      throw new NotFoundError(`There are not records in Users`)
     }
 
     return users.map((user) => ({
@@ -86,14 +86,12 @@ export class UsersService {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case 'P2025':
-            throw new NotFoundError(`User with id ${id} not found`)
+            throw new NotFoundError(`User with ${id} not found`)
           case 'P2003':
-            throw new ConflictError(
-              `Cannot delete user with id ${id} due to existing related records`,
-            )
+            throw new ConflictError(`Cannot delete user with ${id} due to existing related records`)
         }
       }
-      throw new InternalServerError('Failed to delete user')
+      throw new InternalServerError(`Failed to delete user, ${error.message}`)
     }
   }
 
@@ -121,7 +119,10 @@ export class UsersService {
       return dto
     } catch (error: any) {
       console.error('Create user error message:', error.message)
-      throw new InternalServerError('Failed to create user or Invalid credentials user')
+
+      throw new InternalServerError(
+        'Failed to create user or Invalid credentials user, ${error.message)',
+      )
     }
   }
 
@@ -129,7 +130,7 @@ export class UsersService {
     const existing = await UsersRepository.getById(id)
 
     if (!existing) {
-      throw new NotFoundError(`User with id ${id} not found`)
+      throw new NotFoundError(`User with ${id} not found`)
     }
 
     try {
@@ -153,9 +154,9 @@ export class UsersService {
       })
 
       return dto
-    } catch (error) {
+    } catch (error: any) {
       console.error('Create user error raw:', error)
-      throw new InternalServerError('Failed to update user')
+      throw new InternalServerError(`Failed to update user, ${error.message}`)
     }
   }
 
@@ -163,19 +164,19 @@ export class UsersService {
     const existing = await UsersRepository.getById(id)
 
     if (!existing) {
-      throw new NotFoundError(`User with id ${id} not found`)
+      throw new NotFoundError(`User with ${id} not found`)
     }
 
     if (existing.userDrop) {
-      throw new ConflictError(`User with id ${id} is already marked as deleted`)
+      throw new ConflictError(`User with ${id} is already marked as deleted`)
     }
 
     try {
       await UsersRepository.deleteLogic(id)
 
       return true
-    } catch {
-      throw new InternalServerError('Failed to logical delete user')
+    } catch (error: any) {
+      throw new InternalServerError(`Failed to logical delete user, ${error.message}`)
     }
   }
 }
