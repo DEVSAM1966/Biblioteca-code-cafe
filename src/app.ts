@@ -1,5 +1,6 @@
 import 'reflect-metadata'
 import express, { json as jsonMiddleware } from 'express'
+import cors from 'cors'
 import { errorHandlerMiddleware } from './middlewares/error-handler.middleware'
 import { PublishersRoutes } from './routes/publishers.routes'
 import { AuthorsRoutes } from './routes/authors.routes'
@@ -15,6 +16,11 @@ import { environment } from './configuration/environment.configuration'
 import path from 'node:path'
 
 const app = express()
+
+app.use(cors({ 
+  origin: 'http://localhost:5173', 
+   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+   credentials: true }))
 
 app
   .use('/uploads', express.static(path.join(__dirname, '../uploads')))
