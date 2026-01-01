@@ -20,6 +20,12 @@ BooksRoutes.get(
 )
 
 BooksRoutes.get(
+  '/public/file/:isbn',
+  dtoValidationMiddleware(BookIsbnDto, 'params'),
+  BooksController.getPrivateBookFile,
+)
+
+BooksRoutes.get(
   '/private',
   authMiddleware(UserRole.ADMIN, UserRole.SUPPORT, UserRole.USER),
   BooksController.getPublicBooks,

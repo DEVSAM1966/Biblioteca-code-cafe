@@ -17,10 +17,13 @@ import path from 'node:path'
 
 const app = express()
 
-app.use(cors({ 
-  origin: 'http://localhost:5173', 
-   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-   credentials: true }))
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  }),
+)
 
 app
   .use('/uploads', express.static(path.join(__dirname, '../uploads')))
