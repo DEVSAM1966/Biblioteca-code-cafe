@@ -21,7 +21,7 @@ cd Biblioteca-code-cafe
 
 ### 2.2 Backend Installation
 
-Install the required dependencies:
+Install the required dependencies `(Prisma requires Node.js  version 18.14 or higher)`:
 
 ```bash
 npm install
@@ -45,12 +45,19 @@ docker-compose up
 ```
 This will create the database service with the credentials defined in `docker-compose.yml`.
 
-### 2.4 Add Prisma Test Data
+### 2.4 Prisma setup: generate client, create tables, and seed data
 
-Run the seed command to load the test data:
-
+1. **Generate the Prisma client** 
 ```bash
-npx prisma db seed
+npx prisma generate --schema=src/prisma/schema.prisma
+```
+2. **Create the database tables (no migrations)**
+```bash
+npx prisma db push --schema=src/prisma/schema.prisma
+```
+3. **Run the seed file to populate the tables**
+```bash
+npx prisma db seed --schema=src/prisma/schema.prisma
 ```
 This will generate the tables and insert an initial dataset for testing.
 
