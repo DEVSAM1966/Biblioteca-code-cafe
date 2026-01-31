@@ -30,10 +30,6 @@ export class LoansService {
   static async getAll(): Promise<LoanDto[]> {
     const loans: Loan[] = await LoansRepository.getAll()
 
-    if (loans.length === 0) {
-      throw new NotFoundError(`There are not records in Loans`)
-    }
-
     const dtos: LoanDto[] = loans.map((loan: Loan) => ({
       loanId: loan.loanId,
       loanDate: loan.loanDate ? loan.loanDate.toISOString().split('T')[0] : null,
@@ -48,10 +44,6 @@ export class LoansService {
   static async getByIsbn(id: string): Promise<LoanDto[]> {
     const loans = await LoansRepository.getByIsbn(id)
 
-    if (loans.length === 0) {
-      throw new NotFoundError(`Loan Isbn with ${id} not found`)
-    }
-
     const dtos: LoanDto[] = loans.map((loan: Loan) => ({
       loanId: loan.loanId,
       loanDate: loan.loanDate ? loan.loanDate.toISOString().split('T')[0] : null,
@@ -65,10 +57,6 @@ export class LoansService {
 
   static async getByUser(id: number): Promise<LoanDto[]> {
     const loans = await LoansRepository.getByUser(id)
-
-    if (loans.length === 0) {
-      throw new NotFoundError(`Loan User with ${id} not found`)
-    }
 
     const dtos: LoanDto[] = loans.map((loan: Loan) => ({
       loanId: loan.loanId,
