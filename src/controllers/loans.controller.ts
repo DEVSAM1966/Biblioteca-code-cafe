@@ -72,4 +72,25 @@ export class LoansController {
 
     response.status(200).json(success(existing))
   }
+
+  static async getMyLoans(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.user) {
+        res.status(401).json({ error: 'Unauthorized' })
+        return
+      }
+
+      const userId = req.user.id
+
+      const loans = await LoansService.getByUser(userId)
+
+      res.status(200).json(loans)
+    } catch (err) {
+      if (err instanceof Error) {
+        res.status(500).json({ error: err.message })
+        return
+      }
+      res.status(500).json({ error: 'Unknown error' })
+    }
+  }
 }

@@ -21,6 +21,8 @@ LoansRoutes.get(
 
 LoansRoutes.get('/', authMiddleware(UserRole.ADMIN, UserRole.SUPPORT), LoansController.getAll)
 
+LoansRoutes.get('/me', authMiddleware(), LoansController.getMyLoans)
+
 LoansRoutes.get(
   '/isbn/:id',
   authMiddleware(UserRole.ADMIN, UserRole.SUPPORT),
