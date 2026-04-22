@@ -61,7 +61,7 @@ LoansRoutes.put(
 
 LoansRoutes.delete(
   '/id/:id',
-  authMiddleware(UserRole.ADMIN),
+  authMiddleware(UserRole.ADMIN, UserRole.SUPPORT, UserRole.USER),
   dtoValidationMiddleware(LoanIdParamDto, 'params'),
   LoansController.delete,
 )
