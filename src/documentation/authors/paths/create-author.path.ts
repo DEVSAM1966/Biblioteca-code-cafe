@@ -1,7 +1,7 @@
 import type { OpenAPIV3 } from 'openapi-types'
-import { CreateAuthorInDtoSchema } from '../schemas/create-author-dto.schema'
+import { CreateAuthorDtoSchema } from '../schemas/create-author-dto.schema'
 import { SuccesfulResponse } from '../../schemas/successful-response.schema'
-import { AuthorOutDtoSchema } from '../schemas/author-dto.schema'
+import { AuthorDtoSchema } from '../schemas/author-dto.schema'
 import { FailureResponse } from '../../schemas/failure-response.schema'
 
 export const CreateAuthorPath: OpenAPIV3.PathsObject = {
@@ -14,7 +14,7 @@ export const CreateAuthorPath: OpenAPIV3.PathsObject = {
         required: true,
         content: {
           'application/json': {
-            schema: CreateAuthorInDtoSchema,
+            schema: CreateAuthorDtoSchema,
             examples: {
               'Valid author creation': {
                 summary: 'Valid author creation',
@@ -31,7 +31,7 @@ export const CreateAuthorPath: OpenAPIV3.PathsObject = {
           description: 'Author successfully created',
           content: {
             'application/json': {
-              schema: SuccesfulResponse(AuthorOutDtoSchema),
+              schema: SuccesfulResponse(AuthorDtoSchema),
             },
           },
         },
